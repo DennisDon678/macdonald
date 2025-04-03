@@ -35,4 +35,12 @@ class homeController extends Controller
     public function signup(){
         return view('signup');
     }
+
+    public function forgotPassword(){
+        return view('forgot-password');
+    }
+    
+    public function buyBtc(){
+        return view('buy-btc');
+    }
 }
