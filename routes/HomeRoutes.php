@@ -11,6 +11,7 @@ Route::controller(homeController::class)->group(function(){
     Route::get('/support','support')->name('support');
     Route::get('/privacy','privacy')->name('privacy');
     Route::get('/auth/login','login')->name('login');
-    Route::get('/auth/signup','signup')->name('signup');
+    Route::get('/auth/signup','signup')->name('register');
+    Route::get('/auth/logout','logout')->name('logout');
     Route::get('/auth/forgot-password','forgotPassword')->name('forgot-password');
 });
