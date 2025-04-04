@@ -263,4 +263,47 @@ class DepositController extends Controller
             
         return view('dashboard.deposits.show', compact('transaction', 'investment'));
     }
+    
+    /**
+     * Handle transaction receipt upload.
+     */
+    public function uploadReceipt(Request $request, $reference)
+    {
+        $request->validate([
+            'receipt' => 'required|image|max:5120', // Max 5MB image file
+            'transaction_id' => 'nullable|string|max:255',
+            'comments' => 'nullable|string|max:1000',
+        ]);
+        
+        // Since we don't have a database yet, let's just simulate a successful upload
+        
+        // In a real implementation, you would:
+        // 1. Verify that the transaction reference exists
+        // 2. Store the uploaded file (in storage/app/public/receipts or similar)
+        // 3. Save the transaction ID and comments to the deposit record
+        // 4. Update the transaction status to "verification_pending" or similar
+        
+        if ($request->hasFile('receipt')) {
+            // Get filename with extension
+            $filenameWithExt = $request->file('receipt')->getClientOriginalName();
+            
+            // Get just the filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            
+            // Get extension
+            $extension = $request->file('receipt')->getClientOriginalExtension();
+            
+            // Create unique filename with timestamp
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            
+            // In a real implementation, you would store the file
+            // $path = $request->file('receipt')->storeAs('public/receipts', $fileNameToStore);
+            
+            // For now, we'll just simulate that the file was successfully saved
+            return redirect()->route('dashboard.deposits.history')
+                ->with('success', 'Your transaction receipt has been uploaded successfully. Your deposit will be verified shortly.');
+        }
+        
+        return redirect()->back()->with('error', 'Something went wrong with the file upload.');
+    }
 }
