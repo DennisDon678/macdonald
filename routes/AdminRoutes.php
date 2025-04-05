@@ -60,7 +60,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         'update' => 'admin.plans.update',
         'destroy' => 'admin.plans.destroy',
     ]);
-    Route::put('plans/{plan}/toggle', [PlanController::class, 'toggleStatus'])->name('admin.plans.toggle');
+    Route::put('plans/{plan}/toggle', [PlanController::class, 'toggleStatus'])->name('admin.plans.toggle-status');
     
     // Investments
     Route::resource('investments', InvestmentController::class)->names([
