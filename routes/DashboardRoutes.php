@@ -72,9 +72,4 @@ Route::middleware([])->prefix('dashboard')->group(function () {
         Route::get('/profile/two-factor', [ProfileController::class, 'showTwoFactorForm'])->name('dashboard.profile.two-factor');
     });
 
-    // Settings Routes
-    Route::controller(SettingController::class)->group(function () {
-        Route::get('/settings', 'index')->name('dashboard.settings');
-        Route::post('/settings/update', 'update')->name('dashboard.settings.update');
-    });
 });
