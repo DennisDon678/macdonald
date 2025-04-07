@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UserAuth;
 use App\Http\Controllers\HomeLayout\homeController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +15,11 @@ Route::controller(homeController::class)->group(function(){
     Route::get('/auth/signup','signup')->name('register');
     Route::get('/auth/logout','logout')->name('logout');
     Route::get('/auth/forgot-password','forgotPassword')->name('forgot-password');
+});
+
+// routes for user auth
+Route::controller(UserAuth::class)->group(function(){
+    Route::post('/auth/login','Login')->name('login.post');
+    Route::post('/auth/signup','Register')->name('register.post');
+    Route::post('/auth/forgot-password','ForgotPassword')->name('forgot-password.post');
 });

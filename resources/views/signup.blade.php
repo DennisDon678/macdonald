@@ -92,10 +92,8 @@
         }
     </script>
 
-    <form method="post" onsubmit="return checkform()" name="regform" class="pt-3"><input type="hidden" name="form_id"
-            value="17435584918451"><input type="hidden" name="form_token" value="3f3cfb640045477362b319c72c854286">
-        <input type="hidden" name="a" value="signup">
-        <input type="hidden" name="action" value="signup">
+    <form method="post" onsubmit="return checkform()" name="regform" class="pt-3">
+        @csrf
         <div class="form-group">
             <input class="form-control" type="text" name="fullname" value="" placeholder="Enter your Fullname">
         </div>
