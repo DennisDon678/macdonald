@@ -86,7 +86,7 @@
                     
                     <div class="mb-4">
                         <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">To this address:</div>
-                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md font-mono text-sm break-all">
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md font-mono text-sm break-all dark:text-gray-200">
                             {{ $crypto['address'] }}
                         </div>
                         <button class="mt-2 text-blue-500 hover:text-blue-600 text-sm flex items-center justify-center w-full" onclick="copyToClipboard('{{ $crypto['address'] }}')">
@@ -103,7 +103,8 @@
             </div>
         </div>
         
-        <!-- Transaction Receipt Upload -->
+       @if ($transaction['screenshot'] == null)
+            <!-- Transaction Receipt Upload -->
         <div class="mb-8 border dark:border-gray-700 rounded-lg p-6 bg-gray-50 dark:bg-gray-700/50">
             <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Upload Transaction Receipt</h3>
             
@@ -111,7 +112,7 @@
                 After sending the payment, please upload a screenshot of your transaction receipt to expedite the verification process.
             </p>
             
-            <form action="{{ route('dashboard.deposits.upload-receipt', $transaction['reference']) }}" method="POST" enctype="multipart/form-data" id="receipt-form">
+            <form action="{{ route('dashboard.deposits.upload-receipt', $transaction->id) }}" method="POST" enctype="multipart/form-data" id="receipt-form">
                 @csrf
                 
                 <div class="mb-4">
@@ -138,31 +139,6 @@
                     </p>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="tx-id" class="block text-gray-700 dark:text-gray-300 mb-1">Transaction ID/Hash (Optional)</label>
-                    <input 
-                        type="text" 
-                        id="tx-id" 
-                        name="transaction_id" 
-                        class="w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter your transaction ID or hash"
-                    >
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        If available, please provide the transaction ID from your wallet
-                    </p>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="comments" class="block text-gray-700 dark:text-gray-300 mb-1">Additional Comments (Optional)</label>
-                    <textarea 
-                        id="comments" 
-                        name="comments" 
-                        rows="2" 
-                        class="w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Any additional information about your payment"
-                    ></textarea>
-                </div>
-                
                 <div class="flex justify-end">
                     <button type="submit" class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md transition duration-200 flex items-center">
                         <i data-lucide="upload" class="w-4 h-4 mr-1"></i>
@@ -184,6 +160,7 @@
                 <li>You'll receive an email notification when your investment is active.</li>
             </ol>
         </div>
+       @endif
         
         <!-- Actions -->
         <div class="flex justify-between items-center pt-4 border-t dark:border-gray-700">

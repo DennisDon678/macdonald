@@ -27,13 +27,13 @@
                     <img src="{{ $user->profile_photo }}" alt="{{ $user->name }}" class="w-24 h-24 rounded-full border-4 border-white dark:border-gray-800 object-cover mt-8">
                 @else
                     <div class="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-800 flex items-center justify-center mt-8">
-                        <span class="text-3xl font-bold text-gray-600 dark:text-gray-300">{{ substr($user->name, 0, 1) }}</span>
+                        <span class="text-3xl font-bold text-gray-600 dark:text-gray-300">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                     </div>
                 @endif
             </div>
             
             <div class="p-6 pt-16 text-center">
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white">{{ $user->name }}</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">{{ ucfirst($user->name) }}</h3>
                 <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $user->email }}</p>
                 
                 <div class="mt-4 pt-4 border-t dark:border-gray-700">
@@ -75,41 +75,6 @@
                     @csrf
                     
                     <div class="mb-6">
-                        <label for="profile_photo" class="block text-gray-700 dark:text-gray-300 mb-2">Profile Photo</label>
-                        <div class="flex items-center">
-                            <div class="mr-4">
-                                @if($user->profile_photo)
-                                    <img src="{{ $user->profile_photo }}" alt="{{ $user->name }}" class="w-16 h-16 rounded-full object-cover">
-                                @else
-                                    <div class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                        <span class="text-xl font-bold text-gray-600 dark:text-gray-300">{{ substr($user->name, 0, 1) }}</span>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="flex-1">
-                                <input 
-                                    type="file" 
-                                    id="profile_photo" 
-                                    name="profile_photo"
-                                    class="block w-full text-sm text-gray-500 dark:text-gray-400
-                                    file:mr-4 file:py-2 file:px-4
-                                    file:rounded-md file:border-0
-                                    file:text-sm file:font-medium
-                                    file:bg-blue-50 file:text-blue-700 dark:file:bg-blue-900/30 dark:file:text-blue-300
-                                    hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50"
-                                    accept="image/*"
-                                >
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    JPG, PNG, GIF. Maximum size 2MB.
-                                </p>
-                            </div>
-                        </div>
-                        @error('profile_photo')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-6">
                         <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
                         <input 
                             type="text" 
@@ -135,40 +100,6 @@
                             required
                         >
                         @error('email')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="phone" class="block text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
-                        <input 
-                            type="text" 
-                            id="phone" 
-                            name="phone" 
-                            class="w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value="{{ old('phone', $user->phone) }}"
-                            placeholder="+1234567890"
-                        >
-                        @error('phone')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label for="country" class="block text-gray-700 dark:text-gray-300 mb-2">Country</label>
-                        <select 
-                            id="country" 
-                            name="country" 
-                            class="w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="">Select your country</option>
-                            @foreach($countries as $country)
-                                <option value="{{ $country }}" {{ old('country', $user->country) == $country ? 'selected' : '' }}>
-                                    {{ $country }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('country')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>

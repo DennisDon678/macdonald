@@ -4,7 +4,7 @@
 
 @section('body-class','full-page-wrapper')
     <h4>Hello!</h4>
-    <h6 class="font-weight-light">Forgot password</h6>
+    <h6 class="font-weight-light">Welcome Back</h6>
 
     <script language="javascript">
         function checkform() {
@@ -17,12 +17,16 @@
         }
     </script>
 
-    <form method="post" name="forgotform" onsubmit="return checkform();"><input type="hidden" name="form_id"
-            value="17435588577006"><input type="hidden" name="form_token" value="928905d1dcec633594de702e18895b00">
-        <input type="hidden" name="a" value="forgot_password">
-        <input type="hidden" name="action" value="forgot_password">
+    <form method="post" name="forgotform" onsubmit="return checkform();">
+        @csrf
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your E-mail*" type="text" name='email' value="">
+            <input class="form-control" placeholder="Enter your E-mail*" type="text" name='email' value="{{old('email')}}">
+            @error('email')
+                <div class="alert alert-danger mt-2">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Enter your Password*" type="password" name='password' value="">
         </div>
 
         <div class="mt-3">

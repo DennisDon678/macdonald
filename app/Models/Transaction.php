@@ -9,22 +9,16 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'amount',
-        'transaction_type',
+        'type',
         'status',
-        'transaction_date',
+        'reference',
+        'crypto',
     ];
 
-    protected $casts = [
-        'transaction_date' => 'datetime',
-    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function investment()
-    {
-        return $this->belongsTo(Investment::class);
-    }
 }

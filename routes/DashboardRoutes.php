@@ -12,7 +12,7 @@ use App\Http\Controllers\Dashboard\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // Main Dashboard Routes
-Route::middleware([])->prefix('dashboard')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     // Dashboard Home
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/overview', [DashboardController::class, 'overview'])->name('dashboard.overview');

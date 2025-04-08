@@ -17,21 +17,18 @@
         </div>
         <div class="mt-4 flex flex-col md:flex-row justify-between">
             <div>
-                <p class="text-3xl font-bold text-gray-800 dark:text-white">$47,582.35</p>
-                <div class="flex items-center text-green-500 mt-2">
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">${{number_format($balances->balance,2)}}</p>
+                {{-- <div class="flex items-center text-green-500 mt-2">
                     <i data-lucide="trending-up" class="w-4 h-4"></i>
                     <span class="ml-1 text-sm">+5.2% from last week</span>
-                </div>
+                </div> --}}
             </div>
-            <div class="mt-4 md:mt-0 grid grid-cols-3 gap-4">
+            <div class="mt-4 md:mt-0 grid grid-cols-2 gap-4">
                 <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <p class="text-xs text-gray-500 dark:text-gray-400">Available</p>
                     <p class="font-medium text-gray-800 dark:text-white">$32,400.00</p>
                 </div>
-                <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <p class="text-xs text-gray-500 dark:text-gray-400">In Orders</p>
-                    <p class="font-medium text-gray-800 dark:text-white">$8,245.35</p>
-                </div>
+                
                 <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <p class="text-xs text-gray-500 dark:text-gray-400">Pending</p>
                     <p class="font-medium text-gray-800 dark:text-white">$6,937.00</p>
@@ -94,7 +91,7 @@
                 </div>
                 <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <p class="text-xs text-gray-500 dark:text-gray-400">Referrals</p>
-                    <p class="font-medium text-gray-800 dark:text-white">$30,568.50</p>
+                    <p class="font-medium text-gray-800 dark:text-white">${{number_format($balances->referal_balances,2)}}</p>
                 </div>
             </div>
         </div>
@@ -115,34 +112,34 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <tr>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">TX894329</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Apr 1, 2025</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Deposit</td>
-                        <td class="py-3 text-green-600 dark:text-green-400">+$2,500.00</td>
-                        <td class="py-3"><span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">TX894315</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Mar 30, 2025</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Withdraw</td>
-                        <td class="py-3 text-red-600 dark:text-red-400">-$1,200.00</td>
-                        <td class="py-3"><span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">TX894302</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Mar 28, 2025</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Buy BTC</td>
-                        <td class="py-3 text-red-600 dark:text-red-400">-$5,400.00</td>
-                        <td class="py-3"><span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">TX894290</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Mar 25, 2025</td>
-                        <td class="py-3 text-gray-700 dark:text-gray-300">Deposit</td>
-                        <td class="py-3 text-green-600 dark:text-green-400">+$7,000.00</td>
-                        <td class="py-3"><span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">Pending</span></td>
-                    </tr>
+                    
+                    @forelse ($transactions as $transaction)
+                        <tr>
+                            <td class="py-3 text-gray-700 dark:text-gray-300">{{ $transaction->reference }}</td>
+                            <td class="py-3 text-gray-700 dark:text-gray-300">{{ $transaction->created_at->format('M d, Y') }}</td>
+                            <td class="py-3 text-gray-700 dark:text-gray-300">{{ $transaction->type }}</td>
+                            <td class="py-3 text-red-600 dark:text-red-400">{{ $transaction->amount }}</td>
+                            <td class="py-3">
+                                <span class="px-2 py-1 rounded-full text-xs 
+                                    @if($transaction->status === 'completed') 
+                                        bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 
+                                    @elseif($transaction->status === 'pending') 
+                                        bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 
+                                    @elseif($transaction->status === 'failed') 
+                                        bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 
+                                    @endif">
+                                    {{$transaction->status}}
+                                </span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-3 text-center text-gray-500 dark:text-gray-400">
+                                No transactions found.
+                            </td>
+                        </tr>
+                    @endforelse
+                    
                 </tbody>
             </table>
         </div>

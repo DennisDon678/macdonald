@@ -95,37 +95,63 @@
     <form method="post" onsubmit="return checkform()" name="regform" class="pt-3">
         @csrf
         <div class="form-group">
-            <input class="form-control" type="text" name="fullname" value="" placeholder="Enter your Fullname">
+            <input class="form-control" type="text" name="name" value="{{old('name')}}" placeholder="Enter your Fullname">
+            @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your username" type="text" name="username" value="">
+            <input class="form-control" placeholder="Enter your username" type="text" name="username" value="{{old('username')}}">
+            @error('username')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <input class="form-control" placeholder="Enter your Password" type="password" name="password" value="">
+            @error('password')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" placeholder="Retype Password" type="password" name="password2" value="">
+            <input class="form-control" placeholder="Retype Password" type="password" name="password_confirmation" value="">
+            @error('password')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your E-mail" type="text" name="email" value="">
+            <input class="form-control" placeholder="Enter your E-mail" type="text" name="email" value="{{old('email')}}">
+            @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
-            <input class="form-control" placeholder="Retype E-mail" type="text" name="email1" value="">
+            <input class="form-control" placeholder="Retype E-mail" type="text" name="email1" value="{{old('email1')}}">
         </div>
 
         <div class="form-group">
-            <input class="form-control" type="text" size="30" name="pay_account[1000][Wallet Address]"
-                value="" placeholder="Bitcoin Wallet Address">
+            <input class="form-control" type="text" size="30" name="btc" value="{{old('btc')}}"
+                placeholder="Bitcoin Wallet Address">
+
+            @error('btc')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" size="30" name="pay_account[1006][Wallet Address]"
-                value="" placeholder="Ethereum Wallet Address">
+            <input class="form-control" type="text" size="30" name="eth" value="{{old('eth')}}"
+                placeholder="Ethereum Wallet Address">
+
+            @error('eth')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" size="30" name="pay_account[1007][Account ID]" value=""
-                placeholder="Usdt Erc20(Tether) and Usdt Trc20(Tether) Account ID">
+            <input class="form-control" type="text" size="30" name="usdt" value="{{old('usdt')}}"
+                placeholder="Usdt Trc20(Tether) wallet">
+            @error('usdt')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
 
 

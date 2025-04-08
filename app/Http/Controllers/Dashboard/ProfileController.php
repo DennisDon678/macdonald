@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,24 +17,9 @@ class ProfileController extends Controller
     public function index()
     {
         // Create placeholder user for testing
-        $user = (object) [
-            'id' => 1,
-            'name' => 'Test User',
-            'email' => 'user@example.com',
-            'phone' => '+1234567890',
-            'country' => 'United States',
-            'profile_photo' => null,
-            'created_at' => now()->subMonths(3),
-        ];
+        $user = User::find(Auth::user()->id);
         
-        // Define countries for dropdown
-        $countries = [
-            'United States', 'United Kingdom', 'Canada', 'Australia', 'Germany',
-            'France', 'Spain', 'Italy', 'Brazil', 'Mexico', 'Japan', 'China',
-            'India', 'Russia', 'South Africa', 'Nigeria'
-        ];
-        
-        return view('dashboard.profile.index', compact('user', 'countries'));
+        return view('dashboard.profile.index', compact('user'));
     }
     
     /**
@@ -97,7 +83,9 @@ class ProfileController extends Controller
             'verified' => false,
             'recovery_codes' => null
         ];
-        
-        return view('dashboard.profile.two-factor', compact('twoFactorStatus'));
+
+        // generate a new secret key for 2FA
+        $twoFactorSecret = 'ABC123'; 
+        return view('dashboard.profile.two-factor', compact('twoFactorStatus','twoFactorSecret'));
     }
 }

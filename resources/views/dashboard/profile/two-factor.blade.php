@@ -82,12 +82,12 @@
                     
                     <div class="flex flex-col items-center justify-center mb-4">
                         <!-- Placeholder QR code - in real app, generate this dynamically -->
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth://totp/MacDonald:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=MacDonald" alt="QR Code" class="w-40 h-40 mb-2">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth://totp/MacDonald:{{Auth::user()->email}}?secret=JBSWY3DPEHPK3PXP&issuer=MacDonald" alt="QR Code" class="w-40 h-40 mb-2">
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                             Can't scan? Use this code instead:
                         </p>
-                        <div class="mt-1 font-mono bg-white dark:bg-gray-800 p-2 rounded-md text-sm border dark:border-gray-700">
-                            JBSWY3DPEHPK3PXP
+                        <div class="mt-1 font-mono bg-white dark:bg-gray-800 dark:text-white p-2 rounded-md text-sm border dark:border-gray-700">
+                            {{ $twoFactorSecret }}
                         </div>
                     </div>
                 </div>

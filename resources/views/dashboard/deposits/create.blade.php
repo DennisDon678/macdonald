@@ -47,11 +47,11 @@
                             <div class="mt-4 space-y-2">
                                 <div class="flex items-center">
                                     <i data-lucide="check-circle" class="w-4 h-4 text-green-500 mr-2"></i>
-                                    <span class="text-sm text-gray-700 dark:text-gray-200">Min: ${{ number_format($plan->min_deposit, 2) }}</span>
+                                    <span class="text-sm text-gray-700 dark:text-gray-200">Min: ${{ number_format($plan->min_investment, 2) }}</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i data-lucide="check-circle" class="w-4 h-4 text-green-500 mr-2"></i>
-                                    <span class="text-sm text-gray-700 dark:text-gray-200">Max: ${{ number_format($plan->max_deposit, 2) }}</span>
+                                    <span class="text-sm text-gray-700 dark:text-gray-200">Max: ${{ number_format($plan->max_investment, 2) }}</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i data-lucide="check-circle" class="w-4 h-4 text-green-500 mr-2"></i>
@@ -139,17 +139,17 @@
                 <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">Step 3: Select Payment Method</h3>
                 
                 <div class="space-y-4">
-                    @foreach($cryptocurrencies as $code => $crypto)
+                    @foreach($cryptocurrencies as  $crypto)
                     <div class="border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer crypto-option">
-                        <input type="radio" name="crypto" value="{{ $code }}" id="crypto-{{ $code }}" class="hidden" {{ $loop->first ? 'checked' : '' }}>
-                        <label for="crypto-{{ $code }}" class="flex items-center cursor-pointer">
+                        <input type="radio" name="crypto" value="{{ $crypto->id }}" id="crypto-{{ $crypto->id }}" class="hidden" {{ $loop->first ? 'checked' : '' }}>
+                        <label for="crypto-{{ $crypto->id }}" class="flex items-center cursor-pointer">
                             <div class="flex-shrink-0 mr-4">
-                                <img src="{{ $crypto['icon'] }}" alt="{{ $crypto['name'] }}" class="w-10 h-10">
+                                <img src="{{ $crypto->icon }}" alt="{{ $crypto->name }}" class="w-10 h-10">
                             </div>
                             <div>
-                                <p class="font-medium text-gray-800 dark:text-white">{{ $crypto['name'] }} ({{ $crypto['code'] }})</p>
-                                @if(isset($crypto['network']))
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Network: {{ $crypto['network'] }}</p>
+                                <p class="font-medium text-gray-800 dark:text-white">{{ $crypto->name }} ({{ strtoupper($crypto->code) }})</p>
+                                @if(isset($crypto->network))
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Network: {{ strtoupper($crypto->network) }}</p>
                                 @endif
                             </div>
                         </label>
@@ -211,8 +211,8 @@
                 name: "{{ $plan->name }}",
                 interest_rate: {{ $plan->interest_rate / 100 }},
                 duration: {{ $plan->duration }},
-                min_deposit: {{ $plan->min_deposit }},
-                max_deposit: {{ $plan->max_deposit }}
+                min_deposit: {{ $plan->min_investment }},
+                max_deposit: {{ $plan->max_investment }}
             },
             @endforeach
         };

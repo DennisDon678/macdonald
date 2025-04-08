@@ -34,7 +34,6 @@
                         <th class="px-4 py-3">Reference</th>
                         <th class="px-4 py-3">Date</th>
                         <th class="px-4 py-3">Amount</th>
-                        <th class="px-4 py-3">Currency</th>
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3">Action</th>
                     </tr>
@@ -45,9 +44,6 @@
                         <td class="px-4 py-3 text-sm font-medium text-gray-800 dark:text-gray-200">{{ $transaction['reference'] }}</td>
                         <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $transaction['created_at']->format('M d, Y H:i') }}</td>
                         <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-200">${{ number_format($transaction['amount'], 2) }}</td>
-                        <td class="px-4 py-3 text-sm">
-                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-xs uppercase">{{ $transaction['currency'] }}</span>
-                        </td>
                         <td class="px-4 py-3 text-sm">
                             @if($transaction['status'] == 'pending')
                                 <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">Pending</span>

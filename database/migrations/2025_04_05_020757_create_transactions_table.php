@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
-            $table->bigInteger('investment_id');
             $table->string('reference')->unique();
             $table->decimal('amount', 14, 2);
             $table->enum('type', ['deposit', 'withdrawal', 'profit'])->default('deposit');
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->string('payment_method')->nullable();
-            $table->string('transaction_id')->nullable();
             $table->timestamps();
         });
     }
