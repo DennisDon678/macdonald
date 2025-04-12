@@ -153,7 +153,7 @@
                     
                     <div class="mt-3">
                         <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Wallet Address</label>
-                        <div class="p-2 bg-white dark:bg-gray-800 rounded-md font-mono text-sm break-all">
+                        <div class="p-2 dark:text-white bg-white dark:bg-gray-800 rounded-md font-mono text-sm break-all">
                             {{ $transaction->wallet_address }}
                         </div>
                     </div>

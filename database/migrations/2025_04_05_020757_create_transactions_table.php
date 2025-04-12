@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->decimal('amount', 14, 2);
             $table->enum('type', ['deposit', 'withdrawal', 'profit'])->default('deposit');
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
+            $table->enum('status', ['pending', 'completed', 'failed','rejected'])->default('pending');
             $table->timestamps();
         });
     }

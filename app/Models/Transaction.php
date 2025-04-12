@@ -13,6 +13,10 @@ class Transaction extends Model
         'status',
         'reference',
         'crypto',
+        'currency',
+        'wallet_address',
+        'processed_at',
+        'rejected_reason',
     ];
 
 

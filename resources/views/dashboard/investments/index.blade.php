@@ -107,10 +107,10 @@
                 <div class="mb-4">
                     <div class="flex justify-between mb-1 text-sm">
                         <span class="text-gray-700 dark:text-gray-300">Progress</span>
-                        <span class="text-gray-700 dark:text-gray-300">{{ $investment['progress'] }}%</span>
+                        <span class="text-gray-700 dark:text-gray-300">{{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%</span>
                     </div>
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: {{ $investment['progress'] }}%"></div>
+                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: {{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%"></div>
                     </div>
                 </div>
                 
@@ -121,7 +121,7 @@
                     </div>
                     <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded">
                         <p class="text-gray-500 dark:text-gray-400">Next Payout</p>
-                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{ $investment['next_payout']->format('M d, Y') }}</p>
+                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{$investment['next_payout'] ? $investment['next_payout']->format('M d, Y'): "Unkown"  }}</p>
                     </div>
                     <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded col-span-2 md:col-span-1">
                         <p class="text-gray-500 dark:text-gray-400">Days Remaining</p>
@@ -130,7 +130,7 @@
                 </div>
                 
                 <div class="flex justify-end">
-                    <a href="{{ route('dashboard.investments.show', $investment['id']) }}" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition duration-200">
+                    <a href="{{ route('dashboard.investments.show', $investment['reference']) }}" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition duration-200">
                         View Details
                     </a>
                 </div>

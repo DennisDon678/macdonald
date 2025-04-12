@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\DepositWallet;
+use App\Models\Investment;
 use App\Models\Plan;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -63,6 +64,24 @@ class DepositController extends Controller
             'crypto' => $request->crypto,
         ]);
 
+        $daily_profit = $plan->amount * $plan->interest_rate / 100;
+        $daily_profit = number_format($daily_profit, 2);
+
+        // create a new investment
+        Investment::create([
+            'user_id' => Auth::user()->id,
+            'plan_id' => $plan->id,
+            'reference' => $reference,
+            'amount' => $request->amount,
+            'daily_profit' => $daily_profit,
+            //total expected return is calculated as amount + (amount * interest_rate / 100) * duration
+            'total_expected_return' => $request->amount + ($daily_profit * $plan->duration),
+            'duration' => $plan->duration,
+            'days_remaining' => $plan->duration,
+            'progress' => 0,
+            'interest_rate' => $plan->interest_rate,
+        ]);
+
         // Store transaction in session
         session(['pending_transaction' => $transaction]);
         session(['selected_plan' => [
@@ -92,8 +111,17 @@ class DepositController extends Controller
             return redirect()->route('dashboard.deposits.create')
                 ->with('error', 'Transaction not found. Please try again.');
         }
+        // get the investment from db with transaction reference
+        $investment = Investment::where('reference', $reference)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        if (!$investment) {
+            return redirect()->route('dashboard.deposits.create')
+                ->with('error', 'Investment not found. Please try again.');
+        }
 
-        $plan = session('selected_plan');
+        // get the plan id from the investment
+        $plan = Plan::find($investment->plan_id);
 
         $crypto = DepositWallet::find($transaction->crypto);
 

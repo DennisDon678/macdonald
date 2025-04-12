@@ -73,7 +73,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 text-sm">
-                            <a href="{{ route('dashboard.withdrawals.show', $transaction['id']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
+                            <a href="{{ route('dashboard.withdrawals.show', $transaction->reference) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
                         </td>
                     </tr>
                     @endforeach

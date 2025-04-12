@@ -45,12 +45,12 @@
             <div class="pt-2 border-t dark:border-gray-700">
                 <div class="flex justify-between">
                     <span class="text-gray-500 dark:text-gray-400">Deposit Reference:</span>
-                    <span class="font-medium text-gray-800 dark:text-white">{{ $investment['deposit_reference'] }}</span>
+                    <span class="font-medium text-gray-800 dark:text-white">{{ $investment['reference'] }}</span>
                 </div>
             </div>
             <div class="flex justify-between">
                 <span class="text-gray-500 dark:text-gray-400">Payment Method:</span>
-                <span class="font-medium text-gray-800 dark:text-white">{{ $investment['deposit_method'] }}</span>
+                <span class="font-medium text-gray-800 dark:text-white">{{ strtoupper($coinName) }}</span>
             </div>
         </div>
     </div>
@@ -87,12 +87,12 @@
                 $endDate = $investment['end_date'];
                 $totalDays = $startDate->diffInDays($endDate);
                 $daysElapsed = $startDate->diffInDays(now());
-                $percentComplete = min(100, round(($daysElapsed / $totalDays) * 100));
+                
                 @endphp
-                <span class="text-gray-500 dark:text-gray-400">{{ $percentComplete }}%</span>
+                <span class="text-gray-500 dark:text-gray-400">{{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%</span>
             </div>
             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $percentComplete }}%"></div>
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%"></div>
             </div>
             <div class="flex justify-between mt-1 text-xs">
                 <span class="text-gray-500 dark:text-gray-400">{{ $investment['created_at']->format('M d, Y') }}</span>
@@ -106,7 +106,7 @@
         <div class="space-y-3">
             <div class="flex justify-between">
                 <span class="text-gray-500 dark:text-gray-400">Start Date:</span>
-                <span class="font-medium text-gray-800 dark:text-white">{{ $investment['created_at']->format('M d, Y') }}</span>
+                <span class="font-medium text-gray-800 dark:text-white">{{ $investment['start_date']->format('M d, Y') }}</span>
             </div>
             <div class="flex justify-between">
                 <span class="text-gray-500 dark:text-gray-400">End Date:</span>
