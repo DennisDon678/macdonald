@@ -23,7 +23,9 @@
                 <input 
                     type="text" 
                     id="referral-link" 
-                    value="{{ $user->referral_url }}" 
+                    value="{{ route('register',[
+                    'ref' => $user->referral_code->code,
+                    ]) }}" 
                     class="w-full sm:w-80 lg:w-96 px-4 py-2 rounded-md text-gray-800 text-sm font-mono bg-white/90 border-0 focus:ring-2 focus:ring-blue-300" 
                     readonly
                 >
@@ -45,20 +47,6 @@
                 </button>
             </div>
         </div>
-        
-        <div class="mt-3 flex items-center">
-            <div class="mr-4">
-                <span class="text-sm text-blue-100">Your Referral Code:</span>
-                <span class="ml-1 font-mono font-bold">{{ $user->referral_code }}</span>
-            </div>
-            <button 
-                onclick="copyToClipboard('referral-code', '{{ $user->referral_code }}')" 
-                class="text-white hover:text-blue-200 text-sm flex items-center"
-            >
-                <i data-lucide="copy" class="w-3.5 h-3.5 mr-1"></i>
-                Copy Code
-            </button>
-        </div>
     </div>
 </div>
 
@@ -74,20 +62,6 @@
                 <i data-lucide="users" class="w-6 h-6 text-blue-500"></i>
             </div>
         </div>
-        <div class="mt-4 flex justify-between text-sm">
-            <div>
-                <span class="text-green-500 flex items-center">
-                    <i data-lucide="user-check" class="w-3.5 h-3.5 mr-1"></i>
-                    {{ $stats['active_referrals'] }} Active
-                </span>
-            </div>
-            <div>
-                <span class="text-yellow-500 flex items-center">
-                    <i data-lucide="user-clock" class="w-3.5 h-3.5 mr-1"></i>
-                    {{ $stats['pending_referrals'] }} Pending
-                </span>
-            </div>
-        </div>
     </div>
     
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
@@ -100,39 +74,9 @@
                 <i data-lucide="dollar-sign" class="w-6 h-6 text-green-500"></i>
             </div>
         </div>
-        <div class="mt-4 flex justify-between text-sm">
-            <div>
-                <span class="text-green-500 flex items-center">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>
-                    ${{ number_format($stats['paid_earnings'], 2) }} Paid
-                </span>
-            </div>
-            <div>
-                <span class="text-yellow-500 flex items-center">
-                    <i data-lucide="clock" class="w-3.5 h-3.5 mr-1"></i>
-                    ${{ number_format($stats['pending_earnings'], 2) }} Pending
-                </span>
-            </div>
-        </div>
+        
     </div>
-    
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <div class="flex justify-between items-start">
-            <div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Marketing Materials</p>
-                <h3 class="text-lg font-bold text-gray-800 dark:text-white mt-1">Boost Your Referrals</h3>
-            </div>
-            <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
-                <i data-lucide="megaphone" class="w-6 h-6 text-purple-500"></i>
-            </div>
-        </div>
-        <div class="mt-4">
-            <a href="{{ route('dashboard.referrals.marketing') }}" class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm font-medium rounded-md inline-flex items-center">
-                <i data-lucide="layout" class="w-4 h-4 mr-1"></i>
-                Access Marketing Tools
-            </a>
-        </div>
-    </div>
+   
 </div>
 
 <!-- Recent Referrals -->
@@ -157,8 +101,6 @@
                     <tr class="text-left text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700">
                         <th class="px-6 py-3">User</th>
                         <th class="px-6 py-3">Date</th>
-                        <th class="px-6 py-3">Status</th>
-                        <th class="px-6 py-3">Investments</th>
                         <th class="px-6 py-3">Your Earnings</th>
                     </tr>
                 </thead>
@@ -178,20 +120,6 @@
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                             {{ $referral['date']->format('M d, Y') }}
-                        </td>
-                        <td class="px-6 py-4">
-                            @if($referral['status'] == 'active')
-                            <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
-                                Active
-                            </span>
-                            @else
-                            <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">
-                                Pending
-                            </span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
-                            ${{ number_format($referral['investments'], 2) }}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium text-green-600 dark:text-green-400">
                             ${{ number_format($referral['earnings'], 2) }}
@@ -236,12 +164,6 @@
             </div>
         </div>
         
-        <div class="mt-6 text-center">
-            <a href="{{ route('dashboard.referrals.marketing') }}" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md transition duration-200 inline-flex items-center">
-                <i data-lucide="arrow-right" class="w-4 h-4 mr-1"></i>
-                Get Marketing Materials
-            </a>
-        </div>
     </div>
 </div>
 @endsection
@@ -271,8 +193,8 @@
     function shareReferral() {
         if (navigator.share) {
             navigator.share({
-                title: 'Join MacDonald Investment Platform',
-                text: 'Check out this investment platform I\'m using. Sign up with my referral link:',
+                title: '{{env('APP_NAME')}}',
+                text: 'Check out this investment management platform I\'m using. Sign up with my referral link:',
                 url: document.getElementById('referral-link').value
             })
             .then(() => console.log('Share successful'))

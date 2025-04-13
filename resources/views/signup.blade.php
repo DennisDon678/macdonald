@@ -4,6 +4,15 @@
     <h4>Get Started!</h4>
     <h6 class="font-weight-light">It's free to signup and only takes a minute.</h6>
     <script language="javascript">
+        // Store referral code from URL to localStorage when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                localStorage.setItem('referralCode', refCode);
+            }
+        });
+
         function checkform() {
             if (document.regform.fullname.value == '') {
                 alert("Please enter your full name!");
@@ -31,7 +40,6 @@
                 document.regform.password2.focus();
                 return false;
             }
-
 
             if (document.regform.email.value == '') {
                 alert("Please enter your e-mail address!");
@@ -94,6 +102,9 @@
 
     <form method="post" onsubmit="return checkform()" name="regform" class="pt-3">
         @csrf
+        <!-- Add hidden input for referral code -->
+        <input type="hidden" name="ref" id="refInput" value="">
+
         <div class="form-group">
             <input class="form-control" type="text" name="name" value="{{old('name')}}" placeholder="Enter your Fullname">
             @error('name')
@@ -154,7 +165,6 @@
             @enderror
         </div>
 
-
         <div class="form-group">
             <div class="custom-checkbox" style='padding: 5px 28px;'>
                 <input class="custom-control-input" type="checkbox" name="agree" value="1" id="customCheck1">
@@ -171,4 +181,15 @@
             Already have an account? <a href="/auth/login" class="text-primary">Login</a>
         </div>
     </form>
+
+    <script>
+        // Set the value of the hidden input from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const refInput = document.getElementById('refInput');
+            const referralCode = localStorage.getItem('referralCode');
+            if (referralCode) {
+                refInput.value = referralCode;
+            }
+        });
+    </script>
 @endsection

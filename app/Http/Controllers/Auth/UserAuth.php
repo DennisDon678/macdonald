@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
+use App\Models\Referral_code;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +40,25 @@ class UserAuth extends Controller
 
         // create finance record for user
         $finance = $user->balances()->create();
+
+        // generate referral code
+        $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));
+        $user->referral_code()->create([
+            'code' => $referralCode,
+        ]);
+
+        // check if user is referred
+        if($request->has('ref')) {
+            $referrer = Referral_code::with('user')->where('code',$request->ref)->first();
+            if ($referrer) {
+                // create referral record
+                $referrer->referrals()->create([
+                    'user_id' => $referrer->user->id,
+                    'referred_user_id' => $user->id,
+                    'earnings' => 0,
+                ]);
+            }
+        }
 
         // Welcome email preparation
         try {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -15,68 +17,31 @@ class ReferralController extends Controller
     public function index()
     {
         // Placeholder user
-        $user = (object) [
-            'id' => 1,
-            'name' => 'Test User',
-            'email' => 'user@example.com',
-            'referral_code' => 'USERREF123456',
-            'referral_url' => route('register') . '?ref=USERREF123456',
-        ];
-        
+        $user = User::with('referral_code')->find(Auth::id());
+
         // Placeholder referral statistics
         $stats = [
-            'total_referrals' => 12,
-            'active_referrals' => 8,
-            'pending_referrals' => 4,
-            'total_earnings' => 350.25,
-            'pending_earnings' => 75.50,
-            'paid_earnings' => 274.75,
+            'total_referrals' => $user->referral->count(),
+            'total_earnings' => $user->referral->sum('earnings'),
         ];
-        
-        
-        // Placeholder for recent referral activities
-        $recentReferrals = collect([
-            [
-                'id' => 101,
-                'name' => 'John Smith',
-                'email' => 'j***h@gmail.com',
-                'date' => now()->subDays(2),
-                'status' => 'active',
-                'investments' => 1200.00,
-                'earnings' => 120.00,
-            ],
-            [
-                'id' => 102,
-                'name' => 'Emma Johnson',
-                'email' => 'e***n@outlook.com',
-                'date' => now()->subDays(5),
-                'status' => 'active',
-                'investments' => 800.00,
-                'earnings' => 80.00,
-            ],
-            [
-                'id' => 103,
-                'name' => 'Michael Davis',
-                'email' => 'm***s@yahoo.com',
-                'date' => now()->subDays(9),
-                'status' => 'pending',
-                'investments' => 0,
-                'earnings' => 0,
-            ],
-            [
-                'id' => 104,
-                'name' => 'Sarah Wilson',
-                'email' => 's***n@gmail.com',
-                'date' => now()->subDays(12),
-                'status' => 'active',
-                'investments' => 500.00,
-                'earnings' => 50.00,
-            ],
-        ]);
-        
+
+
+        $recentReferrals = Referral::with('referredUser')->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(function ($referral) {
+                return [
+                    'name' => $referral->referredUser->name,
+                    'email' => $referral->referredUser->email,
+                    'earnings' => $referral->earnings,
+                    'date' => $referral->created_at,
+                ];
+            });
+
         return view('dashboard.referrals.index', compact('user', 'stats', 'recentReferrals'));
     }
-    
+
     /**
      * Show marketing materials and promotion tools.
      */
@@ -89,7 +54,7 @@ class ReferralController extends Controller
             'referral_code' => 'USERREF123456',
             'referral_url' => route('register') . '?ref=USERREF123456',
         ];
-        
+
         // Placeholder for marketing materials
         $banners = [
             [
@@ -117,7 +82,7 @@ class ReferralController extends Controller
                 'html_code' => '<a href="' . $user->referral_url . '"><img src="https://via.placeholder.com/160x600?text=Invest+Today" alt="Investment Banner" width="160" height="600"></a>',
             ],
         ];
-        
+
         // Placeholder for social media text templates
         $socialTemplates = [
             [
@@ -136,7 +101,7 @@ class ReferralController extends Controller
                 'text' => "Hi,\n\nI wanted to share an investment opportunity that's been working well for me. MacDonald Investment Platform offers great returns on investments, with daily payouts and a straightforward platform.\n\nIf you're interested, you can sign up using my referral link: [referral_link]\n\nLet me know if you have any questions!\n\nBest regards,\n[Your Name]",
             ],
         ];
-        
+
         return view('dashboard.referrals.marketing', compact('user', 'banners', 'socialTemplates'));
     }
 }

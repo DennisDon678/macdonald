@@ -65,8 +65,16 @@ class ProfileController extends Controller
             'password' => 'required|string|min:8|confirmed|different:current_password',
         ]);
         
-        // In a real implementation, you would validate the current password
+        // Check if the current password is correct
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return redirect()->back()
+                ->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+        
         // and update with the new one if correct
+        $user = User::find(Auth::user()->id);
+        $user->password = Hash::make($request->password);
+        $user->save();
         
         return redirect()->route('dashboard.profile')
             ->with('success', 'Your password has been changed successfully.');

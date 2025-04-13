@@ -61,4 +61,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function referral_code()
+    {
+        return $this->hasOne(Referral_code::class);
+    }
+    public function referral()
+    {
+        return $this->hasMany(Referral::class);
+    }
 }

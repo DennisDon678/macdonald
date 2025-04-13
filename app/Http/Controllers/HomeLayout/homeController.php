@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\HomeLayout;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
 
 class homeController extends Controller
 {
@@ -42,5 +42,10 @@ class homeController extends Controller
     
     public function buyBtc(){
         return view('buy-btc');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('home')->with('success','Logged out successfully!');
     }
 }

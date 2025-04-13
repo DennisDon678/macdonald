@@ -51,8 +51,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <p class="text-3xl font-bold text-gray-800 dark:text-white">${{ number_format($active_deposits) }}</p>
-
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">${{ number_format($active_deposits,2) }}</p>
             </div>
             <hr class="my-4 border-gray-300 dark:border-gray-600">
             <div class="mt-4">
