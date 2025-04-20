@@ -70,4 +70,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(Referral::class);
     }
-}
+
+    public function investments()
+    {
+        return $this->hasMany(Investment::class);
+    }
+    public function deposits()
+    {
+        return $this->hasMany(Transaction::class)->where('type', 'deposit');
+    }
+    public function withdrawals()
+    {
+        return $this->hasMany(Transaction::class)->where('type', 'withdrawal');
+    }
+
+    public function referrer()
+    {
+        return $this->hasOne(Referral::class, 'referred_user_id')->join('users', 'referrals.user_id', '=', 'users.id')
+            ->select('referrals.*', 'users.name as referrer_name', 'users.email as referrer_email');
+    }
+    
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class, 'user_id');
+    }}

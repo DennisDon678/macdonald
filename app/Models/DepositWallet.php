@@ -14,4 +14,9 @@ class DepositWallet extends Model
         'icon',
     ];
 
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'id', 'crypto');
+    }
 }

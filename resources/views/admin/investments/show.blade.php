@@ -32,43 +32,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
-                    @if($investment['status'] == 'pending')
-                        <form method="POST" action="{{ route('admin.investments.approve', $investment['id']) }}">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 inline-flex items-center">
-                                <i data-lucide="check" class="w-4 h-4 mr-2"></i>
-                                Approve
-                            </button>
-                        </form>
-                        
-                        <form method="POST" action="{{ route('admin.investments.reject', $investment['id']) }}">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 inline-flex items-center">
-                                <i data-lucide="x" class="w-4 h-4 mr-2"></i>
-                                Reject
-                            </button>
-                        </form>
-                    @endif
-                    
-                    @if($investment['status'] == 'active')
-                        <form method="POST" action="{{ route('admin.investments.terminate', $investment['id']) }}">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 inline-flex items-center">
-                                <i data-lucide="slash" class="w-4 h-4 mr-2"></i>
-                                Terminate
-                            </button>
-                        </form>
-                    @endif
-                    
-                    <a href="{{ route('admin.investments.edit', $investment['id']) }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 inline-flex items-center">
-                        <i data-lucide="edit" class="w-4 h-4 mr-2"></i>
-                        Edit
-                    </a>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -91,7 +55,7 @@
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">ROI</dt>
-                        <dd class="text-sm font-medium text-gray-900 dark:text-white">{{ $investment['plan']['roi'] }}%</dd>
+                        <dd class="text-sm font-medium text-gray-900 dark:text-white">{{ number_format($investment['plan']['interest_rate']* $investment['duration'],2) }}%</dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Expected Return</dt>
@@ -139,7 +103,7 @@
                 <dl class="space-y-4">
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Days Passed</dt>
-                        <dd class="text-sm font-medium text-gray-900 dark:text-white">{{ $investment['days_passed'] ?? 0 }}</dd>
+                        <dd class="text-sm font-medium text-gray-900 dark:text-white">{{ $investment['duration'] - $investment['days_remaining'] ?? 0 }}</dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Days Remaining</dt>
@@ -147,7 +111,7 @@
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Earned So Far</dt>
-                        <dd class="text-sm font-medium text-gray-900 dark:text-white">${{ number_format($investment['earned_so_far'] ?? 0, 2) }}</dd>
+                        <dd class="text-sm font-medium text-gray-900 dark:text-white">${{ number_format($investment['profit_to_date'] ?? 0, 2) }}</dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Daily Profit</dt>
@@ -170,7 +134,7 @@
                                     <i data-lucide="{{ $transaction['type'] == 'profit' ? 'trending-up' : 'arrow-right' }}" class="w-4 h-4 {{ $transaction['type'] == 'profit' ? 'text-green-500 dark:text-green-400' : 'text-blue-500 dark:text-blue-400' }}"></i>
                                 </div>
                                 <div class="ml-3 flex-1">
-                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $transaction['description'] }}</p>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ ucfirst($transaction['type']) }}</p>
                                     <p class="text-xs text-gray-500 dark:text-gray-400">{{ $transaction['date'] }}</p>
                                 </div>
                                 <div class="text-sm font-medium {{ $transaction['type'] == 'profit' ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400' }}">
@@ -186,7 +150,7 @@
         </div>
     </div>
     
-    <!-- Activity Log -->
+    {{-- <!-- Activity Log -->
     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden mb-6">
         <div class="border-b dark:border-gray-700 px-6 py-4">
             <h3 class="text-lg font-medium text-gray-800 dark:text-white">Activity Log</h3>
@@ -225,7 +189,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')

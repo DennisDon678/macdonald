@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Investment;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,20 +20,21 @@ class AdminController extends Controller
     {
         // Placeholder stats data (normally would be fetched from database)
         $stats = [
-            'total_users' => 256,
-            'new_users_today' => 5,
-            'total_invested' => 438750.00,
-            'invested_today' => 12500.00,
-            'total_deposits' => 587650.00,
-            'deposited_today' => 8750.00,
-            'total_withdrawals' => 148900.00,
-            'withdrawn_today' => 3250.00,
+            'total_users' => User::count(),
+            'new_users_today' => User::whereDate('created_at', now())->count(),
+            'total_invested' => Investment::where('status', 'completed')->orWhere('status','active')->sum('amount'),
+            'invested_today' => Investment::whereDate('created_at', now())->sum('amount'),
+            'total_deposits' => Transaction::where('type', 'deposit')->where('status','completed')->sum('amount'),
+            'deposited_today' => Transaction::where('type', 'deposit')->whereDate('created_at', now())->sum('amount'),
+            'total_withdrawals' => Transaction::where('type', 'withdrawal')->where('status','completed')->sum('amount'),
+            'total_withdrawals' => Transaction::where('type', 'withdrawal')->where('status','completed')->sum('amount'),
+            'withdrawn_today' => Transaction::where('type', 'withdrawal')->whereDate('created_at', now())->sum('amount'),
         ];
 
         // Pending items counts
-        $pendingDeposits = 5;
-        $pendingWithdrawals = 3;
-        $pendingInvestments = 2;
+        $pendingDeposits = Transaction::where('type', 'deposit')->where('status', 'pending')->count();
+        $pendingWithdrawals = Transaction::where('type', 'withdrawal')->where('status', 'pending')->count();
+        $pendingInvestments = Investment::where('status', 'pending')->count();
 
         // Sample recent activities
         $recentActivities = [

@@ -11,39 +11,20 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="flex items-center mb-4 md:mb-0">
                     <div class="h-16 w-16 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 text-2xl font-semibold">
-                        {{ substr($user['name'], 0, 1) }}
+                        {{strtoupper( substr($user['name'], 0, 1)) }}
                     </div>
                     <div class="ml-4">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{ $user['name'] }}</h2>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{ ucfirst($user['name']) }}</h2>
                         <p class="text-gray-500 dark:text-gray-400">{{ $user['email'] }}</p>
-                        <div class="flex items-center mt-1">
-                            <span class="px-2 py-1 text-xs rounded-full {{ $user['status'] === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
-                                {{ ucfirst($user['status']) }}
-                            </span>
-                            @if($user['verified'])
-                                <span class="ml-2 px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Verified</span>
-                            @endif
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin.users.edit', $user['id']) }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 inline-flex items-center">
-                        <i data-lucide="edit" class="w-4 h-4 mr-1"></i>
-                        Edit
-                    </a>
-                    <form method="POST" action="{{ route('admin.users.toggle-status', $user['id']) }}" class="inline">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="px-4 py-2 {{ $user['status'] === 'active' ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }} text-white rounded-md inline-flex items-center">
-                            <i data-lucide="{{ $user['status'] === 'active' ? 'lock' : 'unlock' }}" class="w-4 h-4 mr-1"></i>
-                            {{ $user['status'] === 'active' ? 'Deactivate' : 'Activate' }}
-                        </button>
-                    </form>
                     <button x-data @click="$dispatch('open-modal', 'adjust-balance-modal')" class="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 inline-flex items-center">
                         <i data-lucide="wallet" class="w-4 h-4 mr-1"></i>
                         Adjust Balance
                     </button>
-                    <a href="{{ route('admin.users.login-as', $user['id']) }}" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 inline-flex items-center">
+                    <a href="{{ route('admin.users.login-as', $user['id']) }}" target="_blank" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 inline-flex items-center">
                         <i data-lucide="log-in" class="w-4 h-4 mr-1"></i>
                         Login as User
                     </a>
@@ -61,7 +42,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Account Balance</h3>
-                    <p class="text-xl font-semibold text-gray-800 dark:text-white">${{ number_format($user['balance'], 2) }}</p>
+                    <p class="text-xl font-semibold text-gray-800 dark:text-white">${{ number_format($user['balances']->balance, 2) }}</p>
                 </div>
             </div>
         </div>
@@ -85,7 +66,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Referrals</h3>
-                    <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ $user['referrals'] }}</p>
+                    <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ count($user['referrals']) }}</p>
                 </div>
             </div>
         </div>
@@ -97,7 +78,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Joined</h3>
-                    <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ $user['created_at'] }}</p>
+                    <p class="text-xl font-semibold text-gray-800 dark:text-white">{{ $user['created_at']->format('M-m-Y') }}</p>
                 </div>
             </div>
         </div>
@@ -293,21 +274,10 @@
                                 <p class="text-gray-800 dark:text-white">{{ $user['email'] }}</p>
                             </div>
                             <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Account Status</p>
-                                <p class="text-gray-800 dark:text-white">{{ ucfirst($user['status']) }}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Verification Status</p>
-                                <p class="text-gray-800 dark:text-white">{{ $user['verified'] ? 'Verified' : 'Not Verified' }}</p>
-                            </div>
-                            <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Registration Date</p>
                                 <p class="text-gray-800 dark:text-white">{{ $user['created_at'] }}</p>
                             </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Last Login</p>
-                                <p class="text-gray-800 dark:text-white">{{ $user['last_login'] }}</p>
-                            </div>
+                            
                         </div>
                     </div>
                     
@@ -316,11 +286,11 @@
                         <div class="space-y-3">
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Referred By</p>
-                                <p class="text-gray-800 dark:text-white">{{ $user['referred_by'] ?? 'None' }}</p>
+                                <p class="text-gray-800 dark:text-white">{{ $user['referrer']->referrer_email ?? 'None' }}</p>
                             </div>
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Referral Count</p>
-                                <p class="text-gray-800 dark:text-white">{{ $user['referrals'] }} users</p>
+                                <p class="text-gray-800 dark:text-white">{{ count($user['referrals']) }} users</p>
                             </div>
                         </div>
                     </div>
@@ -345,13 +315,13 @@
                         @forelse($user['investments'] as $investment)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $investment['plan'] }}</div>
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $investment['plan']->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900 dark:text-white">${{ number_format($investment['amount'], 2) }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">${{ number_format($investment['returns'], 2) }}</div>
+                                    <div class="text-sm text-gray-900 dark:text-white">${{ number_format($investment['total_expected_return'], 2) }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
@@ -384,7 +354,6 @@
                         <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-700">
                             <th class="px-6 py-3">Type</th>
                             <th class="px-6 py-3">Amount</th>
-                            <th class="px-6 py-3">Method</th>
                             <th class="px-6 py-3">Status</th>
                             <th class="px-6 py-3">Date</th>
                             <th class="px-6 py-3">Actions</th>
@@ -395,10 +364,10 @@
                             $transactions = array_merge(
                                 array_map(function($deposit) {
                                     return array_merge($deposit, ['type' => 'deposit']);
-                                }, $user['deposits']),
+                                }, $user['deposits']->toArray() ?? []),
                                 array_map(function($withdrawal) {
                                     return array_merge($withdrawal, ['type' => 'withdrawal']);
-                                }, $user['withdrawals'])
+                                }, $user['withdrawals']->toArray() ?? [])
                             );
                             
                             usort($transactions, function($a, $b) {
@@ -424,9 +393,7 @@
                                         {{ $transaction['type'] == 'deposit' ? '+' : '-' }}${{ number_format($transaction['amount'], 2) }}
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 dark:text-white">{{ $transaction['method'] }}</div>
-                                </td>
+                                
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transaction['status'] === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' }}">
                                         {{ ucfirst($transaction['status']) }}

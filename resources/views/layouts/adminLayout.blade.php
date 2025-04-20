@@ -89,9 +89,9 @@
                             <a href="{{ route('admin.users.index') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.users.index') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 All Users
                             </a>
-                            <a href="{{ route('admin.users.create') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.users.create') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            {{-- <a href="{{ route('admin.users.create') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.users.create') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 Add New
-                            </a>
+                            </a> --}}
                             
                         </div>
                     </div>
@@ -113,9 +113,7 @@
                             <a href="{{ route('admin.plans.index') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.plans.index') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 Investment Plans
                             </a>
-                            <a href="{{ route('admin.investments.index') }}?status=pending" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.investments.index') && request()->query('status') == 'pending' ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                                Pending Investments
-                            </a>
+                            
                         </div>
                     </div>
                     <div x-data="{ open: {{ request()->routeIs('admin.deposits.*') || request()->routeIs('admin.withdrawals.*') ? 'true' : 'false' }} }">
@@ -129,19 +127,23 @@
                             </svg>
                         </button>
                         <div x-show="open" class="pl-10 mt-1 space-y-1" style="display: none;">
+                            @php
+                                $pendingDepositsCount = \App\Models\Transaction::where('status', 'pending')->where('type','deposit')->count();
+                                $pendingWithdrawalsCount = \App\Models\Transaction::where('status', 'pending')->where('type','deposit')->count();
+                            @endphp
                             <a href="{{ route('admin.deposits.index') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.deposits.index') && !request()->query('status') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 Deposits
                             </a>
                             <a href="{{ route('admin.deposits.index') }}?status=pending" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.deposits.index') && request()->query('status') == 'pending' ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 <span>Pending Deposits</span>
-                                <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">5</span>
+                                <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">{{$pendingDepositsCount}}</span>
                             </a>
                             <a href="{{ route('admin.withdrawals.index') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.withdrawals.index') && !request()->query('status') ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 Withdrawals
                             </a>
                             <a href="{{ route('admin.withdrawals.index') }}?status=pending" class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('admin.withdrawals.index') && request()->query('status') == 'pending' ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 <span>Pending Withdrawals</span>
-                                <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">3</span>
+                                <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">{{$pendingWithdrawalsCount}}</span>
                             </a>
                         </div>
                     </div>

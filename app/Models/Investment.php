@@ -76,7 +76,7 @@ class Investment extends Model
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class,'reference','reference');
     }
 
     /**

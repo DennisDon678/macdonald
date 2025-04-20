@@ -84,8 +84,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         'update' => 'admin.deposits.update',
         'destroy' => 'admin.deposits.destroy',
     ]);
-    Route::put('deposits/{deposit}/approve', [DepositController::class, 'approve'])->name('admin.deposits.approve');
-    Route::put('deposits/{deposit}/reject', [DepositController::class, 'reject'])->name('admin.deposits.reject');
+    Route::post('deposits/{deposit}/approve', [DepositController::class, 'approve'])->name('admin.deposits.approve');
+    Route::post('deposits/{deposit}/reject', [DepositController::class, 'reject'])->name('admin.deposits.reject');
     
     // Withdrawals
     Route::resource('withdrawals', WithdrawalController::class)->except(['create', 'store'])->names([
@@ -95,8 +95,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         'update' => 'admin.withdrawals.update',
         'destroy' => 'admin.withdrawals.destroy',
     ]);
-    Route::put('withdrawals/{withdrawal}/approve', [WithdrawalController::class, 'approve'])->name('admin.withdrawals.approve');
-    Route::put('withdrawals/{withdrawal}/reject', [WithdrawalController::class, 'reject'])->name('admin.withdrawals.reject');
+    Route::post('withdrawals/{withdrawal}/approve', [WithdrawalController::class, 'approve'])->name('admin.withdrawals.approve');
+    Route::post('withdrawals/{withdrawal}/reject', [WithdrawalController::class, 'reject'])->name('admin.withdrawals.reject');
     
     // Payment Methods
     Route::resource('payment-methods', PaymentMethodController::class)->names([

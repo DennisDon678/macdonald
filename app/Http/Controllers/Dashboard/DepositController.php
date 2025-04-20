@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DepositController extends Controller
 {
@@ -182,32 +183,31 @@ class DepositController extends Controller
         }
 
         if ($request->hasFile('receipt')) {
-            // Get filename with extension
-            $filenameWithExt = $request->file('receipt')->getClientOriginalName();
-
-            // Get just the filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-
-            // Get extension
-            $extension = $request->file('receipt')->getClientOriginalExtension();
-
-            // Create unique filename with timestamp
-            $fileNameToStore = 'DEP_' . time() . '.' . $extension;
-
-            $path = $request->file('receipt')->storeAs('public/receipts', $fileNameToStore);
-
-            // Save the file path to the transaction
-            $transaction->screenshot = $fileNameToStore;
-            $transaction->save();
-
-            // send email to user
             try {
-            } catch (\Exception $e) {
-            }
+                // Create unique filename with reference and timestamp
+                $fileNameToStore = 'receipt_' . $reference . '_' . time() . '.' . 
+                    $request->file('receipt')->getClientOriginalExtension();
 
-            // For now, we'll just simulate that the file was successfully saved
-            return redirect()->route('dashboard.deposits.history')
-                ->with('success', 'Your transaction receipt has been uploaded successfully. Your deposit will be verified shortly.');
+                // Store file in the public disk under receipts directory
+                $path = $request->file('receipt')->storeAs(
+                    'receipts', 
+                    $fileNameToStore, 
+                    'public'
+                );
+
+                // Save the file path to the transaction
+                $transaction->screenshot = $fileNameToStore;
+                $transaction->save();
+
+                // send email to user
+                // ...existing code...
+
+                return redirect()->route('dashboard.deposits.history')
+                    ->with('success', 'Your transaction receipt has been uploaded successfully. Your deposit will be verified shortly.');
+            } catch (\Exception $e) {
+                Log::error('Receipt upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload receipt. Please try again.');
+            }
         }
 
         return redirect()->back()->with('error', 'Something went wrong with the file upload.');

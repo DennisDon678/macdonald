@@ -11,71 +11,8 @@
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Investments</h1>
             <p class="text-gray-600 dark:text-gray-400">Manage user investment portfolios</p>
         </div>
-        
-        <div class="flex flex-col md:flex-row gap-3">
-            <a href="{{ route('admin.investments.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 inline-flex items-center">
-                <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
-                Create Investment
-            </a>
-            <a href="#" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg px-4 py-2 inline-flex items-center">
-                <i data-lucide="download" class="w-4 h-4 mr-2"></i>
-                Export
-            </a>
-        </div>
     </div>
     
-    <!-- Filter and Search -->
-    <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-        <form action="{{ route('admin.investments.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div>
-                <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search</label>
-                <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="User name or ID" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            
-            <div>
-                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="">All Statuses</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                    <option value="terminated" {{ request('status') == 'terminated' ? 'selected' : '' }}>Terminated</option>
-                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                </select>
-            </div>
-            
-            <div>
-                <label for="plan" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Investment Plan</label>
-                <select name="plan" id="plan" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="">All Plans</option>
-                    @foreach($plans as $plan)
-                        <option value="{{ $plan['id'] }}" {{ request('plan') == $plan['id'] ? 'selected' : '' }}>{{ $plan['name'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-            
-            <div>
-                <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
-                <select name="sort" id="sort" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="created_at_desc" {{ request('sort') == 'created_at_desc' ? 'selected' : '' }}>Newest First</option>
-                    <option value="created_at_asc" {{ request('sort') == 'created_at_asc' ? 'selected' : '' }}>Oldest First</option>
-                    <option value="amount_desc" {{ request('sort') == 'amount_desc' ? 'selected' : '' }}>Amount (High to Low)</option>
-                    <option value="amount_asc" {{ request('sort') == 'amount_asc' ? 'selected' : '' }}>Amount (Low to High)</option>
-                    <option value="return_desc" {{ request('sort') == 'return_desc' ? 'selected' : '' }}>Return (High to Low)</option>
-                </select>
-            </div>
-            
-            <div class="flex items-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 inline-flex items-center">
-                    <i data-lucide="filter" class="w-4 h-4 mr-2"></i>
-                    Filter
-                </button>
-                <a href="{{ route('admin.investments.index') }}" class="ml-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                    Clear
-                </a>
-            </div>
-        </form>
-    </div>
     
     <!-- Investments Table -->
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
@@ -121,7 +58,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900 dark:text-white">${{ number_format($investment['return_amount'], 2) }}</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ $investment['plan']['roi'] }}% ROI</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ $investment['plan']['interest_rate'] }}% ROI</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 

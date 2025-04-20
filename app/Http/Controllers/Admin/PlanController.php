@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -15,81 +16,9 @@ class PlanController extends Controller
     public function index()
     {
         // Placeholder data for plans
-        $plans = [
-            [
-                'id' => 1,
-                'name' => 'Gold Plan',
-                'roi' => 20,
-                'duration' => 30,
-                'min_amount' => 1000,
-                'max_amount' => 10000,
-                'status' => 'active',
-                'description' => 'Our premium investment plan with high returns',
-                'created_at' => '2025-01-15',
-                'investments_count' => 24
-            ],
-            [
-                'id' => 2,
-                'name' => 'Silver Plan',
-                'roi' => 15,
-                'duration' => 20,
-                'min_amount' => 500,
-                'max_amount' => 5000,
-                'status' => 'active',
-                'description' => 'Medium-risk investment with good returns',
-                'created_at' => '2025-01-20',
-                'investments_count' => 45
-            ],
-            [
-                'id' => 3,
-                'name' => 'Bronze Plan',
-                'roi' => 10,
-                'duration' => 15,
-                'min_amount' => 250,
-                'max_amount' => 2500,
-                'status' => 'active',
-                'description' => 'Entry-level investment plan for beginners',
-                'created_at' => '2025-01-25',
-                'investments_count' => 78
-            ],
-            [
-                'id' => 4,
-                'name' => 'Platinum Plan',
-                'roi' => 25,
-                'duration' => 45,
-                'min_amount' => 5000,
-                'max_amount' => 50000,
-                'status' => 'inactive',
-                'description' => 'Exclusive high-value investment opportunity',
-                'created_at' => '2025-02-01',
-                'investments_count' => 12
-            ],
-        ];
+        $plans = Plan::all();
 
         return view('admin.plans.index', compact('plans'));
-    }
-
-    /**
-     * Show the form for creating a new plan.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('admin.plans.create');
-    }
-
-    /**
-     * Store a newly created plan in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(Request $request)
-    {
-        // Validate and store in a real application
-        return redirect()->route('admin.plans.index')
-            ->with('success', 'Investment plan created successfully.');
     }
 
     /**
@@ -156,17 +85,7 @@ class PlanController extends Controller
     public function edit($id)
     {
         // Placeholder data for a single plan
-        $plan = [
-            'id' => $id,
-            'name' => 'Gold Plan',
-            'roi' => 20,
-            'duration' => 30,
-            'min_amount' => 1000,
-            'max_amount' => 10000,
-            'status' => 'active',
-            'description' => 'Our premium investment plan with high returns',
-            'features' => ['Daily profit distribution', '24/7 support', 'Early withdrawal option'],
-        ];
+        $plan = Plan::findOrFail($id);
 
         return view('admin.plans.edit', compact('plan'));
     }
@@ -180,7 +99,23 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validate and update in a real application
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'interest_rate' => 'required|numeric|min:0|max:100',
+            'duration' => 'required|integer|min:1',
+            'min_investment' => 'required|numeric|min:0',
+            'max_investment' => 'required|numeric|min:0',
+        ]);
+        $plan = Plan::findOrFail($id);
+        $plan->update([
+            'name' => $validated['name'],
+            'interest_rate' => $validated['interest_rate'],
+            'duration' => $validated['duration'],
+            'min_investment' => $validated['min_investment'],
+            'max_investment' => $validated['max_investment'],
+        ]);
+
+        
         return redirect()->route('admin.plans.index')
             ->with('success', 'Investment plan updated successfully.');
     }

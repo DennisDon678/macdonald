@@ -13,10 +13,10 @@
         </div>
         
         <div class="flex flex-col md:flex-row gap-3">
-            <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 inline-flex items-center">
+            {{-- <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 inline-flex items-center">
                 <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
                 Add User
-            </a>
+            </a> --}}
             <a href="#" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg px-4 py-2 inline-flex items-center">
                 <i data-lucide="download" class="w-4 h-4 mr-2"></i>
                 Export
@@ -33,24 +33,6 @@
             </div>
             
             <div>
-                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                <select name="status" id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="">All Statuses</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                </select>
-            </div>
-            
-            <div>
-                <label for="verified" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Verification</label>
-                <select name="verified" id="verified" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="">All Users</option>
-                    <option value="1" {{ request('verified') == '1' ? 'selected' : '' }}>Verified</option>
-                    <option value="0" {{ request('verified') == '0' ? 'selected' : '' }}>Not Verified</option>
-                </select>
-            </div>
-            
-            <div>
                 <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
                 <select name="sort" id="sort" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <option value="created_at_desc" {{ request('sort') == 'created_at_desc' ? 'selected' : '' }}>Newest First</option>
@@ -60,7 +42,7 @@
                 </select>
             </div>
             
-            <div class="flex items-end">
+            <div class="flex items-end ">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 inline-flex items-center">
                     <i data-lucide="filter" class="w-4 h-4 mr-2"></i>
                     Filter
@@ -80,7 +62,6 @@
                     <tr class="text-xs font-medium tracking-wider text-left text-gray-500 dark:text-gray-400 uppercase">
                         <th class="px-6 py-3">User</th>
                         <th class="px-6 py-3">Balance</th>
-                        <th class="px-6 py-3">Status</th>
                         <th class="px-6 py-3">Registered</th>
                         <th class="px-6 py-3">Actions</th>
                     </tr>
@@ -107,32 +88,18 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 dark:text-white">${{ number_format($user['balance'], 2) }}</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ count($user['investments']) }} active investments</div>
+                                <div class="text-sm text-gray-900 dark:text-white">${{ number_format($user->balances->balance, 2) }}</div>
+                                {{-- <div class="text-sm text-gray-500 dark:text-gray-400">{{ count($user['investments']) }} active investments</div> --}}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $user['status'] == 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
-                                    {{ ucfirst($user['status']) }}
-                                </span>
-                            </td>
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 {{ $user['created_at'] }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
+                                <div class="">
                                     <a href="{{ route('admin.users.show', $user['id']) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                         <i data-lucide="eye" class="w-5 h-5"></i>
                                     </a>
-                                    <a href="{{ route('admin.users.edit', $user['id']) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                        <i data-lucide="edit" class="w-5 h-5"></i>
-                                    </a>
-                                    <form method="POST" action="{{ route('admin.users.toggle-status', $user['id']) }}" class="inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="text-{{ $user['status'] == 'active' ? 'red' : 'green' }}-600 hover:text-{{ $user['status'] == 'active' ? 'red' : 'green' }}-900 dark:text-{{ $user['status'] == 'active' ? 'red' : 'green' }}-400 dark:hover:text-{{ $user['status'] == 'active' ? 'red' : 'green' }}-300">
-                                            <i data-lucide="{{ $user['status'] == 'active' ? 'lock' : 'unlock' }}" class="w-5 h-5"></i>
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
