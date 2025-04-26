@@ -22,7 +22,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ env('APP_TITLE' || 'Welcome') }}</title>
+    <title>{{ env('APP_NAME') }} - your go to for investment management</title>
 
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
