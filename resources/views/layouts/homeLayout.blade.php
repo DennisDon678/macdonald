@@ -435,7 +435,7 @@
                                 style='padding: 6px 10px; border-radius: 5px; margin-right: 3px;'
                                 href="/auth/login"><i class='fa fa-sign-in'></i> Login</a>
                             <a class="btn btn-success d-md-none" style='padding: 6px 10px; border-radius: 5px;'
-                                href="index-2.htm?a=signup"><i class='fa fa-user-plus'></i></a>
+                                href="{{route('register')}}"><i class='fa fa-user-plus'></i></a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -530,14 +530,14 @@
                         <div class="col-lg-5 col-md-12 footer-widget">
                             <h3 class="widget-title">Useful Links</h3>
                             <ul class="list-dash">
-                                <li><a href="index.htm">Home</a></li>
-                                <li><a href="index-3.htm?a=about">About Us</a></li>
-                                <li><a href="index-2.htm?a=signup">Sign Up</a></li>
-                                <li><a href="index-1.htm?a=login">Login</a></li>
+                                <li><a href="{{route('home')}}">Home</a></li>
+                                <li><a href="{{route('about')}}">About Us</a></li>
+                                <li><a href="{{route('register')}}p">Sign Up</a></li>
+                                <li><a href="{{route('login')}}">Login</a></li>
 
-                                <li><a href="index-9.htm?a=support">Get Support</a></li>
+                                <li><a href="{{route('support')}}">Get Support</a></li>
                                 <li><a href="cert.pdf">Legal</a></li>
-                                <li><a href="index-10.htm?a=privacy">Privacy</a></li>
+                                <li><a href="{{route('privacy')}}">Privacy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -658,11 +658,11 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="footer-menu">
                                 <ul class="nav unstyled">
-                                    <li><a href="index-3.htm?a=about">About</a></li>
-                                    <li><a href="index-10.htm?a=privacy">Privacy Policy</a></li>
-                                    <li><a href="index-11.htm?a=buy-btc">Buy Digital Currency</a></li>
+                                    <li><a href="{{route('about')}}">About</a></li>
+                                    <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
+                                    <li><a href="{{route('buy-btc')}}">Buy Digital Currency</a></li>
                                     <li><a href="cert.pdf">Legals</a></li>
-                                    <li><a href="index-12.htm?a=contact">Contact</a></li>
+                                    <li><a href="{{route('support')}}">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
