@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="feature-text-box">
-                    <h2 class="column-title"><span>Asset Digital Limited</span>We are the best in Finance
+                    <h2 class="column-title"><span>{{env('APP_NAME')}} Limited</span>We are the best in Finance
                     </h2>
                 </div>
                 <p>
@@ -113,7 +113,7 @@
             <div class="col-lg-6">
                 <h2 class="column-title title-small"><span>About us</span>We have been known to give investors the better choice.</h2>
                 <p>With over 153,000 investments under our management, $5 billion+ in assets under our administration, over 11 industry awards,
-                    we have made Asset Digital Limited the safe haven for investors who want to trust their financial partner to be capable of
+                    we have made {{env('APP_NAME')}} Limited the safe haven for investors who want to trust their financial partner to be capable of
                     helping them reach their financial goals, and in due time, without the fear of disappointments.</p>
                 <div class="gap-15"></div>
                 <div class="row">
@@ -458,7 +458,7 @@
                 <div class="item">
                     <div class="featured-projects-content">
                         <div class="featured-projects-text float-left">
-                            <h2 class="column-title"><span>Asset Digital Limited</span> The Non-farm Payrolls(NFP)</h2>
+                            <h2 class="column-title"><span>{{env('APP_NAME')}} Limited</span> The Non-farm Payrolls(NFP)</h2>
                             <p class="intro-desc">The Non-farm payrolls report is one of the most anticipated economic news reports in the
                                 forex markets. It is published the first Friday of the month at 8:30AM Eastern time by the U.S. Bureau of labor statistics.
 
@@ -479,22 +479,22 @@
                 <div class="item">
                     <div class="featured-projects-content">
                         <div class="featured-projects-text pull-left">
-                            <h2 class="column-title"><span>Asset Digital Limited</span>Get A Loan</h2>
+                            <h2 class="column-title"><span>{{env('APP_NAME')}} Limited</span>Get A Loan</h2>
                             <p class="intro-desc">Getting a loan doesn’t have to be intimidating, with the right lender it can be
                                 a simple process. You only need a lender committed to taking the mystery out of the mortgage loan
-                                process! At Asset Digital Limited, DGS we understand! Our investors want simple facts, honest answers
+                                process! At {{env('APP_NAME')}} Limited, DGS we understand! Our investors want simple facts, honest answers
                                 and competitive products.
 
-                                DGS automatically offers loan services to investors with over $50,000 investment either in our normal Asset Digital Limited financial
+                                DGS automatically offers loan services to investors with over $50,000 investment either in our normal {{env('APP_NAME')}} Limited financial
 
                                 Services packages or the NFP plans. Investors over $50,000 are entitled to loans of $200,000-1millon dollars yearly with 5%
                                 paid monthly, or the investor could wish to compound the interest till the time limit, provided all required information and
-                                identity of the investor are duly confirmed by the Asset Digital Limited loan board.
+                                identity of the investor are duly confirmed by the {{env('APP_NAME')}} Limited loan board.
 
                                 Every investor above $50,000 is provided with a personal account manager and the investor has a direct communication with
                                 the manager in order to see that our loan offers are secured.
 
-                                GREAT INVESTING WITH THE Asset Digital Limited FAMILY</p>
+                                GREAT INVESTING WITH THE {{env('APP_NAME')}} Limited FAMILY</p>
                         </div>
                         <div class="features-slider-img pull-right">
                             <img src="images/slider-small/featured-slider2.jpg" alt="">
@@ -513,7 +513,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h2 class="column-title title-white"><span>Welcome to Asset Digital Limited</span> You can trust us to help make your financial dream come true</h2>
+                <h2 class="column-title title-white"><span>Welcome to {{env('APP_NAME')}} Limited</span> You can trust us to help make your financial dream come true</h2>
                 <p class="intro-desc">We are your trustworthy financial partner. We're trusted by over 49,666 successful investors from
                     across the world.
                     We want you to be on that list.</p>

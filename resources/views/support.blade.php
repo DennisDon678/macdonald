@@ -98,9 +98,8 @@
                                                 class="icon icon-map-marker2"></i></span>
                                         <div class="ts-contact-content">
                                             <h3 class="ts-contact-title">Visit Us</h3>
-                                            <p>2 Newman Road, Bromley, England, BR1 1RJ
-
-
+                                            <p>
+                                                {{App\Models\Setting::get('contact_address')}}
                                             </p>
                                         </div>
                                         <!-- Contact content end-->
@@ -110,7 +109,7 @@
                                                 class="icon icon-envelope"></i></span>
                                         <div class="ts-contact-content">
                                             <h3 class="ts-contact-title">Mail Us</h3>
-                                            <p>support@assetdigitallimited.org</p>
+                                            <p>{{App\Models\Setting::get('contact_email')}}</p>
                                         </div>
                                         <!-- Contact content end-->
                                     </div>

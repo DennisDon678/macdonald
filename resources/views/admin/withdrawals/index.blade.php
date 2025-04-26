@@ -107,7 +107,7 @@
     </div>
     
     <div class="p-4 border-t dark:border-gray-700">
-        {{ $withdrawals->links() }}
+        {{ $withdrawals->links('vendor.pagination.tailwind') }}
     </div>
 </div>
 

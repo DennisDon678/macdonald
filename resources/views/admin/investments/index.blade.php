@@ -79,33 +79,6 @@
                                     <a href="{{ route('admin.investments.show', $investment['id']) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                         <i data-lucide="eye" class="w-5 h-5"></i>
                                     </a>
-                                    
-                                    @if($investment['status'] == 'pending')
-                                        <form method="POST" action="{{ route('admin.investments.approve', $investment['id']) }}" class="inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
-                                                <i data-lucide="check" class="w-5 h-5"></i>
-                                            </button>
-                                        </form>
-                                        <form method="POST" action="{{ route('admin.investments.reject', $investment['id']) }}" class="inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                                <i data-lucide="x" class="w-5 h-5"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                    
-                                    @if($investment['status'] == 'active')
-                                        <form method="POST" action="{{ route('admin.investments.terminate', $investment['id']) }}" class="inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300">
-                                                <i data-lucide="slash" class="w-5 h-5"></i>
-                                            </button>
-                                        </form>
-                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -128,19 +101,7 @@
                 </div>
                 
                 <div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">1</a>
-                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-blue-50 dark:bg-blue-900 text-sm font-medium text-blue-700 dark:text-blue-200">2</a>
-                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">3</a>
-                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-400">...</span>
-                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">8</a>
-                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                        </a>
-                    </nav>
+                    {{ $investments->links('vendor.pagination.tailwind') }}
                 </div>
             </div>
         </div>

@@ -106,7 +106,7 @@
     </div>
     
     <div class="p-4 border-t dark:border-gray-700">
-        {{ $deposits->links() }}
+        {{ $deposits->links('vendor.pagination.tailwind') }}
     </div>
 </div>
 

