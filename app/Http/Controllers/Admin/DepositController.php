@@ -58,9 +58,21 @@ class DepositController extends Controller
                 'processed_at' => now(),
             ]);
             
-            // Update user's balance
-            $deposit->user->balances->increment('balance', $deposit->amount);
+            // // Update user's balance
+            // $deposit->user->balances->increment('balance', $deposit->amount);
         });
+
+        // get the investment
+        $investment = $deposit->investment;
+        // check if the investment is not null
+        if($investment) {
+            $investment->update([
+                'status' => 'active',
+                'start_date' => now(),
+                'end_date' => now()->addDays($investment->duration),
+                'next_payout' => now()->addHours(24),
+            ]);
+        }
         
         return redirect()->back()->with('success', 'Deposit approved successfully.');
     }
@@ -83,6 +95,13 @@ class DepositController extends Controller
         $deposit->update([
             'status' => Transaction::STATUS_REJECTED,
         ]);
+
+        $investment = $deposit->investment;
+
+        // delete the investment if it exists
+        if($investment) {
+            $investment->delete();
+        }
         
         return redirect()->back()->with('success', 'Deposit rejected successfully.');
     }

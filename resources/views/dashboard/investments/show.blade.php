@@ -127,50 +127,9 @@
             </div>
         </div>
         
-        <div class="mt-6">
-            @if($investment['status'] == 'active')
-            <a href="#" class="block text-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md transition duration-200 mb-2">
-                Request Early Termination
-            </a>
-            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
-                Early termination may incur penalties.
-            </p>
-            @elseif($investment['status'] == 'completed')
-            <div class="p-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-md text-center text-sm">
-                This investment has been completed and all profits have been credited to your account.
-            </div>
-            @endif
-        </div>
     </div>
 </div>
 
-<!-- Transaction History -->
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-    <div class="p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">Transaction History</h2>
-        
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="text-left text-xs uppercase font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
-                        <th class="py-2 px-4">Date</th>
-                        <th class="py-2 px-4">Description</th>
-                        <th class="py-2 px-4">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($transactions as $transaction)
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400">{{ $transaction['created_at']->format('M d, Y') }}</td>
-                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400">{{ $transaction['description'] }}</td>
-                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400">${{ number_format($transaction['amount'], 2) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('scripts')

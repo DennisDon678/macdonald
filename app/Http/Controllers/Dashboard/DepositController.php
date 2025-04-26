@@ -65,7 +65,7 @@ class DepositController extends Controller
             'crypto' => $request->crypto,
         ]);
 
-        $daily_profit = $plan->amount * $plan->interest_rate / 100;
+        $daily_profit = $request->amount * $plan->interest_rate / 100;
         $daily_profit = number_format($daily_profit, 2);
 
         // create a new investment

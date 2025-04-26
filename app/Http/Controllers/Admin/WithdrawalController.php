@@ -84,7 +84,7 @@ class WithdrawalController extends Controller
             ]);
             
             // Return the amount to user's balance since withdrawal is rejected
-            $withdrawal->user->increment('balance', $withdrawal->amount);
+            $withdrawal->user->balances->increment('balance', $withdrawal->amount);
         });
         
         return redirect()->back()->with('success', 'Withdrawal rejected successfully.');

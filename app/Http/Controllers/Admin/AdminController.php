@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Investment;
 use App\Models\Transaction;
 use App\Models\User;
@@ -108,64 +109,12 @@ class AdminController extends Controller
         // $admin = Auth::guard('admin')->user();
         
         // For now, create a placeholder admin object
-        $admin = (object)[
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'created_at' => now()->subMonths(6),
-            'avatar' => null // No avatar set
-        ];
+        $user = Admin::find(Auth::guard('admin')->id());
         
-        return view('admin.profile', compact('admin'));
+        return view('admin.profile.index', compact('user'));
     }
     
-    /**
-     * Update admin profile.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function updateProfile(Request $request)
-    {
-        // Validate the request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'avatar' => 'nullable|image|max:1024', // 1MB max
-        ]);
-        
-        // In a real application, we would update the admin profile
-        // $admin = Auth::guard('admin')->user();
-        // $admin->update($validated);
-        
-        return redirect()->route('admin.profile')
-            ->with('success', 'Profile updated successfully');
-    }
-    
-    /**
-     * Update admin password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function updatePassword(Request $request)
-    {
-        // Validate the request
-        $validated = $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-        
-        // In a real application, we would update the admin password
-        // $admin = Auth::guard('admin')->user();
-        // if (!Hash::check($request->current_password, $admin->password)) {
-        //     return back()->withErrors(['current_password' => 'The current password is incorrect.']);
-        // }
-        // $admin->update(['password' => Hash::make($request->password)]);
-        
-        return redirect()->route('admin.profile')
-            ->with('success', 'Password updated successfully');
-    }
-    
+
     /**
      * Show list of activity logs.
      *

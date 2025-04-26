@@ -143,8 +143,8 @@
                     <div class="border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer crypto-option">
                         <input type="radio" name="crypto" value="{{ $crypto->id }}" id="crypto-{{ $crypto->id }}" class="hidden" {{ $loop->first ? 'checked' : '' }}>
                         <label for="crypto-{{ $crypto->id }}" class="flex items-center cursor-pointer">
-                            <div class="flex-shrink-0 mr-4">
-                                <img src="{{ $crypto->icon }}" alt="{{ $crypto->name }}" class="w-10 h-10">
+                            <div class="flex  items-center justify-center bg-white rounded-full w-10 h-10 mr-4">
+                                <i class="cc {{strtoupper($crypto->code)}} text-3xl"></i>
                             </div>
                             <div>
                                 <p class="font-medium text-gray-800 dark:text-white">{{ $crypto->name }} ({{ strtoupper($crypto->code) }})</p>

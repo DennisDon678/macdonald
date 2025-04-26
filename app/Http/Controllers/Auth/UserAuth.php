@@ -8,6 +8,7 @@ use App\Models\Referral_code;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserAuth extends Controller
 {
@@ -63,6 +64,7 @@ class UserAuth extends Controller
         // Welcome email preparation
         try {
             // email details and sending logic
+            Mail::to($user->email)->send(new \App\Mail\Welcome($user));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to send welcome email!');
         }

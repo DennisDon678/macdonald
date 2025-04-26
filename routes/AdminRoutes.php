@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WithdrawalController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\PaymentMethodController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 
 /*
@@ -32,8 +33,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     
     // Admin Profile
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
-    Route::put('profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
-    Route::put('profile/password', [AdminController::class, 'updatePassword'])->name('admin.profile.password');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('admin.profile.update-password');
     
     // User Management
     Route::resource('users', UserController::class)->names([
@@ -112,9 +113,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     
     // Settings
     Route::get('settings', [SettingController::class, 'index'])->name('admin.settings.index');
-    Route::put('settings/general', [SettingController::class, 'updateGeneral'])->name('admin.settings.general');
-    Route::put('settings/email', [SettingController::class, 'updateEmail'])->name('admin.settings.email');
-    Route::put('settings/security', [SettingController::class, 'updateSecurity'])->name('admin.settings.security');
+    Route::put('/settings', [SettingController::class, 'update'])->name('admin.settings.update');
     
     // Support Tickets
     Route::get('tickets', [AdminController::class, 'tickets'])->name('admin.tickets.index');

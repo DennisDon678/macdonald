@@ -9,6 +9,11 @@
     <!-- Lucide Icons via CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Configure Tailwind with dark mode -->
+
+    <!-- Cryptocoins Icons CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins-colors.css">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
