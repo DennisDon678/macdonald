@@ -110,7 +110,7 @@
             <p>You'll receive another email once your withdrawal has been processed. You can also check the status of your withdrawal in your dashboard.</p>
             
             <div style="text-align: center;">
-                <a href="{{ route('dashboard.withdrawals') }}" class="button">View Withdrawals</a>
+                <a href="{{ route('dashboard.withdrawals.history') }}" class="button">View Withdrawals</a>
             </div>
             
             <p>Thank you for your patience.</p>

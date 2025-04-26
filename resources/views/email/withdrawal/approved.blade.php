@@ -105,7 +105,7 @@
             <p>The transaction has been completed and funds should arrive in your wallet shortly. Depending on network congestion, it may take some time for the transaction to be confirmed on the blockchain.</p>
             
             <div style="text-align: center;">
-                <a href="{{ route('dashboard.withdrawals') }}" class="button">View Withdrawals</a>
+                <a href="{{ route('dashboard.withdrawals.history') }}" class="button">View Withdrawals</a>
             </div>
             
             <p>Thank you for using {{ config('app.name') }}. We appreciate your trust in our platform.</p>

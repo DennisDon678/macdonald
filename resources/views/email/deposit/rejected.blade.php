@@ -96,7 +96,7 @@
             
             <div class="transaction-details">
                 <p><span>Amount:</span> <strong>${{ number_format($deposit->amount, 2) }}</strong></p>
-                <p><span>Payment Method:</span> <strong>{{ $deposit->paymentMethod->name }}</strong></p>
+                <p><span>Payment Method:</span> <strong>{{ $deposit->cryptoWallet[0]->name }}</strong></p>
                 <p><span>Transaction ID:</span> <strong>{{ $deposit->reference }}</strong></p>
                 <p><span>Date:</span> <strong>{{ $deposit->created_at->format('M d, Y H:i') }}</strong></p>
                 <p><span>Status:</span> <strong style="color: #ef4444;">Rejected</strong></p>

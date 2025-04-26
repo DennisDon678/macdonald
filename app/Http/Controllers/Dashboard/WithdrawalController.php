@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Mail;
 
 class WithdrawalController extends Controller
 {
@@ -67,7 +70,7 @@ class WithdrawalController extends Controller
         // Placeholder validation for available balance
         $availableBalance = Auth::user()->balances->balance;
 
-        if ($request->amount > $availableBalance) {
+        if ($request->amount >= $availableBalance) {
             return back()->withErrors([
                 'amount' => 'Insufficient balance. Your available balance is $' . number_format($availableBalance, 2)
             ])->withInput();
@@ -95,6 +98,14 @@ class WithdrawalController extends Controller
         // debit the user's balance
         $user = User::find(Auth::id());
         $user->balances->decrement('balance', $request->amount);
+
+        // Send email to user
+        try {
+            Mail::to($create->user->email)->send(new \App\Mail\Withdrawal\Init($create));
+        } catch (\Exception $e) {
+            FacadesLog::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
 
         // Redirect to withdrawal history with success message
         return redirect()->route('dashboard.withdrawals.history')

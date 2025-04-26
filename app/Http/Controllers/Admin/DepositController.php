@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DepositController extends Controller
 {
@@ -73,6 +75,14 @@ class DepositController extends Controller
                 'next_payout' => now()->addHours(24),
             ]);
         }
+
+        // Send email to user
+        try {
+            Mail::to($deposit->user->email)->send(new \App\Mail\Deposit\Approved($deposit));
+        } catch (\Exception $e) {
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
         
         return redirect()->back()->with('success', 'Deposit approved successfully.');
     }
@@ -102,7 +112,14 @@ class DepositController extends Controller
         if($investment) {
             $investment->delete();
         }
-        
+        // Send email to user
+        try {
+            Mail::to($deposit->user->email)->send(new \App\Mail\Deposit\Rejected($deposit));
+        } catch (\Exception $e) {
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
+
         return redirect()->back()->with('success', 'Deposit rejected successfully.');
     }
 }

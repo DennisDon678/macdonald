@@ -28,7 +28,7 @@ class Approved extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Approved',
+            subject: 'Withdrawal Approved',
         );
     }
 

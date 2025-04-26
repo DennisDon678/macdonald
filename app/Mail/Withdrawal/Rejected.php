@@ -16,10 +16,11 @@ class Rejected extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected $withdrawal)
     {
-        //
+        $this->withdrawal = $withdrawal;
     }
+
 
     /**
      * Get the message envelope.
@@ -27,7 +28,7 @@ class Rejected extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rejected',
+            subject: 'Withdrawal Rejected',
         );
     }
 
@@ -37,7 +38,10 @@ class Rejected extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.withdrawal.rejected',
+            with: [
+                'withdrawal' => $this->withdrawal,
+            ],
         );
     }
 

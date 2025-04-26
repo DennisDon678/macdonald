@@ -95,7 +95,6 @@
             
             <div class="transaction-details">
                 <p><span>Amount:</span> <strong>${{ number_format($deposit->amount, 2) }}</strong></p>
-                <p><span>Investment Plan:</span> <strong>{{ $deposit->plan->name }}</strong></p>
                 <p><span>Transaction ID:</span> <strong>{{ $deposit->reference }}</strong></p>
                 <p><span>Date Approved:</span> <strong>{{ $deposit->updated_at->format('M d, Y H:i') }}</strong></p>
                 <p><span>Status:</span> <strong style="color: #10b981;">Approved</strong></p>

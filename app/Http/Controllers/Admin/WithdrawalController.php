@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class WithdrawalController extends Controller
 {
@@ -56,6 +58,15 @@ class WithdrawalController extends Controller
         $withdrawal->update([
             'status' => Transaction::STATUS_COMPLETED,
         ]);
+
+        // Send email notification to user
+        try {
+            Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Approved($withdrawal));
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
         
         return redirect()->back()->with('success', 'Withdrawal approved successfully.');
     }
@@ -86,6 +97,15 @@ class WithdrawalController extends Controller
             // Return the amount to user's balance since withdrawal is rejected
             $withdrawal->user->balances->increment('balance', $withdrawal->amount);
         });
+
+        // Send email notification to user
+        try {
+            Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Rejected($withdrawal));
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
         
         return redirect()->back()->with('success', 'Withdrawal rejected successfully.');
     }

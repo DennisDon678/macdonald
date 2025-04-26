@@ -16,10 +16,11 @@ class Init extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected $withdrawal)
     {
-        //
+        $this->withdrawal = $withdrawal;
     }
+
 
     /**
      * Get the message envelope.
@@ -27,7 +28,7 @@ class Init extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Init',
+            subject: 'Withdrawal Request Initiated',
         );
     }
 
@@ -37,7 +38,10 @@ class Init extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.withdrawal.init',
+            with: [
+                'withdrawal' => $this->withdrawal,
+            ],
         );
     }
 

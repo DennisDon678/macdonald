@@ -403,7 +403,7 @@
                     <div class="row">
                         <div class="logo-area clearfix logo-wrapper logo-absolute">
                             <div class="logo col-lg-3 col-md-12" style="text-align: left;">
-                                <a href="index.htm" style="z-index: 999999999;">
+                                <a href="/" style="z-index: 999999999;">
                                     <img src="img/logo.png" alt="" style="width: 120px;  margin-top: -10px;">
                                 </a>
                             </div>
@@ -413,7 +413,7 @@
 
                                     <li><span class="info-icon"><i class="icon icon-envelope"></i></span>
                                         <div class="info-wrapper">
-                                            <p class="info-title">support@assetdigitallimited.org</p>
+                                            <p class="info-title">{{App\Models\Setting::get('contact_email')}}</p>
                                             <p class="info-subtitle">Send us mail</p>
                                         </div>
                                     </li>
@@ -451,7 +451,7 @@
                                         <a href="/about">About Us</a>
                                     </li>
 
-                                    <li class="nav-item dropdown"><a class="nav-link" href="#"
+                                    {{-- <li class="nav-item dropdown"><a class="nav-link" href="#"
                                             data-toggle="dropdown">Investments<i class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="index-4.htm?a=plans1">Bitcoin</a></li>
@@ -461,7 +461,7 @@
                                             <li><a href="index-6.htm?a=loan">Loan</a></li>
                                             <li><a href="index-7.htm?a=nfp">NFP</a></li>
                                         </ul>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="nav-item">
                                         <a href="/faq">FAQs</a>
@@ -577,7 +577,7 @@
                                 entail above average risk.
                                 You must therefore carefully consider whether your financial circumstances permit you to
                                 invest.
-                                Asset Digital Limited strongly suggests that you seek the advice of an independent
+                                {{env('APP_NAME')}} Limited strongly suggests that you seek the advice of an independent
                                 financial
                                 advisor in this regard.
                             </div>
@@ -592,7 +592,7 @@
                         <div class="col-lg-12 footer-widget">
                             <img src="images/tfc-icon.png" alt="">
                             <div class="newsletter-introtext"><br>
-                                Asset Digital Limited is a member of The Financial Commission, an international
+                                {{env('APP_NAME')}} Limited is a member of The Financial Commission, an international
                                 organization
                                 engaged in
                                 the resolution of disputes within the financial services industry in the Forex market.
@@ -602,13 +602,13 @@
                         <div class="col-lg-12 footer-widget">
                             <img src="images/sec-logo.png" alt=""><br>
                             <div class="newsletter-introtext"><br>
-                                Asset Digital Limited is regulated by the US Securities and Exchange Commission. The
+                                {{env('APP_NAME')}} Limited is regulated by the US Securities and Exchange Commission. The
                                 mission
                                 of the SEC is to protect
                                 investors; maintain fair,
                                 orderly, and efficient markets; and facilitate capital formation.
 
-                                Asset Digital Limited is an investment company that . Direct access to over 50 financial
+                                {{env('APP_NAME')}} Limited is an investment company that . Direct access to over 50 financial
                                 markets
                                 through one account. Any information contained on this website is provided to you for
                                 informational
@@ -627,14 +627,14 @@
                                 as up.
 
 
-                                Asset Digital Limited is a registered investment dealer, a member of the
+                                {{env('APP_NAME')}} Limited is a registered investment dealer, a member of the
                                 United States Securities and Exchange Commission (SEC), the Investment Industry
                                 Regulatory
                                 Organization of Canada
                                 (IIROC) and a member of the Canadian Investor Protection Fund (CIPF), the benefits of
                                 which
                                 are limited to the
-                                activities undertaken by Asset Digital Limited.
+                                activities undertaken by {{env('APP_NAME')}} Limited.
 
 
                             </div>
@@ -652,7 +652,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
-                            <div class="copyright-info"><span>Copyright © 2021 Asset Digital Limited. All Rights
+                            <div class="copyright-info"><span>Copyright © 2021 {{env('APP_NAME')}} Limited. All Rights
                                     Reserved.</span></div>
                         </div>
                         <div class="col-lg-6 col-md-12">

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DepositController extends Controller
 {
@@ -91,6 +92,14 @@ class DepositController extends Controller
             'interest_rate' => $plan->interest_rate,
             'duration' => $plan->duration,
         ]]);
+
+        // Send email to user
+        try {
+            Mail::to(Auth::user()->email)->send(new \App\Mail\Deposit\Init($transaction));
+        } catch (\Exception $e) {
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email. Please try again.');
+        }
 
 
         // Redirect to confirmation page
