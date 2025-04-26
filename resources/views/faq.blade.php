@@ -186,7 +186,7 @@
                     <div class="help mrb-40">
                         <h2>Need any help!</h2>
                         <p>
-                            Find answers to frequently asked questions about {{env('APP_NAME')}} Limited </p><a class="btn btn-primary" href="index-9.htm?a=support">Contact us</a>
+                            Find answers to frequently asked questions about {{env('APP_NAME')}} Limited </p><a class="btn btn-primary" href="{{route('support')}}">Contact us</a>
                     </div>
                     <!-- Quote item end-->
                 </div>

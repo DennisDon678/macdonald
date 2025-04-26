@@ -169,7 +169,7 @@
             <div class="custom-checkbox" style='padding: 5px 28px;'>
                 <input class="custom-control-input" type="checkbox" name="agree" value="1" id="customCheck1">
                 <label class="custom-control-label text-color--400" for="customCheck1">I agree to the <a
-                        href="index-14.htm?a=rules">terms and conditions</a></label>
+                        href="{{route('about')}}">terms and conditions</a></label>
 
             </div>
         </div>

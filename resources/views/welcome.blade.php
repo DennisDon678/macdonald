@@ -370,7 +370,7 @@
                 <div class="ts-feature text-center">
                     <div class="ts-feature-info"><i class="icon icon-users"></i>
                         <h3 class="ts-feature-title">Create An Account</h3>
-                        <p><a href='index-2.htm?a=signup' class="text-warning">Sign up</a> for an account with us to get started, it is easy and simple.</p>
+                        <p><a href='{{route('register')}}' class="text-warning">Sign up</a> for an account with us to get started, it is easy and simple.</p>
                     </div>
                 </div>
                 <!-- feature 1 end-->
@@ -547,7 +547,7 @@
                 </p>
             </div>
             <div class="col-lg-4 text-right">
-                <a class="btn btn-primary" href="index-2.htm?a=signup">Open Account</a>
+                <a class="btn btn-primary" href="{{route('register')}}">Open Account</a>
             </div>
         </div>
     </div>
