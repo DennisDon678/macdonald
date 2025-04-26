@@ -2,7 +2,7 @@
 <!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
-    _smartsupp.key = '';
+    _smartsupp.key = '{{App\Models\Setting::get("smartsup_api_key")}}';
     window.smartsupp || (function(d) {
         var s, c, o = smartsupp = function() {
             o._.push(arguments)

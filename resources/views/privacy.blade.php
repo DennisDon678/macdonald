@@ -45,7 +45,7 @@
                 <h5>Information Storage</h5>
                 <p>Saving of information is only in our company or its equipment. Personal information is stored in accordance with the rules of storage and disposal, which are set for archive of our company. To receive your personal information, contact direct with our employees.</p>
                 <h5>Contact Information</h5>
-                <p>{{env('APP_NAME')}} Limited is glad to receive your comments concerning this "Privacy Policy". In case you think that {{env('APP_NAME')}} Limited does not follow the rules and violate this Statement, contact us at <a href='#'>support@assetdigitalltd.com</a> We guarantee that we will take commercially reasonable efforts to discover and solve the problem.</p>
+                <p>{{env('APP_NAME')}} Limited is glad to receive your comments concerning this "Privacy Policy". In case you think that {{env('APP_NAME')}} Limited does not follow the rules and violate this Statement, contact us at <a href='#'>{{App\Models\Setting::get('contact_email')}}</a> We guarantee that we will take commercially reasonable efforts to discover and solve the problem.</p>
 
             </div>
 

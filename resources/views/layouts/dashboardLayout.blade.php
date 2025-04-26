@@ -1,5 +1,24 @@
 <!DOCTYPE html>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '{{App\Models\Setting::get("smartsup_api_key")}}';
+    window.smartsupp || (function(d) {
+        var s, c, o = smartsupp = function() {
+            o._.push(arguments)
+        };
+        o._ = [];
+        s = d.getElementsByTagName('script')[0];
+        c = d.createElement('script');
+        c.type = 'text/javascript';
+        c.charset = 'utf-8';
+        c.async = true;
+        c.src = 'https://www.smartsuppchat.com/loader.js?';
+        s.parentNode.insertBefore(c, s);
+    })(document);
+</script>
 <html lang="en" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +30,8 @@
     <!-- Configure Tailwind with dark mode -->
 
     <!-- Cryptocoins Icons CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins-colors.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cryptocoins-icons@2.9.0/webfont/cryptocoins-colors.css">
 
     <script>
         tailwind.config = {
@@ -30,7 +49,8 @@
     <!-- Dark mode toggle script -->
     <script>
         // Check for dark mode preference on page load
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
@@ -38,6 +58,7 @@
     </script>
     @yield('head')
 </head>
+
 <body class="h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
     <div class="min-h-screen flex flex-col md:flex-row">
         <!-- Mobile Header with Hamburger -->
@@ -56,9 +77,10 @@
         </div>
 
         <!-- Sidebar (hidden by default on mobile) -->
-        <aside id="sidebar" class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-md fixed md:static inset-y-0 left-0 z-30 transform transition-transform duration-300 ease-in-out">
+        <aside id="sidebar"
+            class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-md fixed md:static inset-y-0 left-0 z-30 transform transition-transform duration-300 ease-in-out">
             <div class="p-6 hidden md:block">
-                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">{{env('APP_NAME')}}</h1>
+                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">{{ env('APP_NAME') }}</h1>
             </div>
             <nav class="mt-6">
                 <ul>
@@ -68,72 +90,80 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    
+
                     <!-- Investments -->
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.investments') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.investments') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="trending-up" class="w-5 h-5 mr-3"></i>
                             <span>Investments</span>
                         </a>
                     </li>
-                    
+
                     <!-- Deposits Section -->
                     <li class="px-6 py-2 mt-2">
                         <span class="text-xs uppercase font-medium text-gray-500 dark:text-gray-400">Deposits</span>
                     </li>
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.deposits.create') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.deposits.create') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="plus-circle" class="w-5 h-5 mr-3"></i>
                             <span>Create Deposit</span>
                         </a>
                     </li>
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.deposits.history') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.deposits.history') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="clock" class="w-5 h-5 mr-3"></i>
                             <span>Deposit History</span>
                         </a>
                     </li>
-                    
+
                     <!-- Withdrawals Section -->
                     <li class="px-6 py-2 mt-2">
                         <span class="text-xs uppercase font-medium text-gray-500 dark:text-gray-400">Withdrawals</span>
                     </li>
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.withdrawals.create') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.withdrawals.create') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="download" class="w-5 h-5 mr-3"></i>
                             <span>Make Withdrawal</span>
                         </a>
                     </li>
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.withdrawals.history') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.withdrawals.history') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
                             <span>Withdrawal History</span>
                         </a>
                     </li>
-                    
+
                     <!-- Other Menu Items -->
                     <li class="px-6 py-2 mt-2">
                         <span class="text-xs uppercase font-medium text-gray-500 dark:text-gray-400">Account</span>
                     </li>
-                    
-                    
+
+
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.referrals') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.referrals') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="users" class="w-5 h-5 mr-3"></i>
                             <span>Referrals</span>
                         </a>
                     </li>
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <a href="{{ route('dashboard.profile') ?? '#' }}" class="flex items-center text-gray-700 dark:text-gray-200">
+                        <a href="{{ route('dashboard.profile') ?? '#' }}"
+                            class="flex items-center text-gray-700 dark:text-gray-200">
                             <i data-lucide="user" class="w-5 h-5 mr-3"></i>
                             <span>Profile</span>
                         </a>
                     </li>
-                    
+
                     <li class="px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <form method="POST" action="{{ route('logout') ?? '#' }}">
                             @csrf
-                            <button type="submit" class="flex items-center text-gray-700 dark:text-gray-200 w-full text-left">
+                            <button type="submit"
+                                class="flex items-center text-gray-700 dark:text-gray-200 w-full text-left">
                                 <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
                                 <span>Logout</span>
                             </button>
@@ -161,7 +191,7 @@
                     <i data-lucide="moon" id="theme-toggle-light-icon" class="hidden w-5 h-5 text-gray-500"></i>
                 </button>
             </div>
-            
+
             <div class="mt-4">
                 @yield('content')
             </div>
@@ -175,11 +205,11 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
-        
+
         // Dark mode toggle functionality
         const setupThemeToggle = (toggleBtn, darkIcon, lightIcon) => {
             // Change the icons inside the button based on previous settings
-            if (localStorage.getItem('color-theme') === 'dark' || 
+            if (localStorage.getItem('color-theme') === 'dark' ||
                 (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 lightIcon.classList.remove('hidden');
             } else {
@@ -216,7 +246,7 @@
         const themeToggle = document.getElementById('theme-toggle');
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-        
+
         const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
         const mobileThemeToggleDarkIcon = document.getElementById('mobile-theme-toggle-dark-icon');
         const mobileThemeToggleLightIcon = document.getElementById('mobile-theme-toggle-light-icon');
@@ -251,4 +281,5 @@
     </script>
     @yield('scripts')
 </body>
+
 </html>
