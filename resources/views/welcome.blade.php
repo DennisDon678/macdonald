@@ -12,8 +12,8 @@
                     
                      </p>
                      <p>
-                         <a href="index-2.htm?a=signup" class="slider btn btn-success">Get Started</a>
-                         <a href="index-3.htm?a=about" class="slider btn btn-border">Know More</a>
+                         <a href="{{route('register')}}" class="slider btn btn-success">Get Started</a>
+                         <a href="{{route('about')}}" class="slider btn btn-border">Know More</a>
                      </p>
                   </div>
                </div>
@@ -32,7 +32,7 @@
                          We help our investors make the best out of cryptocurrency innovation through our team of expert traders.
                      </p>
                      <p>
-                         <a href="index-2.htm?a=signup" class="slider btn btn-warning">Get Started</a>
+                         <a href="{{route('register')}}" class="slider btn btn-warning">Get Started</a>
                         <a href="#0" class="slider btn btn-border">Know More</a>
                      </p>
                   </div>
@@ -76,7 +76,7 @@
                     We set out to give investors better, simpler and more profitable ways to become
                     financially successful and secure.
                 </p>
-                <a href="index-3.htm?a=about" class="btn btn-primary">Read More</a>
+                <a href="{{route('about')}}" class="btn btn-primary">Read More</a>
             </div>
             <!-- Col end-->
             <div class="col-lg-4">
@@ -170,7 +170,7 @@
             </div>
 
             <div class="col-md-12 align-self-center">
-                <a class="btn btn-primary" href="index-3.htm?a=about"> Read More</a>
+                <a class="btn btn-primary" href="{{route('about')}}"> Read More</a>
             </div>
             <!-- Col end-->
         </div>

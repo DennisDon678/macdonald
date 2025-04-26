@@ -58,7 +58,7 @@
         <!-- Sidebar (hidden by default on mobile) -->
         <aside id="sidebar" class="hidden md:block w-64 bg-white dark:bg-gray-800 shadow-md fixed md:static inset-y-0 left-0 z-30 transform transition-transform duration-300 ease-in-out">
             <div class="p-6 hidden md:block">
-                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">MacDonald</h1>
+                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">{{env('APP_NAME')}}</h1>
             </div>
             <nav class="mt-6">
                 <ul>
