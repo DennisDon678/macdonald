@@ -67,7 +67,7 @@
                 <button id="sidebar-toggle" class="focus:outline-none mr-3">
                     <i data-lucide="menu" class="w-6 h-6 text-gray-700 dark:text-white"></i>
                 </button>
-                <h1 class="text-xl font-bold text-gray-800 dark:text-white">MacDonald</h1>
+                <h1 class="text-xl font-bold text-gray-800 dark:text-white">{{env('APP_NAME')}}</h1>
             </div>
             <!-- Dark mode toggle button for mobile -->
             <button id="mobile-theme-toggle" class="p-2 rounded-md bg-gray-200 dark:bg-gray-700">

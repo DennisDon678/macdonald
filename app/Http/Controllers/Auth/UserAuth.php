@@ -32,6 +32,9 @@ class UserAuth extends Controller
             return redirect()->back()->with('error', 'User registration failed!');
         }
 
+        // create finance record for user
+        $finance = $user->balances()->create();
+
         // create wallet for user
         $wallet = $user->wallets()->create([
             'btc_address' => $request->btc,
@@ -39,9 +42,7 @@ class UserAuth extends Controller
             'usdt_address' => $request->usdt,
         ]);
 
-        // create finance record for user
-        $finance = $user->balances()->create();
-
+        
         // generate referral code
         $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));
         $user->referral_code()->create([
