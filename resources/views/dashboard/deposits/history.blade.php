@@ -57,7 +57,7 @@
                             @if($transaction['status'] == 'pending')
                                 <a href="{{ route('dashboard.deposits.confirm', $transaction['reference']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">Complete Payment</a>
                             @else
-                                <a href="{{ route('dashboard.deposits.show', $transaction['id']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
+                                <a href="{{ route('dashboard.deposits.confirm', $transaction['reference']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
                             @endif
                         </td>
                     </tr>

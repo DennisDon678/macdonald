@@ -80,8 +80,7 @@ class WithdrawalController extends Controller
         $reference = 'WD' . strtoupper(Str::random(10));
 
         $transaction = [
-            'id' => rand(1000, 9999),
-            'user_id' => 1, // Placeholder user ID
+            'user_id' => Auth::user()->id,
             'type' => 'withdrawal',
             'amount' => $request->amount,
             'reference' => $reference,

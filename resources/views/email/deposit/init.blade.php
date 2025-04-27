@@ -107,7 +107,7 @@
             <p>Your investment will be activated once the payment is confirmed.</p>
             
             <div style="text-align: center;">
-                <a href="{{ route('dashboard.deposits.show', $deposit->id) }}" class="button">View Deposit Details</a>
+                <a href="{{ route('dashboard.deposits.confirm', $deposit->reference) }}" class="button">View Deposit Details</a>
             </div>
             
             <p>Thank you for choosing {{ config('app.name') }} for your investment needs.</p>
