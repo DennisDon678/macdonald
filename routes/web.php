@@ -4,6 +4,7 @@
 // import layout Routes
 
 use App\Mail\Welcome;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,10 @@ Route::get('/test', function () {
     Mail::to($user->email,'Denn')->send(new Welcome($user));
     return 'Email sent to ' . $user->email;
 })->name('test');
+
+Route::prefix('command')->group(function () {
+    Route::get('/storage',function () {
+        Artisan::call('storage:link');
+        return 'Storage link created';
+    });
+});
