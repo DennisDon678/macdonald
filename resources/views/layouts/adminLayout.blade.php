@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - MacDonald Admin</title>
@@ -50,6 +50,60 @@
 
     .dark .dark\:border-gray-700 {
         border-color: #374151;
+    }
+
+    /* Add to existing styles */
+    
+    /* Fix for mobile scrolling and content display */
+    @media (max-width: 768px) {
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .flex-1 {
+            width: 100%;
+            min-width: 100%;
+        }
+        
+        main {
+            width: 100%;
+            max-width: 100%;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            overflow-x: hidden;
+        }
+        
+        main > div {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* Fixed right margin issue on mobile */
+        .md\:ml-64 {
+            margin-left: 0 !important;
+        }
+        
+        /* Better table handling */
+        .overflow-x-auto {
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Fix for any fixed-width elements */
+        .w-full {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Fix padding on mobile */
+        .p-4, .px-4, .py-4, .p-6, .px-6, .py-6 {
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }
     }
 </style>
 
@@ -290,17 +344,60 @@
 
             <!-- Main content -->
             <main class="flex-1 overflow-y-auto p-4 sm:p-6">
-                <!-- Dynamic content -->
-                @yield('content')
+                <div class="w-full max-w-full overflow-hidden">
+                    @yield('content')
+                </div>
             </main>
         </div>
     </div>
 
     @yield('scripts')
     <script>
+        // Add to existing scripts
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize Lucide icons
             lucide.createIcons();
+            
+            // Make tables scrollable on mobile
+            const tables = document.querySelectorAll('table.min-w-full');
+            tables.forEach(table => {
+                // Make sure parent has overflow-x-auto
+                if (!table.parentElement.classList.contains('overflow-x-auto')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'overflow-x-auto w-full';
+                    wrapper.style.scrollbarWidth = 'thin';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+                
+                // Ensure all table headers don't wrap
+                const headers = table.querySelectorAll('th');
+                headers.forEach(header => {
+                    if (!header.classList.contains('whitespace-nowrap')) {
+                        header.classList.add('whitespace-nowrap');
+                    }
+                });
+            });
+            
+            // Fix for any overflowing elements on mobile
+            function fixOverflow() {
+                if (window.innerWidth <= 768) {
+                    const main = document.querySelector('main');
+                    const contentWrappers = document.querySelectorAll('.bg-white, .dark\\:bg-gray-800');
+                    
+                    contentWrappers.forEach(wrapper => {
+                        if (wrapper.offsetWidth > main.offsetWidth) {
+                            wrapper.style.maxWidth = '100%';
+                            wrapper.style.width = '100%';
+                            wrapper.style.overflowX = 'hidden';
+                        }
+                    });
+                }
+            }
+            
+            // Run on load and resize
+            fixOverflow();
+            window.addEventListener('resize', fixOverflow);
         });
     </script>
 </body>

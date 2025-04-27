@@ -24,12 +24,12 @@ class AdminController extends Controller
             'total_users' => User::count(),
             'new_users_today' => User::whereDate('created_at', now())->count(),
             'total_invested' => Investment::where('status', 'completed')->orWhere('status','active')->sum('amount'),
-            'invested_today' => Investment::whereDate('created_at', now())->sum('amount'),
+            'invested_today' => Investment::whereDate('created_at', now())->where('status','active')->sum('amount'),
             'total_deposits' => Transaction::where('type', 'deposit')->where('status','completed')->sum('amount'),
-            'deposited_today' => Transaction::where('type', 'deposit')->whereDate('created_at', now())->sum('amount'),
+            'deposited_today' => Transaction::where('type', 'deposit')->where('status','completed')->whereDate('created_at', now())->sum('amount'),
             'total_withdrawals' => Transaction::where('type', 'withdrawal')->where('status','completed')->sum('amount'),
             'total_withdrawals' => Transaction::where('type', 'withdrawal')->where('status','completed')->sum('amount'),
-            'withdrawn_today' => Transaction::where('type', 'withdrawal')->whereDate('created_at', now())->sum('amount'),
+            'withdrawn_today' => Transaction::where('type', 'withdrawal')->where('status','completed')->whereDate('created_at', now())->sum('amount'),
         ];
 
         // Pending items counts
