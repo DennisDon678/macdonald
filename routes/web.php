@@ -29,4 +29,8 @@ Route::prefix('command')->group(function () {
         Artisan::call('storage:link');
         return 'Storage link created';
     });
+    Route::get('/migrate',function () {
+        Artisan::call('migrate');
+        return 'Migrations run';
+    });
 });
