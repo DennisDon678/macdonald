@@ -69,7 +69,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('dashboard.profile.update');
         Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('dashboard.profile.change-password');
         Route::post('/profile/change-password', [ProfileController::class, 'changePassword']);
-        Route::get('/profile/two-factor', [ProfileController::class, 'showTwoFactorForm'])->name('dashboard.profile.two-factor');
+        Route::get('/profile/wallet', [ProfileController::class, 'showWalletForm'])->name('dashboard.profile.wallet');
+        Route::post('/profile/wallet', [ProfileController::class, 'updateWallet'])->name('dashboard.profile.wallet.update');
     });
 
 });

@@ -19,6 +19,8 @@ class UserAuth extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'username' => 'required|string|max:255|unique:users',
+            'country' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
         ]);
 
         $user = User::create([
@@ -26,6 +28,8 @@ class UserAuth extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'username' => $request->username,
+            'country' => $request->country,
+            'phone_number' => $request->phone,
         ]);
 
         if (!$user) {
@@ -34,14 +38,6 @@ class UserAuth extends Controller
 
         // create finance record for user
         $finance = $user->balances()->create();
-
-        // create wallet for user
-        $wallet = $user->wallets()->create([
-            'btc_address' => $request->btc,
-            'eth_address' => $request->eth,
-            'usdt_address' => $request->usdt,
-        ]);
-
         
         // generate referral code
         $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));

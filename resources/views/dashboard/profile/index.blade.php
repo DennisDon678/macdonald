@@ -56,10 +56,10 @@
                         <i data-lucide="lock" class="w-5 h-5 mr-3"></i>
                         <span>Change Password</span>
                     </a>
-                    {{-- <a href="{{ route('dashboard.profile.two-factor') }}" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i data-lucide="shield" class="w-5 h-5 mr-3"></i>
-                        <span>Security Settings</span>
-                    </a> --}}
+                    <a href="{{ route('dashboard.profile.wallet') }}" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i data-lucide="wallet" class="w-5 h-5 mr-3"></i>
+                        <span>Edit wallets</span>
+                    </a>
                 </div>
             </div>
         </div>

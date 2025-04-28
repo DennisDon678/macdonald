@@ -20,6 +20,15 @@ class WithdrawalController extends Controller
      */
     public function create()
     {
+        // Get user's saved wallets (placeholder)
+        $wallets = Wallet::where('user_id', Auth::id())->first();
+
+        // Check if the user has any saved wallets
+        if (!$wallets) {
+            return redirect()->route('dashboard.profile.wallet')
+                ->with('error', 'You need to add a wallet address before making a withdrawal.');
+        }
+
         // Placeholder for available balance
         $availableBalance = Auth::user()->balances->balance;
         $pendingWithdrawals = Transaction::where('user_id', Auth::id())
@@ -27,29 +36,35 @@ class WithdrawalController extends Controller
             ->where('status', 'pending')
             ->sum('amount');
 
-        // Get user's saved wallets (placeholder)
-        $wallets = Wallet::where('user_id', Auth::id())->first();
-        $savedWallets = [
-            [
+
+        $savedWallets = [];
+
+        if (!empty($wallets->btc_address)) {
+            $savedWallets[] = [
                 'id' => 1,
                 'name' => 'Bitcoin Wallet',
                 'currency' => 'btc',
                 'address' => $wallets->btc_address,
-            ],
-            [
+            ];
+        }
+
+        if (!empty($wallets->eth_address)) {
+            $savedWallets[] = [
                 'id' => 2,
                 'name' => 'ETH Wallet',
                 'currency' => 'eth',
                 'address' => $wallets->eth_address,
-            ],
-            [
+            ];
+        }
+
+        if (!empty($wallets->usdt_address)) {
+            $savedWallets[] = [
                 'id' => 3,
                 'name' => 'USDT Wallet',
                 'currency' => 'usdt',
                 'address' => $wallets->usdt_address,
-            ],
-           
-        ];
+            ];
+        }
 
         return view('dashboard.withdrawals.create', compact('availableBalance', 'pendingWithdrawals',  'savedWallets'));
     }
@@ -137,9 +152,9 @@ class WithdrawalController extends Controller
         ];
 
         $transaction = Transaction::where('user_id', Auth::id())
-        ->where('type', 'withdrawal')
-        ->where('reference', $id)
-        ->first();
+            ->where('type', 'withdrawal')
+            ->where('reference', $id)
+            ->first();
 
         // Convert to object to match expected behavior in template
         $transaction = (object)$transaction;
