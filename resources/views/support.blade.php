@@ -105,11 +105,18 @@
                                         <!-- Contact content end-->
                                     </div>
 
-                                    <div class="ts-contact-info last"><span class="ts-contact-icon float-left"><i
+                                    <div class="ts-contact-info "><span class="ts-contact-icon float-left"><i
                                                 class="icon icon-envelope"></i></span>
                                         <div class="ts-contact-content">
                                             <h3 class="ts-contact-title">Mail Us</h3>
                                             <p>{{App\Models\Setting::get('contact_email')}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="ts-contact-info last"><span class="ts-contact-icon float-left"><i
+                                                class="icon icon-phone"></i></span>
+                                        <div class="ts-contact-content">
+                                            <h3 class="ts-contact-title">Call Us</h3>
+                                            <p>{{App\Models\Setting::get('contact_phone')}}</p>
                                         </div>
                                         <!-- Contact content end-->
                                     </div>
