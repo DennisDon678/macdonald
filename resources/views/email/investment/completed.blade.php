@@ -98,8 +98,8 @@
                 <p><span>Total Profit Earned:</span> <strong>${{ number_format($investment->total_profit, 2) }}</strong></p>
                 <p><span>Total Return:</span> <strong>${{ number_format($investment->amount + $investment->total_profit, 2) }}</strong></p>
                 <p><span>Start Date:</span> <strong>{{ $investment->created_at->format('M d, Y') }}</strong></p>
-                <p><span>Completion Date:</span> <strong>{{ $investment->completed_at->format('M d, Y') }}</strong></p>
-                <p><span>Duration:</span> <strong>{{ $investment->plan->duration }} days</strong></p>
+                <p><span>Completion Date:</span> <strong>{{ $investment->end_date->format('M d, Y') }}</strong></p>
+                <p><span>Duration:</span> <strong>{{ $investment->duration }} days</strong></p>
                 <p><span>Status:</span> <strong style="color: #8b5cf6;">Completed</strong></p>
             </div>
             
@@ -121,7 +121,7 @@
         
         <div class="footer">
             <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-            <p>If you have any questions, contact us at {{ \App\Helpers\SettingsHelper::get('contact_email', 'support@example.com') }}</p>
+            <p>If you have any questions, contact us at {{ \App\Models\Setting::get('contact_email', 'support@example.com') }}</p>
         </div>
     </div>
 </body>
