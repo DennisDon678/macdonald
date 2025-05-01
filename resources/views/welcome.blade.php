@@ -327,7 +327,7 @@
 
                                         <div class="pricingTable-header">
                                             <div class="price-value">
-                                                <span class="amount">{{ $plan->interest_rate * $plan->duration }}%</span>
+                                                <span class="amount">{{ $plan->interest_rate * 7 }}%</span>
                                                 <span class="duration">Weekly for 1 Month</span>
                                             </div>
                                             <h3 class="title">{{ explode(' ', $plan->name)[0] }}</h3>
