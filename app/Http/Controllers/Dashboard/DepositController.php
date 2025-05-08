@@ -53,6 +53,8 @@ class DepositController extends Controller
             ])->withInput();
         }
 
+        $daily_profit = $request->amount * $plan->interest_rate / 100;
+
         // Generate a unique reference
         $reference = strtoupper(Str::random(12));
 
@@ -66,9 +68,7 @@ class DepositController extends Controller
             'crypto' => $request->crypto,
         ]);
 
-        $daily_profit = $request->amount * $plan->interest_rate / 100;
-        $daily_profit = number_format($daily_profit, 2);
-
+       
         // create a new investment
         Investment::create([
             'user_id' => Auth::user()->id,
