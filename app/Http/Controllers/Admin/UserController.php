@@ -231,4 +231,21 @@ class UserController extends Controller
         return redirect()->route('admin.users.show', $id)
             ->with('success', $message);
     }
+
+    public function editPassword(User $user)
+    {
+        return view('admin.users.edit-password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('admin.users.show',$user->id)->with('success', 'Password updated successfully.');
+    }
 }

@@ -30,12 +30,12 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->middleware('admin')->group(function () {
     // Dashboard
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    
+
     // Admin Profile
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('admin.profile.update-password');
-    
+
     // User Management
     Route::resource('users', UserController::class)->names([
         'index' => 'admin.users.index',
@@ -50,6 +50,10 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::put('users/{user}/verify', [UserController::class, 'verifyUser'])->name('admin.users.verify');
     Route::get('users/{user}/login-as', [UserController::class, 'loginAs'])->name('admin.users.login-as');
     Route::post('users/{user}/adjust-balance', [UserController::class, 'adjustBalance'])->name('admin.users.adjust-balance');
+
+    Route::get('/users/{user}/edit-password', [\App\Http\Controllers\Admin\UserController::class, 'editPassword'])->name('admin.users.edit-password');
+    Route::post('/users/{user}/update-password', [\App\Http\Controllers\Admin\UserController::class, 'updatePassword'])->name('admin.users.update-password');
+
     
     // Investment Plans
     Route::resource('plans', PlanController::class)->names([
@@ -62,7 +66,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         'destroy' => 'admin.plans.destroy',
     ]);
     Route::put('plans/{plan}/toggle', [PlanController::class, 'toggleStatus'])->name('admin.plans.toggle-status');
-    
+
     // Investments
     Route::resource('investments', InvestmentController::class)->names([
         'index' => 'admin.investments.index',
@@ -76,7 +80,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::put('investments/{investment}/approve', [InvestmentController::class, 'approve'])->name('admin.investments.approve');
     Route::put('investments/{investment}/reject', [InvestmentController::class, 'reject'])->name('admin.investments.reject');
     Route::put('investments/{investment}/terminate', [InvestmentController::class, 'terminate'])->name('admin.investments.terminate');
-    
+
     // Deposits
     Route::resource('deposits', DepositController::class)->except(['create', 'store'])->names([
         'index' => 'admin.deposits.index',
@@ -87,7 +91,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     ]);
     Route::post('deposits/{deposit}/approve', [DepositController::class, 'approve'])->name('admin.deposits.approve');
     Route::post('deposits/{deposit}/reject', [DepositController::class, 'reject'])->name('admin.deposits.reject');
-    
+
     // Withdrawals
     Route::resource('withdrawals', WithdrawalController::class)->except(['create', 'store'])->names([
         'index' => 'admin.withdrawals.index',
@@ -98,7 +102,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     ]);
     Route::post('withdrawals/{withdrawal}/approve', [WithdrawalController::class, 'approve'])->name('admin.withdrawals.approve');
     Route::post('withdrawals/{withdrawal}/reject', [WithdrawalController::class, 'reject'])->name('admin.withdrawals.reject');
-    
+
     // Payment Methods
     Route::resource('payment-methods', PaymentMethodController::class)->names([
         'index' => 'admin.payment-methods.index',
@@ -110,20 +114,20 @@ Route::prefix('admin')->middleware('admin')->group(function () {
         'destroy' => 'admin.payment-methods.destroy',
     ]);
     Route::put('payment-methods/{method}/toggle', [PaymentMethodController::class, 'toggleStatus'])->name('admin.payment-methods.toggle');
-    
+
     // Settings
     Route::get('settings', [SettingController::class, 'index'])->name('admin.settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('admin.settings.update');
-    
+
     // Support Tickets
     Route::get('tickets', [AdminController::class, 'tickets'])->name('admin.tickets.index');
     Route::get('tickets/{ticket}', [AdminController::class, 'showTicket'])->name('admin.tickets.show');
     Route::post('tickets/{ticket}/reply', [AdminController::class, 'replyTicket'])->name('admin.tickets.reply');
     Route::put('tickets/{ticket}/close', [AdminController::class, 'closeTicket'])->name('admin.tickets.close');
-    
+
     // Audit Logs
     Route::get('activity-logs', [AdminController::class, 'activityLogs'])->name('admin.activity-logs');
-    
+
     // Logout
     Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
 });
