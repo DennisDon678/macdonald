@@ -21,7 +21,7 @@ class SettingController extends Controller
         
         // Default settings if not found in database
         $defaultSettings = [
-            'site_name' => 'MacDonald',
+            'site_name' => config('app.name', 'MacDonald'),
             'contact_email' => '',
             'contact_phone' => '',
             'contact_address' => '',

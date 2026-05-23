@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') - MacDonald Admin</title>
+    <title>@yield('title') - {{ config('app.name') }} Admin</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,7 +119,7 @@
             <!-- Logo -->
             <div class="flex items-center justify-between h-16 px-4 border-b dark:border-gray-700">
                 <div class="flex items-center">
-                    <span class="text-xl font-bold text-gray-800 dark:text-white">MacDonald</span>
+                    <span class="text-xl font-bold text-gray-800 dark:text-white">{{ config('app.name') }}</span>
                     <span class="ml-1 px-2 py-0.5 text-xs font-semibold bg-blue-500 text-white rounded-md">Admin</span>
                 </div>
                 <button
@@ -315,7 +315,7 @@
                                 <div class="px-4 py-3">
                                     <p class="text-sm text-gray-800 dark:text-white">Logged in as</p>
                                     <p class="text-sm font-medium text-gray-900 dark:text-gray-200 truncate">
-                                        admin@macdonald.com</p>
+                                        admin@{{ strtolower(config('app.name')) }}.com</p>
                                 </div>
                                 <div class="py-1">
                                     <a href="{{ route('admin.profile') }}"

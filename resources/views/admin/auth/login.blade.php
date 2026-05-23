@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - MacDonald</title>
+    <title>Admin Login - {{ config('app.name') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -40,7 +40,7 @@
     <div class="container">
         <div class="login-container">
             <div class="login-logo">
-                <h2>{{env('APP_NAME')}}</h2>
+                <h2>{{ config('app.name') }}</h2>
             </div>
             
             <h4 class="login-title">Admin Login</h4>

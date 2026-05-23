@@ -86,21 +86,22 @@ class ReferralController extends Controller
         ];
 
         // Placeholder for social media text templates
+        $appName = config('app.name', 'MacDonald');
         $socialTemplates = [
             [
                 'id' => 1,
                 'title' => 'Facebook Post',
-                'text' => "I've been investing with MacDonald Investment Platform and earning consistent returns. Join me using my referral link and get started on your investment journey today! [referral_link]",
+                'text' => "I've been investing with " . $appName . " Investment Platform and earning consistent returns. Join me using my referral link and get started on your investment journey today! [referral_link]",
             ],
             [
                 'id' => 2,
                 'title' => 'Twitter/X Tweet',
-                'text' => "Earn passive income with MacDonald Investments! I've been getting great returns. Use my link to join: [referral_link] #investing #passiveincome #cryptoinvestment",
+                'text' => "Earn passive income with " . $appName . " Investments! I've been getting great returns. Use my link to join: [referral_link] #investing #passiveincome #cryptoinvestment",
             ],
             [
                 'id' => 3,
                 'title' => 'Email Template',
-                'text' => "Hi,\n\nI wanted to share an investment opportunity that's been working well for me. MacDonald Investment Platform offers great returns on investments, with daily payouts and a straightforward platform.\n\nIf you're interested, you can sign up using my referral link: [referral_link]\n\nLet me know if you have any questions!\n\nBest regards,\n[Your Name]",
+                'text' => "Hi,\n\nI wanted to share an investment opportunity that's been working well for me. " . $appName . " Investment Platform offers great returns on investments, with daily payouts and a straightforward platform.\n\nIf you're interested, you can sign up using my referral link: [referral_link]\n\nLet me know if you have any questions!\n\nBest regards,\n[Your Name]",
             ],
         ];
 

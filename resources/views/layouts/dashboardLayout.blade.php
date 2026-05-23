@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') | MacDonald</title>
+    <title>@yield('title', 'Dashboard') | {{ config('app.name') }}</title>
     
     <!-- Google Fonts: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -294,7 +294,6 @@
             <header class="hidden md:flex items-center justify-between py-6 px-8 bg-transparent">
                 <div>
                     <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">@yield('page-title', 'Welcome Back')</h2>
-                    <p class="text-sm text-gray-500 mt-1">MacDonald Premium High-Yield Investment Portal</p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-2 bg-white/80 dark:bg-[#1e293b]/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-800/50 px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300">
