@@ -171,7 +171,7 @@
 
         <!-- Sidebar (Hidden by default on mobile) -->
         <aside id="sidebar"
-            class="hidden md:flex flex-col w-72 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-r border-gray-200/50 dark:border-gray-800/50 fixed md:static inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out">
+            class="hidden md:flex flex-col w-72 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-r border-gray-200/50 dark:border-gray-800/50 fixed md:sticky md:top-0 md:h-screen md:flex-shrink-0 inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out">
             
             <div class="p-6 flex items-center space-x-3 border-b border-gray-100 dark:border-gray-800/80">
                 <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-indigo-600/30">
