@@ -59,22 +59,19 @@ class DepositController extends Controller
                 'status' => Transaction::STATUS_COMPLETED,
                 'processed_at' => now(),
             ]);
-            
-            // // Update user's balance
-            // $deposit->user->balances->increment('balance', $deposit->amount);
-        });
 
-        // get the investment
-        $investment = $deposit->investment;
-        // check if the investment is not null
-        if($investment) {
-            $investment->update([
-                'status' => 'active',
-                'start_date' => now(),
-                'end_date' => now()->addDays($investment->duration),
-                'next_payout' => now()->addHours(24),
-            ]);
-        }
+            // get the investment
+            $investment = $deposit->investment;
+            // check if the investment is not null
+            if($investment) {
+                $investment->update([
+                    'status' => 'active',
+                    'start_date' => now(),
+                    'end_date' => now()->addDays($investment->duration),
+                    'next_payout' => now()->addHours(24),
+                ]);
+            }
+        });
 
         // Send email to user
         try {
@@ -102,16 +99,19 @@ class DepositController extends Controller
         
         $deposit = Transaction::deposits()->pending()->findOrFail($id);
         
-        $deposit->update([
-            'status' => Transaction::STATUS_REJECTED,
-        ]);
+        DB::transaction(function() use ($deposit) {
+            $deposit->update([
+                'status' => Transaction::STATUS_REJECTED,
+            ]);
 
-        $investment = $deposit->investment;
+            $investment = $deposit->investment;
 
-        // delete the investment if it exists
-        if($investment) {
-            $investment->delete();
-        }
+            // delete the investment if it exists
+            if($investment) {
+                $investment->delete();
+            }
+        });
+
         // Send email to user
         try {
             Mail::to($deposit->user->email)->send(new \App\Mail\Deposit\Rejected($deposit));

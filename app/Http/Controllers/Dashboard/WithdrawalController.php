@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class WithdrawalController extends Controller
 {
@@ -103,15 +104,20 @@ class WithdrawalController extends Controller
             'wallet_address' => $request->wallet_address,
         ];
 
-        // create a new transaction
-        $create = Transaction::create($transaction);
+        $create = DB::transaction(function() use ($transaction, $request) {
+            // create a new transaction
+            $create = Transaction::create($transaction);
+
+            // debit the user's balance
+            $user = User::find(Auth::id());
+            $user->balances->decrement('balance', $request->amount);
+
+            return $create;
+        });
+
         if (!$create) {
             return back()->withErrors(['error' => 'Failed to create withdrawal request.']);
         }
-
-        // debit the user's balance
-        $user = User::find(Auth::id());
-        $user->balances->decrement('balance', $request->amount);
 
         // Send email to user
         try {

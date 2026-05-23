@@ -38,40 +38,41 @@ Route::get('/calculate_interest', function () {
         // make sure last update is 24 hours ago
         if ($investment->updated_at->diffInHours(now()) >= 24) {
 
-
             // get the number of days since last payout
             $days = $investment->next_payout->diffInDays(today());
 
             // calculate interest
             $interest = ($investment->amount * $investment->interest_rate / 100) * $days;
 
-            // update the investment
-            $investment->profit_to_date += $interest;
-            $investment->next_payout = today()->addDays(1);
-            $investment->total_profit += $interest;
-            $investment->days_remaining = $investment->days_remaining - $days;
+            \Illuminate\Support\Facades\DB::transaction(function() use ($investment, $days, $interest) {
+                // update the investment
+                $investment->profit_to_date += $interest;
+                $investment->next_payout = today()->addDays(1);
+                $investment->total_profit += $interest;
+                $investment->days_remaining = $investment->days_remaining - $days;
 
-            // update the user's balance
-            $user = \App\Models\User::find($investment->user_id);
-            if ($user && $user->balances) {
-                $user->balances->balance += $interest;
-                $user->balances->save();
-            }
-
-            // check if today is the last day of the investment
-            if ($investment->days_remaining <= 0) {
-                $investment->status = 'completed';
-                $investment->days_remaining = 0;
-                $investment->next_payout = null;
-
-                // send email to  user
-                try {
-                    Mail::to($user->email)->send(new \App\Mail\Investment\Ended($investment));
-                } catch (\Exception $e) {
-                    Log::error('Email sending failed: ' . $e->getMessage());
+                // update the user's balance
+                $user = \App\Models\User::find($investment->user_id);
+                if ($user && $user->balances) {
+                    $user->balances->balance += $interest;
+                    $user->balances->save();
                 }
-            }
-            $investment->save();
+
+                // check if today is the last day of the investment
+                if ($investment->days_remaining <= 0) {
+                    $investment->status = 'completed';
+                    $investment->days_remaining = 0;
+                    $investment->next_payout = null;
+
+                    // send email to  user
+                    try {
+                        Mail::to($user->email)->send(new \App\Mail\Investment\Ended($investment));
+                    } catch (\Exception $e) {
+                        Log::error('Email sending failed: ' . $e->getMessage());
+                    }
+                }
+                $investment->save();
+            });
         }
     }
 

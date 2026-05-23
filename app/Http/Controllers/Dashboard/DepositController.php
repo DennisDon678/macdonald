@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class DepositController extends Controller
 {
@@ -58,31 +59,34 @@ class DepositController extends Controller
         // Generate a unique reference
         $reference = strtoupper(Str::random(12));
 
-        // create a new transaction
-        $transaction = Transaction::create([
-            'user_id' => Auth::user()->id,
-            'type' => 'deposit',
-            'amount' => $request->amount,
-            'status' => 'pending',
-            'reference' => $reference,
-            'crypto' => $request->crypto,
-        ]);
+        $transaction = DB::transaction(function() use ($request, $plan, $daily_profit, $reference) {
+            // create a new transaction
+            $transaction = Transaction::create([
+                'user_id' => Auth::user()->id,
+                'type' => 'deposit',
+                'amount' => $request->amount,
+                'status' => 'pending',
+                'reference' => $reference,
+                'crypto' => $request->crypto,
+            ]);
 
-       
-        // create a new investment
-        Investment::create([
-            'user_id' => Auth::user()->id,
-            'plan_id' => $plan->id,
-            'reference' => $reference,
-            'amount' => $request->amount,
-            'daily_profit' => $daily_profit,
-            //total expected return is calculated as amount + (amount * interest_rate / 100) * duration
-            'total_expected_return' => $request->amount + ($daily_profit * $plan->duration),
-            'duration' => $plan->duration,
-            'days_remaining' => $plan->duration,
-            'progress' => 0,
-            'interest_rate' => $plan->interest_rate,
-        ]);
+            // create a new investment
+            Investment::create([
+                'user_id' => Auth::user()->id,
+                'plan_id' => $plan->id,
+                'reference' => $reference,
+                'amount' => $request->amount,
+                'daily_profit' => $daily_profit,
+                //total expected return is calculated as amount + (amount * interest_rate / 100) * duration
+                'total_expected_return' => $request->amount + ($daily_profit * $plan->duration),
+                'duration' => $plan->duration,
+                'days_remaining' => $plan->duration,
+                'progress' => 0,
+                'interest_rate' => $plan->interest_rate,
+            ]);
+
+            return $transaction;
+        });
 
         // Store transaction in session
         session(['pending_transaction' => $transaction]);

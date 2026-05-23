@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class UserAuth extends Controller
 {
@@ -39,39 +40,43 @@ class UserAuth extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'username' => $request->username,
-            'country' => $request->country,
-            'phone_number' => $request->phone,
-        ]);
+        $user = DB::transaction(function() use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'username' => $request->username,
+                'country' => $request->country,
+                'phone_number' => $request->phone,
+            ]);
+
+            // create finance record for user
+            $user->balances()->create();
+            
+            // generate referral code
+            $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));
+            $user->referral_code()->create([
+                'code' => $referralCode,
+            ]);
+
+            // check if user is referred
+            if($request->has('ref')) {
+                $referrer = Referral_code::with('user')->where('code',$request->ref)->first();
+                if ($referrer) {
+                    // create referral record
+                    Referral::create([
+                        'user_id' => $referrer->user->id,
+                        'referred_user_id' => $user->id,
+                        'earnings' => 0,
+                    ]);
+                }
+            }
+
+            return $user;
+        });
 
         if (!$user) {
             return redirect()->back()->with('error', 'User registration failed!');
-        }
-
-        // create finance record for user
-        $finance = $user->balances()->create();
-        
-        // generate referral code
-        $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));
-        $user->referral_code()->create([
-            'code' => $referralCode,
-        ]);
-
-        // check if user is referred
-        if($request->has('ref')) {
-            $referrer = Referral_code::with('user')->where('code',$request->ref)->first();
-            if ($referrer) {
-                // create referral record
-                Referral::create([
-                    'user_id' => $referrer->user->id,
-                    'referred_user_id' => $user->id,
-                    'earnings' => 0,
-                ]);
-            }
         }
 
         // Welcome email preparation

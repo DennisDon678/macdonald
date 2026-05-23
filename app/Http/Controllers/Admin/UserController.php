@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -219,25 +220,33 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $amount = $validated['amount'];
 
-        if ($validated['transaction_type'] === 'credit') {
-            $user->balances->balance += $amount;
-            $message = "Successfully credited \${$amount} to user's account.";
-        } else {
-            if ($user->balances->balance < $amount) {
-                return back()->with('error', 'Insufficient balance for this debit.');
-            }
-            $user->balances->balance -= $amount;
-            $message = "Successfully debited \${$amount} from user's account.";
+        try {
+            $message = DB::transaction(function() use ($validated, $user, $amount) {
+                if ($validated['transaction_type'] === 'credit') {
+                    $user->balances->balance += $amount;
+                    $msg = "Successfully credited \${$amount} to user's account.";
+                } else {
+                    if ($user->balances->balance < $amount) {
+                        throw new \Exception('Insufficient balance for this debit.');
+                    }
+                    $user->balances->balance -= $amount;
+                    $msg = "Successfully debited \${$amount} from user's account.";
+                }
+
+                $user->balances->save();
+
+                $user->transactions()->create([
+                    'amount' => $amount,
+                    'type' => $validated['transaction_type'] === 'credit' ? 'deposit' : 'withdrawal',
+                    'status' => 'completed',
+                    'reference' => strtoupper(Str::random(12))
+                ]);
+
+                return $msg;
+            });
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        $user->balances->save();
-
-        $user->transactions()->create([
-            'amount' => $amount,
-            'type' => 'deposit',
-            'status' => 'completed',
-            'reference' => strtoupper(Str::random(12))
-        ]);
 
 
 
