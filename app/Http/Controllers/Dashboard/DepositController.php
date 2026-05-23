@@ -184,8 +184,8 @@ class DepositController extends Controller
             'receipt' => 'required|image|max:5120', // Max 5MB image file
         ]);
 
-        // Check if the transaction exists in the session
-        $transaction = Transaction::find($reference);
+        // Check if the transaction exists
+        $transaction = Transaction::where('reference', $reference)->first();
         if (!$transaction) {
             return redirect()->route('dashboard.deposits.history')
                 ->with('error', 'Transaction not found. Please try again.');

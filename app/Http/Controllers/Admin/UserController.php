@@ -72,15 +72,26 @@ class UserController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'status' => $validated['status'],
             'email_verified_at' => $request->has('verified') ? now() : null,
-            'balance' => $request->input('balance', 0.00),
-            'referral_code' => Str::random(10),
         ]);
+
+        if ($user) {
+            // create finance record for user
+            $user->balances()->create([
+                'balance' => $request->input('balance', 0.00),
+            ]);
+
+            // generate referral code
+            $referralCode = strtoupper(substr($user->name, 0, 3) . substr($user->email, 0, 3) . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6));
+            $user->referral_code()->create([
+                'code' => $referralCode,
+            ]);
+        }
 
         return redirect()->route('admin.users.index')
             ->with('success', 'User created successfully.');
@@ -139,11 +150,13 @@ class UserController extends Controller
                 null,
         ];
 
-        if ($request->filled('balance')) {
-            $userData['balance'] = $request->input('balance');
-        }
-
         $user->update($userData);
+
+        if ($request->filled('balance')) {
+            $user->balances()->update([
+                'balance' => $request->input('balance'),
+            ]);
+        }
 
         if ($request->filled('password')) {
             $request->validate([

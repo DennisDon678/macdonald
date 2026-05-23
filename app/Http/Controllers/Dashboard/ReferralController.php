@@ -47,12 +47,14 @@ class ReferralController extends Controller
      */
     public function marketing()
     {
-        // Placeholder user
+        $realUser = User::with('referral_code')->find(Auth::id());
+        $referralCode = $realUser->referral_code->code ?? 'NOCODE';
+
         $user = (object) [
-            'id' => 1,
-            'name' => 'Test User',
-            'referral_code' => 'USERREF123456',
-            'referral_url' => route('register') . '?ref=USERREF123456',
+            'id' => $realUser->id,
+            'name' => $realUser->name,
+            'referral_code' => $referralCode,
+            'referral_url' => route('register') . '?ref=' . $referralCode,
         ];
 
         // Placeholder for marketing materials

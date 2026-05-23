@@ -85,7 +85,7 @@ class WithdrawalController extends Controller
         // Placeholder validation for available balance
         $availableBalance = Auth::user()->balances->balance;
 
-        if ($request->amount >= $availableBalance) {
+        if ($request->amount > $availableBalance) {
             return back()->withErrors([
                 'amount' => 'Insufficient balance. Your available balance is $' . number_format($availableBalance, 2)
             ])->withInput();

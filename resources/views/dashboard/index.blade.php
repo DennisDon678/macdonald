@@ -75,7 +75,7 @@
             </div>
             <div class="mt-4">
                 <p class="text-3xl font-bold text-gray-800 dark:text-white">
-                    ${{ number_format($interest + $balances->referal_balances, 2) }}</p>
+                    ${{ number_format($interest + $balances->referral_balance, 2) }}</p>
                 <div class="flex items-center text-green-500 mt-2">
                     
                 </div>
@@ -88,7 +88,7 @@
                 <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <p class="text-xs text-gray-500 dark:text-gray-400">Referrals</p>
                     <p class="font-medium text-gray-800 dark:text-white">
-                        ${{ number_format($balances->referal_balances, 2) }}
+                        ${{ number_format($balances->referral_balance, 2) }}
                     </p>
                 </div>
             </div>

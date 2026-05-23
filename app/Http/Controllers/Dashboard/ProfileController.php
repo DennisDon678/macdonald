@@ -36,13 +36,13 @@ class ProfileController extends Controller
             'profile_photo' => 'nullable|image|max:2048',
         ]);
 
-        // In a real implementation, you would update the user record
-        // For now, just simulate a successful update
-
-        if ($request->hasFile('profile_photo')) {
-            // Handle file upload in a real implementation
-            // $path = $request->file('profile_photo')->store('profile_photos', 'public');
-        }
+        $user = User::findOrFail(Auth::user()->id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone,
+            'country' => $request->country,
+        ]);
 
         return redirect()->route('dashboard.profile')
             ->with('success', 'Your profile has been updated successfully.');

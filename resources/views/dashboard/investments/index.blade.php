@@ -187,7 +187,7 @@
                             {{ $investment['completed_at']->format('M d, Y') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ route('dashboard.investments.show', $investment['id']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
+                            <a href="{{ route('dashboard.investments.show', $investment['reference']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
                         </td>
                     </tr>
                     @endforeach

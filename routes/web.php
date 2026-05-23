@@ -31,7 +31,7 @@ Route::prefix('command')->group(function () {
 Route::get('/calculate_interest', function () {
 
     // check last update is not today
-    $activeInvestment = \App\Models\Investment::where('status', 'active')->where('updated_at', '!=', today())->where('next_payout', '<=', today())->get();
+    $activeInvestment = \App\Models\Investment::where('status', 'active')->whereDate('updated_at', '!=', today())->where('next_payout', '<=', today())->get();
 
 
     foreach ($activeInvestment as $investment) {
@@ -53,7 +53,10 @@ Route::get('/calculate_interest', function () {
 
             // update the user's balance
             $user = \App\Models\User::find($investment->user_id);
-            $user->balances->balance += $interest;
+            if ($user && $user->balances) {
+                $user->balances->balance += $interest;
+                $user->balances->save();
+            }
 
             // check if today is the last day of the investment
             if ($investment->days_remaining <= 0) {
@@ -66,12 +69,9 @@ Route::get('/calculate_interest', function () {
                     Mail::to($user->email)->send(new \App\Mail\Investment\Ended($investment));
                 } catch (\Exception $e) {
                     Log::error('Email sending failed: ' . $e->getMessage());
-                    return back()->with('error', 'Failed to send email. Please try again.');
                 }
             }
             $investment->save();
-
-            $user->balances->save();
         }
     }
 
