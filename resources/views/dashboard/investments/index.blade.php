@@ -12,7 +12,6 @@
     </a>
 </div>
 
-<!-- Stats Summary -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <div class="flex justify-between items-start">
@@ -63,7 +62,6 @@
     </div>
 </div>
 
-<!-- Active Investments -->
 <div class="mb-8">
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Active Investments</h2>
     
@@ -104,13 +102,23 @@
                     </div>
                 </div>
                 
+                @php
+                    // Safe calculation to prevent DivisionByZeroError
+                    $progress = $investment['duration'] > 0 
+                        ? (($investment['duration'] - $investment['days_remaining']) / $investment['duration']) * 100 
+                        : 100;
+                    
+                    // Ensure progress stays between 0 and 100
+                    $progress = min(100, max(0, $progress));
+                @endphp
+
                 <div class="mb-4">
                     <div class="flex justify-between mb-1 text-sm">
                         <span class="text-gray-700 dark:text-gray-300">Progress</span>
-                        <span class="text-gray-700 dark:text-gray-300">{{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%</span>
+                        <span class="text-gray-700 dark:text-gray-300">{{ number_format($progress, 1) }}%</span>
                     </div>
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: {{ (($investment['duration'] - $investment['days_remaining'])/$investment['duration'])*100 }}%"></div>
+                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
                     </div>
                 </div>
                 
@@ -121,11 +129,11 @@
                     </div>
                     <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded">
                         <p class="text-gray-500 dark:text-gray-400">Next Payout</p>
-                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{$investment['next_payout'] ? $investment['next_payout']->format('M d, Y'): "Unkown"  }}</p>
+                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{ $investment['next_payout'] ? $investment['next_payout']->format('M d, Y') : 'Unknown' }}</p>
                     </div>
                     <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded col-span-2 md:col-span-1">
                         <p class="text-gray-500 dark:text-gray-400">Days Remaining</p>
-                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{ $investment['days_remaining'] }}</p>
+                        <p class="text-blue-600 dark:text-blue-400 font-medium">{{ max(0, $investment['days_remaining']) }}</p>
                     </div>
                 </div>
                 
@@ -141,7 +149,6 @@
     @endif
 </div>
 
-<!-- Completed Investments -->
 <div>
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Completed Investments</h2>
     
@@ -184,7 +191,8 @@
                             {{ $investment['duration'] }} days
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
-                            {{ $investment['completed_at']->format('M d, Y') }}
+                            {{-- Safe check for null completed_at dates --}}
+                            {{ $investment['completed_at'] ? $investment['completed_at']->format('M d, Y') : 'N/A' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             <a href="{{ route('dashboard.investments.show', $investment['reference']) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View Details</a>
@@ -194,6 +202,12 @@
                 </tbody>
             </table>
         </div>
+        
+        @if(method_exists($completedInvestments, 'links'))
+            <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                {{ $completedInvestments->links() }}
+            </div>
+        @endif
     </div>
     @endif
 </div>
@@ -202,8 +216,10 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // Initialize Lucide icons safely
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     });
 </script>
 @endsection
