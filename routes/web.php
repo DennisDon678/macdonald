@@ -31,15 +31,21 @@ Route::prefix('command')->group(function () {
 Route::get('/calculate_interest', function () {
 
     // check last update is not today
-    $activeInvestment = \App\Models\Investment::where('status', 'active')->whereDate('updated_at', '!=', today())->where('next_payout', '<=', today())->get();
+    $activeInvestment = \App\Models\Investment::where('status', 'active')
+        ->whereDate('updated_at', '!=', today())
+        ->where(function($query) {
+            $query->where('next_payout', '<=', today())
+                  ->orWhereNull('next_payout');
+        })
+        ->get();
 
 
     foreach ($activeInvestment as $investment) {
         // make sure last update is 24 hours ago
         if ($investment->updated_at->diffInHours(now()) >= 24) {
 
-            // get the number of days since last payout
-            $days = $investment->next_payout->diffInDays(today());
+            // get the number of days since last payout. If next_payout is null, assume it's due today.
+            $days = $investment->next_payout ? $investment->next_payout->diffInDays(today()) + 1 : 1;
 
             // calculate interest
             $interest = ($investment->amount * $investment->interest_rate / 100) * $days;
@@ -49,13 +55,30 @@ Route::get('/calculate_interest', function () {
                 $investment->profit_to_date += $interest;
                 $investment->next_payout = today()->addDays(1);
                 $investment->total_profit += $interest;
-                $investment->days_remaining = $investment->days_remaining - $days;
+                $investment->days_remaining = max(0, $investment->days_remaining - $days);
+                
+                if ($investment->duration > 0) {
+                    $investment->progress = (($investment->duration - $investment->days_remaining) / $investment->duration) * 100;
+                }
 
                 // update the user's balance
                 $user = \App\Models\User::find($investment->user_id);
                 if ($user && $user->balances) {
                     $user->balances->balance += $interest;
                     $user->balances->save();
+                }
+
+                // create transaction history for the profit
+                if ($interest > 0) {
+                    \App\Models\Transaction::create([
+                        'user_id' => $investment->user_id,
+                        'type' => 'profit',
+                        'amount' => $interest,
+                        'status' => 'completed',
+                        'reference' => 'PRF' . strtoupper(\Illuminate\Support\Str::random(10)),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
                 }
 
                 // check if today is the last day of the investment
