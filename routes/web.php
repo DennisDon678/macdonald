@@ -87,6 +87,22 @@ Route::get('/calculate_interest', function () {
                     $investment->days_remaining = 0;
                     $investment->next_payout = null;
 
+                    // return capital to user
+                    if ($user && $user->balances) {
+                        $user->balances->balance += $investment->amount;
+                        $user->balances->save();
+
+                        \App\Models\Transaction::create([
+                            'user_id' => $investment->user_id,
+                            'type' => 'capital_return',
+                            'amount' => $investment->amount,
+                            'status' => 'completed',
+                            'reference' => 'CAP' . strtoupper(\Illuminate\Support\Str::random(10)),
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+
                     // send email to  user
                     try {
                         Mail::to($user->email)->send(new \App\Mail\Investment\Ended($investment));
