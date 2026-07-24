@@ -1,6 +1,28 @@
 @extends('layouts.homeLayout')
 
 @section('main')
+    <style>
+        .box-slider-text {
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+        }
+        .box-slider-text h2, .box-slider-text h3, .box-slider-text p {
+            color: #ffffff !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+        .slider.btn {
+            transition: all 0.3s ease;
+        }
+        .slider.btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+        }
+    </style>
     <div id="box-slide" class="owl-carousel owl-theme page-slider mrt-110">
         <div class="item" style="background-image:url(images/slider/bg4.jpg)">
             <div class="container">

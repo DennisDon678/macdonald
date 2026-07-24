@@ -179,6 +179,86 @@
             }
         }
     </style>
+    
+    <!-- Premium Auth UI Overhaul -->
+    <style>
+        body {
+            background-color: #f4f7f9 !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .auth-form-light {
+            background: #ffffff !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid #e9ecef !important;
+            padding: 3rem 2.5rem !important;
+        }
+        .auth-form-light h4 {
+            font-size: 1.75rem !important;
+            font-weight: 800 !important;
+            color: #1a1d20 !important;
+            margin-bottom: 0.5rem !important;
+            text-align: center;
+        }
+        .auth-form-light h6 {
+            font-size: 1rem !important;
+            color: #6c757d !important;
+            margin-bottom: 2rem !important;
+            text-align: center;
+        }
+        .brand-logo {
+            margin-bottom: 2rem !important;
+            text-align: center !important;
+        }
+        .brand-logo img {
+            max-width: 120px !important;
+        }
+        .form-group {
+            margin-bottom: 1.25rem !important;
+        }
+        .form-control {
+            background-color: #f8fafc !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 8px !important;
+            padding: 0.85rem 1.25rem !important;
+            font-size: 1rem !important;
+            color: #334155 !important;
+            transition: all 0.2s ease-in-out !important;
+            height: auto !important;
+        }
+        .form-control:focus {
+            background-color: #ffffff !important;
+            border-color: #2154cf !important;
+            box-shadow: 0 0 0 4px rgba(33, 84, 207, 0.15) !important;
+            outline: none !important;
+        }
+        .form-control::placeholder {
+            color: #94a3b8 !important;
+            font-weight: 400 !important;
+        }
+        .btn-primary.auth-form-btn {
+            background: linear-gradient(135deg, #2154cf 0%, #173b90 100%) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.5px !important;
+            padding: 1rem !important;
+            text-transform: uppercase !important;
+            box-shadow: 0 4px 10px rgba(33, 84, 207, 0.25) !important;
+            width: 100%;
+        }
+        .btn-primary.auth-form-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 15px rgba(33, 84, 207, 0.35) !important;
+            background: linear-gradient(135deg, #2a63f0 0%, #1d4ac0 100%) !important;
+        }
+        .text-danger {
+            color: #e3342f !important;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+        }
+    </style>
+    
     <script type="text/javascript">
         function hide_loader() {
             document.getElementById("xxloader").style.display = "none";

@@ -13,129 +13,31 @@
             }
         });
 
-        function checkform() {
-            if (document.regform.fullname.value == '') {
-                alert("Please enter your full name!");
-                document.regform.fullname.focus();
-                return false;
-            }
 
-            if (document.regform.username.value == '') {
-                alert("Please enter your username!");
-                document.regform.username.focus();
-                return false;
-            }
-            if (!document.regform.username.value.match(/^[A-Za-z0-9_\-]+$/)) {
-                alert("For username you should use English letters and digits only!");
-                document.regform.username.focus();
-                return false;
-            }
-            if (document.regform.password.value == '') {
-                alert("Please enter your password!");
-                document.regform.password.focus();
-                return false;
-            }
-            if (document.regform.password.value != document.regform.password2.value) {
-                alert("Please check your password!");
-                document.regform.password2.focus();
-                return false;
-            }
-
-            if (document.regform.email.value == '') {
-                alert("Please enter your e-mail address!");
-                document.regform.email.focus();
-                return false;
-            }
-            if (document.regform.email.value != document.regform.email1.value) {
-                alert("Please retype your e-mail!");
-                document.regform.email.focus();
-                return false;
-            }
-
-            // Country validation
-            if (document.regform.country.value == '') {
-                alert("Please select your country!");
-                document.regform.country.focus();
-                return false;
-            }
-
-            // Phone validation
-            if (document.regform.phone.value == '') {
-                alert("Please enter your phone number!");
-                document.regform.phone.focus();
-                return false;
-            }
-            
-            for (i in document.regform.elements) {
-                f = document.regform.elements[i];
-                if (f.name && f.name.match(/^pay_account/)) {
-                    if (f.value == '') continue;
-                    var notice = f.getAttribute('data-validate-notice');
-                    var invalid = 0;
-                    if (f.getAttribute('data-validate') == 'regexp') {
-                        var re = new RegExp(f.getAttribute('data-validate-regexp'));
-                        if (!f.value.match(re)) {
-                            invalid = 1;
-                        }
-                    } else if (f.getAttribute('data-validate') == 'email') {
-                        var re = /^[^\@]+\@[^\@]+\.\w{2,4}$/;
-                        if (!f.value.match(re)) {
-                            invalid = 1;
-                        }
-                    }
-                    if (invalid) {
-                        alert('Invalid account format. Expected ' + notice);
-                        f.focus();
-                        return false;
-                    }
-                }
-            }
-
-            if (document.regform.agree.checked == false) {
-                alert("You have to agree with the Terms and Conditions!");
-                return false;
-            }
-
-            return true;
-        }
-
-        function IsNumeric(sText) {
-            var ValidChars = "0123456789";
-            var IsNumber = true;
-            var Char;
-            if (sText == '') return false;
-            for (i = 0; i < sText.length && IsNumber == true; i++) {
-                Char = sText.charAt(i);
-                if (ValidChars.indexOf(Char) == -1) {
-                    IsNumber = false;
-                }
-            }
-            return IsNumber;
-        }
     </script>
 
-    <form method="post" onsubmit="return checkform()" name="regform" class="pt-3">
+    <form method="post" name="signupForm" class="pt-3">
         @csrf
         <!-- Add hidden input for referral code -->
         <input type="hidden" name="ref" id="refInput" value="">
 
         <div class="form-group">
-            <input class="form-control" type="text" name="name" value="{{old('name')}}" placeholder="Enter your Fullname">
+            <input class="form-control form-control-lg" required type="text" name="name" value="{{old('name')}}" placeholder="Enter your Fullname">
             @error('name')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your username" type="text" name="username" value="{{old('username')}}">
+            <input class="form-control form-control-lg" required placeholder="Enter your username" type="text" name="username" value="{{old('username')}}">
             @error('username')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
         
         <!-- Country Selection Dropdown -->
         <div class="form-group">
-            <select class="form-control" name="country" id="country">
+            <select class="form-control form-control-lg" required name="country" id="country">
                 <option value="">Select Your Country</option>
                 <option value="AF" {{ old('country') == 'AF' ? 'selected' : '' }}>Afghanistan</option>
                 <option value="AX" {{ old('country') == 'AX' ? 'selected' : '' }}>Åland Islands</option>
@@ -383,40 +285,40 @@
                 <option value="ZW" {{ old('country') == 'ZW' ? 'selected' : '' }}>Zimbabwe</option>
             </select>
             @error('country')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
         
         <!-- Phone Number Field -->
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your phone number (with country code)" type="tel" name="phone" value="{{old('phone')}}">
+            <input class="form-control form-control-lg" required placeholder="Enter your phone number (with country code)" type="tel" name="phone" value="{{old('phone')}}">
             <small class="text-muted">E.g., +1234567890</small>
             @error('phone')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
         
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your Password" type="password" name="password" value="">
+            <input class="form-control form-control-lg" required placeholder="Enter your Password" type="password" name="password" value="">
             @error('password')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" placeholder="Retype Password" type="password" name="password_confirmation" value="">
+            <input class="form-control form-control-lg" required placeholder="Retype Password" type="password" name="password_confirmation" value="">
             @error('password')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
-            <input class="form-control" placeholder="Enter your E-mail" type="text" name="email" value="{{old('email')}}">
+            <input class="form-control form-control-lg" required placeholder="Enter your E-mail" type="text" name="email" value="{{old('email')}}">
             @error('email')
-                <div class="alert alert-danger">{{ $message }}</div>
+                <div class="text-danger mt-1 small">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <input class="form-control" placeholder="Retype E-mail" type="text" name="email1" value="{{old('email1')}}">
+            <input class="form-control form-control-lg" required placeholder="Retype E-mail" type="text" name="email1" value="{{old('email1')}}">
         </div>
 
         <div class="form-group">
@@ -427,7 +329,7 @@
             </div>
         </div>
         <div class="mt-3">
-            <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit"
+            <style>.auth-form-btn { transition: all 0.3s ease; } .auth-form-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }</style><button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn rounded" type="submit"
                 name="create">Create Account</button>
         </div>
         <div class="text-center mt-4 font-weight-light">
