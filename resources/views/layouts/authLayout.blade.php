@@ -211,7 +211,9 @@
             text-align: center !important;
         }
         .brand-logo img {
-            max-width: 120px !important;
+            max-width: 100% !important;
+            height: 90px !important;
+            object-fit: contain !important;
         }
         .form-group {
             margin-bottom: 1.25rem !important;

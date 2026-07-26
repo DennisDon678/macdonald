@@ -404,7 +404,7 @@
                         <div class="logo-area clearfix logo-wrapper logo-absolute">
                             <div class="logo col-lg-3 col-md-12" style="text-align: left;">
                                 <a href="/" style="z-index: 999999999;">
-                                    <img src="img/logo.png" alt="" style="width: 120px;  margin-top: -10px;">
+                                    <img src="img/logo.png" alt="" style="height: 70px; width: auto; object-fit: contain; margin-top: 5px;">
                                 </a>
                             </div>
                             <!-- logo end-->
@@ -516,7 +516,7 @@
                     <div class="row">
                         <div class="col-lg-7 col-md-12 footer-widget footer-about">
                             <div class="footer-logo">
-                                <img src="img/logo.png" alt="" style="width: 120px;">
+                                <img src="img/logo.png" alt="" style="height: 80px; width: auto; object-fit: contain; margin-bottom: 15px;">
                             </div>
                             <p>We are everything a traditional financial institution is not.
                                 We set out to give investors better, simpler and more profitable ways to become
