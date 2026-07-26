@@ -516,7 +516,7 @@
                     <div class="row">
                         <div class="col-lg-7 col-md-12 footer-widget footer-about">
                             <div class="footer-logo">
-                                <img src="img/logo.png" alt="" style="height: 80px; width: auto; object-fit: contain; margin-bottom: 15px;">
+                                <img src="img/logo.png" alt="" style="height: 50px; width: auto; object-fit: contain; margin-bottom: 15px;">
                             </div>
                             <p>We are everything a traditional financial institution is not.
                                 We set out to give investors better, simpler and more profitable ways to become
@@ -600,7 +600,7 @@
 
                         </div>
                         <div class="col-lg-12 footer-widget">
-                            <img src="images/sec-logo.png" alt=""><br>
+                            <img src="images/sec-logo.png" alt="" style="height: 50px; width: auto; object-fit: contain;"><br>
                             <div class="newsletter-introtext"><br>
                                 {{env('APP_NAME')}} Limited is regulated by the US Securities and Exchange Commission. The
                                 mission

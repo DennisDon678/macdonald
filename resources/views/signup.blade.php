@@ -1,6 +1,17 @@
 @extends('layouts.authLayout')
 
 @section('main')
+    @php
+        $noticeActive = \App\Models\Setting::get('migration_notice_active', 'no');
+        $noticeText = \App\Models\Setting::get('migration_notice_text', '');
+    @endphp
+
+    @if($noticeActive === 'yes' && !empty($noticeText))
+        <div class="alert alert-warning text-center" style="border-radius: 8px; font-weight: 500; font-size: 0.95rem; margin-bottom: 2rem; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;">
+            {!! nl2br(e($noticeText)) !!}
+        </div>
+    @endif
+
     <h4>Get Started!</h4>
     <h6 class="font-weight-light">It's free to signup and only takes a minute.</h6>
     <script language="javascript">

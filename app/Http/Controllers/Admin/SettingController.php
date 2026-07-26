@@ -29,6 +29,8 @@ class SettingController extends Controller
             'facebook_url' => '',
             'twitter_url' => '',
             'instagram_url' => '',
+            'migration_notice_active' => 'no',
+            'migration_notice_text' => 'We have migrated from our old domain to this new domain. Kindly make a new account with us and message support for assistance.',
         ];
         
         // Merge defaults with database values
@@ -54,6 +56,8 @@ class SettingController extends Controller
             'facebook_url' => 'nullable|url|max:255',
             'twitter_url' => 'nullable|url|max:255',
             'instagram_url' => 'nullable|url|max:255',
+            'migration_notice_active' => 'nullable|string|in:yes,no',
+            'migration_notice_text' => 'nullable|string',
         ]);
         
         foreach ($validated as $key => $value) {

@@ -123,6 +123,39 @@
                     </div>
                 </div>
                 
+                <!-- Migration Notice Settings -->
+                <div>
+                    <h3 class="text-md font-medium text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">
+                        Migration Notice
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="migration_notice_active" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Notice Status
+                            </label>
+                            <select id="migration_notice_active" name="migration_notice_active"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 rounded-md shadow-sm 
+                                focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none
+                                transition-all duration-200">
+                                <option value="yes" {{ old('migration_notice_active', $settings['migration_notice_active'] ?? 'no') == 'yes' ? 'selected' : '' }}>Active</option>
+                                <option value="no" {{ old('migration_notice_active', $settings['migration_notice_active'] ?? 'no') == 'no' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                Turn the migration notice on or off.
+                            </p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="migration_notice_text" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Notice Message
+                            </label>
+                            <textarea id="migration_notice_text" name="migration_notice_text" rows="3"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 rounded-md shadow-sm 
+                                focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none
+                                transition-all duration-200">{{ old('migration_notice_text', $settings['migration_notice_text'] ?? '') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Social Media Links -->
                 <div>
                     <h3 class="text-md font-medium text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">
