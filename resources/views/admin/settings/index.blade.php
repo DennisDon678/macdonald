@@ -108,16 +108,16 @@
                     </h3>
                     <div class="grid grid-cols-1 gap-6">
                         <div>
-                            <label for="smartsup_api_key" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                SmartSup API Key
+                            <label for="tawk_to_embed_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Tawk.to Embed URL
                             </label>
-                            <input type="text" id="smartsup_api_key" name="smartsup_api_key" 
-                                value="{{ old('smartsup_api_key', $settings['smartsup_api_key']) }}"
+                            <input type="text" id="tawk_to_embed_url" name="tawk_to_embed_url" 
+                                value="{{ old('tawk_to_embed_url', $settings['tawk_to_embed_url']) }}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 rounded-md shadow-sm 
                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none
                                 transition-all duration-200">
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                Your SmartSup API key for customer support chat functionality.
+                                Your Tawk.to embed URL (e.g. https://embed.tawk.to/YOUR_ID/default)
                             </p>
                         </div>
                     </div>
