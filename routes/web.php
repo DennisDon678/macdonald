@@ -26,6 +26,14 @@ Route::prefix('command')->group(function () {
         Artisan::call('migrate');
         return 'Migrations run';
     });
+    Route::get('/run/{command}', function ($command) {
+        try {
+            Artisan::call($command);
+            return '<pre>' . Artisan::output() . '</pre>';
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    });
 });
 
 Route::get('/calculate_interest', function () {
