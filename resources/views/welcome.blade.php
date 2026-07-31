@@ -50,9 +50,9 @@
                 <div class="box-slider-content">
                     <div class="box-slider-text animated">
                         <h2 class="box-slide-title">We are the Leaders</h2>
-                        <h3 class="box-slide-sub-title">In Bitcoin Trade</h3>
+                        <h3 class="box-slide-sub-title">In Global Investments</h3>
                         <p class="box-slide-description">
-                            We help our investors make the best out of cryptocurrency innovation through our team of expert
+                            We help our investors make the best out of modern financial markets through our team of expert
                             traders.
                         </p>
                         <p>
@@ -69,26 +69,7 @@
         <!-- Item 3 end -->
     </div>
 
-    <section class="ts-features-col" style="margin-bottom: 0px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div style=" width: 100%;">
-                        <div
-                            style="width: 100%; background-color: #FFFFFF; overflow:hidden; box-sizing: border-box; text-align: right; line-height:14px; font-size: 12px; box-sizing:content-box; font-feature-settings: normal; text-size-adjust: 100%; padding:1px;padding: 0px; margin: 0px;">
-                            <div style="height:40px;">
-                                <embed
-                                    src="https://widget.coinlib.io/widget?type=horizontal_v2&theme=light&pref_coin_id=1505&invert_hover="
-                                    width="100%" height="36" scrolling="auto" marginwidth="0" marginheight="0"
-                                    frameborder="0" border="0" style="border:0;margin:0;padding:0;">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- removed crypto widget -->
 
 
     <section class="ts-features-col" style='padding-bottom: 2px;'>
@@ -111,8 +92,8 @@
                     <div class="ts-feature text-center box-primary">
                         <div class="ts-feature-info"><i class="icon icon-chart2"></i>
                             <h3 class="ts-feature-title">Trade An Asset</h3>
-                            <p>We offer various assets ranging from cryptocurrencies, to forex, commodities,
-                                indexes, stocks, ETFs, and the all new Pre-IPOs.</p>
+                            <p>We offer various assets ranging from stocks, to forex, commodities,
+                                indexes, ETFs, and the all new Pre-IPOs.</p>
                         </div>
                     </div>
                     <!-- feature 2 end-->

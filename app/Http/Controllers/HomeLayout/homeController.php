@@ -7,41 +7,50 @@ use Illuminate\Support\Facades\Auth;
 
 class homeController extends Controller
 {
+    private function getThemeView($viewName)
+    {
+        $theme = env('ACTIVE_THEME', 'theme1');
+        if ($theme === 'theme2') {
+            return "theme2.{$viewName}";
+        }
+        return $viewName;
+    }
+
     public function index()
     {
-        return view('welcome');
+        return view($this->getThemeView('welcome'));
     }
 
     public function about()
     {
-        return view('about');
+        return view($this->getThemeView('about'));
     }
 
     public function faq(){
-        return view('faq');
+        return view($this->getThemeView('faq'));
     }
 
     public function support(){
-        return view('support');
+        return view($this->getThemeView('support'));
     }
 
     public function privacy(){
-        return view('privacy');
+        return view($this->getThemeView('privacy'));
     }
 
     public function login(){
-        return view('login');
+        return view($this->getThemeView('login'));
     }
     public function signup(){
-        return view('signup');
+        return view($this->getThemeView('signup'));
     }
 
     public function forgotPassword(){
-        return view('forgot-password');
+        return view($this->getThemeView('forgot-password'));
     }
     
     public function buyBtc(){
-        return view('buy-btc');
+        return view($this->getThemeView('buy-btc'));
     }
 
     public function logout(){

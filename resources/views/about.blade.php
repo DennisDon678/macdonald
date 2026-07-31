@@ -107,7 +107,7 @@
                         </div>
                         <div class="collapse show" id="collapse1" aria-labelledby="heading1" data-parent="#accordion">
                             <div class="card-body">
-                                <p>{{env('APP_NAME')}} Limited our company provides a full investment service focused on the bitcoin and cryptocurrency market We are among the best platforms to invest and grow your bitcoin and other cryptocurrency</p>
+                                <p>{{env('APP_NAME')}} Limited our company provides a full investment service focused on the global financial market. We are among the best platforms to invest and grow your wealth and other assets.</p>
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                         </div>
                         <div class="collapse " id="collapse6" aria-labelledby="heading6" data-parent="#accordion">
                             <div class="card-body">
-                                <p>Once we receive your withdrawal request we process immediately and send to your bitcoin wallet</p>
+                                <p>Once we receive your withdrawal request we process immediately and send to your designated account.</p>
                             </div>
                         </div>
                     </div>

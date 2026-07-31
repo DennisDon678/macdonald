@@ -478,10 +478,6 @@ s0.parentNode.insertBefore(s1,s0);
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="/buy-btc">Buy Digital Currency</a>
-                                    </li>
-
-                                    <li class="nav-item">
                                         <a href="/auth/signup">Sign Up</a>
                                     </li>
                                 </ul>
@@ -657,7 +653,6 @@ s0.parentNode.insertBefore(s1,s0);
                                 <ul class="nav unstyled">
                                     <li><a href="{{route('about')}}">About</a></li>
                                     <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
-                                    <li><a href="{{route('buy-btc')}}">Buy Digital Currency</a></li>
                                     <li><a href="cert.pdf">Legals</a></li>
                                     <li><a href="{{route('support')}}">Contact</a></li>
                                 </ul>
