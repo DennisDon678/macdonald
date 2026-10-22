@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Services\ThemeService;
 
 class ReferralController extends Controller
 {
@@ -39,7 +40,7 @@ class ReferralController extends Controller
                 ];
             });
 
-        return view('dashboard.referrals.index', compact('user', 'stats', 'recentReferrals'));
+        return ThemeService::view('dashboard.referrals.index', compact('user', 'stats', 'recentReferrals'));
     }
 
     /**
@@ -105,6 +106,6 @@ class ReferralController extends Controller
             ],
         ];
 
-        return view('dashboard.referrals.marketing', compact('user', 'banners', 'socialTemplates'));
+        return ThemeService::view('dashboard.referrals.marketing', compact('user', 'banners', 'socialTemplates'));
     }
 }

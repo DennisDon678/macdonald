@@ -120,7 +120,7 @@
                         verification process.
                     </p>
 
-                    <form action="{{ route('dashboard.deposits.upload-receipt', $transaction->id) }}" method="POST"
+                    <form action="{{ route('dashboard.deposits.upload-receipt', $transaction->reference ?? $transaction->id) }}" method="POST"
                         enctype="multipart/form-data" id="receipt-form">
                         @csrf
 

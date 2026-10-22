@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Services\ThemeService;
 use Illuminate\Support\Facades\DB;
 
 class DepositController extends Controller
@@ -26,7 +27,7 @@ class DepositController extends Controller
         // Define available cryptocurrencies
         $cryptocurrencies = DepositWallet::all();
 
-        return view('dashboard.deposits.create', compact('plans', 'cryptocurrencies'));
+        return ThemeService::view('dashboard.deposits.create', compact('plans', 'cryptocurrencies'));
     }
 
     /**
@@ -139,7 +140,7 @@ class DepositController extends Controller
 
         $crypto = DepositWallet::find($transaction->crypto);
 
-        return view('dashboard.deposits.confirm', compact('transaction', 'plan', 'crypto'));
+        return ThemeService::view('dashboard.deposits.confirm', compact('transaction', 'plan', 'crypto'));
     }
 
     /**
@@ -153,7 +154,7 @@ class DepositController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('dashboard.deposits.history', compact('transactions'));
+        return ThemeService::view('dashboard.deposits.history', compact('transactions'));
     }
 
     /**
@@ -176,7 +177,7 @@ class DepositController extends Controller
 
         $investment = null; // Placeholder for investment details
 
-        return view('dashboard.deposits.show', compact('transaction', 'investment'));
+        return ThemeService::view('dashboard.deposits.show', compact('transaction', 'investment'));
     }
 
     /**
@@ -188,8 +189,14 @@ class DepositController extends Controller
             'receipt' => 'required|image|max:5120', // Max 5MB image file
         ]);
 
-        // Check if the transaction exists
-        $transaction = Transaction::where('reference', $reference)->first();
+        // Check if the transaction exists (support both reference and id)
+        $transaction = Transaction::where(function ($query) use ($reference) {
+            $query->where('reference', $reference)
+                  ->orWhere('id', $reference);
+        })
+        ->where('user_id', Auth::user()->id)
+        ->first();
+
         if (!$transaction) {
             return redirect()->route('dashboard.deposits.history')
                 ->with('error', 'Transaction not found. Please try again.');
@@ -198,7 +205,7 @@ class DepositController extends Controller
         if ($request->hasFile('receipt')) {
             try {
                 // Create unique filename with reference and timestamp
-                $fileNameToStore = 'receipt_' . $reference . '_' . time() . '.' . 
+                $fileNameToStore = 'receipt_' . $transaction->reference . '_' . time() . '.' . 
                     $request->file('receipt')->getClientOriginalExtension();
 
                 // Store file in the public disk under receipts directory

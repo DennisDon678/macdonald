@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Investment;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Services\ThemeService;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -36,6 +37,6 @@ class DashboardController extends Controller
         // active deposits
         $active_deposits = Investment::where('user_id', $user->id)->where('status', 'active')->sum('amount');
 
-        return view('dashboard.index', compact('balances', 'transactions', 'interest', 'pending', 'active_deposits'));
+        return ThemeService::view('dashboard.index', compact('balances', 'transactions', 'interest', 'pending', 'active_deposits'));
     }
 }

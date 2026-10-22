@@ -1,3 +1,10 @@
+@php
+    $activeTheme = env('ACTIVE_THEME', 'theme1');
+    $themeDashboardLayout = "{$activeTheme}.layouts.dashboard";
+@endphp
+@if($activeTheme !== 'theme1' && view()->exists($themeDashboardLayout))
+    @include($themeDashboardLayout)
+@else
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 
@@ -402,3 +409,4 @@
 </body>
 
 </html>
+@endif

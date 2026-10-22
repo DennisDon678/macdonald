@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Services\ThemeService;
 
 class ProfileController extends Controller
 {
@@ -20,7 +21,7 @@ class ProfileController extends Controller
         // Create placeholder user for testing
         $user = User::find(Auth::user()->id);
 
-        return view('dashboard.profile.index', compact('user'));
+        return ThemeService::view('dashboard.profile.index', compact('user'));
     }
 
     /**
@@ -53,7 +54,7 @@ class ProfileController extends Controller
      */
     public function showChangePasswordForm()
     {
-        return view('dashboard.profile.change-password');
+        return ThemeService::view('dashboard.profile.change-password');
     }
 
     /**
@@ -88,7 +89,7 @@ class ProfileController extends Controller
     {
         $wallets = Wallet::where('user_id', Auth::id())->first();
 
-        return view('dashboard.profile.two-factor', compact('wallets'));
+        return ThemeService::view('dashboard.profile.two-factor', compact('wallets'));
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Services\ThemeService;
 
 class InvestmentController extends Controller
 {
@@ -36,7 +37,7 @@ class InvestmentController extends Controller
             'daily_earnings' => $activeInvestments->sum('daily_profit'),
         ];
         
-        return view('dashboard.investments.index', compact('activeInvestments', 'completedInvestments', 'stats'));
+        return ThemeService::view('dashboard.investments.index', compact('activeInvestments', 'completedInvestments', 'stats'));
     }
     
     /**
@@ -120,6 +121,6 @@ class InvestmentController extends Controller
             'cumulative' => [0, 70, 140, 210, 280, 350, 420],
         ];
         
-        return view('dashboard.investments.show', compact('investment', 'transactions', 'chartData', 'coinName'));
+        return ThemeService::view('dashboard.investments.show', compact('investment', 'transactions', 'chartData', 'coinName'));
     }
 }

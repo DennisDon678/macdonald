@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Services\ThemeService;
 
 class WithdrawalController extends Controller
 {
@@ -67,7 +68,7 @@ class WithdrawalController extends Controller
             ];
         }
 
-        return view('dashboard.withdrawals.create', compact('availableBalance', 'pendingWithdrawals',  'savedWallets'));
+        return ThemeService::view('dashboard.withdrawals.create', compact('availableBalance', 'pendingWithdrawals',  'savedWallets'));
     }
 
     /**
@@ -142,7 +143,7 @@ class WithdrawalController extends Controller
             ->where('type', 'withdrawal')
             ->paginate(10);
 
-        return view('dashboard.withdrawals.history', compact('transactions'));
+        return ThemeService::view('dashboard.withdrawals.history', compact('transactions'));
     }
 
     /**
@@ -165,6 +166,6 @@ class WithdrawalController extends Controller
         // Convert to object to match expected behavior in template
         $transaction = (object)$transaction;
 
-        return view('dashboard.withdrawals.show', compact('transaction', 'cryptocurrencies'));
+        return ThemeService::view('dashboard.withdrawals.show', compact('transaction', 'cryptocurrencies'));
     }
 }
