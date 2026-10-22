@@ -10,6 +10,12 @@ class homeController extends Controller
     private function getThemeView($viewName)
     {
         $theme = env('ACTIVE_THEME', 'theme1');
+        if (view()->exists("{$theme}.{$viewName}")) {
+            return "{$theme}.{$viewName}";
+        }
+        if ($theme === 'theme3') {
+            return "theme3.{$viewName}";
+        }
         if ($theme === 'theme2') {
             return "theme2.{$viewName}";
         }
