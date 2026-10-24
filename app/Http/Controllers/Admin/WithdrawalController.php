@@ -62,10 +62,9 @@ class WithdrawalController extends Controller
         // Send email notification to user
         try {
             Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Approved($withdrawal));
-        } catch (\Exception $e) {
-            // Log the error or handle it as needed
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            Log::error('Withdrawal approved email sending failed: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('warning', 'Withdrawal approved, but email notification could not be delivered.');
         }
         
         return redirect()->back()->with('success', 'Withdrawal approved successfully.');
@@ -101,10 +100,9 @@ class WithdrawalController extends Controller
         // Send email notification to user
         try {
             Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Rejected($withdrawal));
-        } catch (\Exception $e) {
-            // Log the error or handle it as needed
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            Log::error('Withdrawal rejected email sending failed: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('warning', 'Withdrawal rejected, but email notification could not be delivered.');
         }
         
         return redirect()->back()->with('success', 'Withdrawal rejected successfully.');

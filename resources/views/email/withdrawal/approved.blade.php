@@ -1,122 +1,114 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Withdrawal Approved - {{ config('app.name') }}</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .header img {
-            max-height: 50px;
-        }
-        .content {
-            padding: 30px 20px;
-        }
-        h1 {
-            color: #10b981;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #718096;
-            border-top: 1px solid #eaeaea;
-        }
-        .button {
-            display: inline-block;
-            background-color: #10b981;
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .transaction-details {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .transaction-details p {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 5px;
-        }
-        .transaction-details p:last-child {
-            border-bottom: none;
-        }
-        .success-icon {
-            text-align: center;
-            font-size: 48px;
-            margin: 20px 0;
-            color: #10b981;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name') }} Logo">
-        </div>
-        
-        <div class="content">
-            <div class="success-icon">✓</div>
-            <h1>Withdrawal Approved</h1>
-            
-            <p>Dear {{ $withdrawal->user->name }},</p>
-            
-            <p>Great news! Your withdrawal request has been approved and the funds have been sent to your wallet.</p>
-            
-            <div class="transaction-details">
-                <p><span>Amount:</span> <strong>${{ number_format($withdrawal->amount, 2) }}</strong></p>
-                <p><span>Payment Method:</span> <strong>{{ strtoupper($withdrawal->currency) }}</strong></p>
-                <p><span>Wallet Address:</span> <strong>{{ $withdrawal->wallet_address }}</strong></p>
-                <p><span>Transaction ID:</span> <strong>{{ $withdrawal->reference }}</strong></p>
-                <p><span>Processed On:</span> <strong>{{ $withdrawal->updated_at->format('M d, Y H:i') }}</strong></p>
-                <p><span>Status:</span> <strong style="color: #10b981;">Completed</strong></p>
+@extends('email.layouts.master')
+
+@section('title', 'Withdrawal Processed - ' . config('app.name'))
+@section('preview', 'Your withdrawal of $' . number_format($withdrawal->amount, 2) . ' has been approved and sent to your wallet.')
+
+@section('content')
+<!-- Header Badge / Icon -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+    <tr>
+        <td align="center">
+            <div style="display: inline-block; width: 64px; height: 64px; border-radius: 50%; background-color: #d1fae5; border: 2px solid #a7f3d0; text-align: center; line-height: 60px; font-size: 28px; color: #059669;">
+                ✓
             </div>
-            
-            <p>The transaction has been completed and funds should arrive in your wallet shortly. Depending on network congestion, it may take some time for the transaction to be confirmed on the blockchain.</p>
-            
-            <div style="text-align: center;">
-                <a href="{{ route('dashboard.withdrawals.history') }}" class="button">View Withdrawals</a>
-            </div>
-            
-            <p>Thank you for using {{ config('app.name') }}. We appreciate your trust in our platform.</p>
-            
-            <p>Best regards,<br>The {{ config('app.name') }} Team</p>
-        </div>
-        
-        <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-            <p>If you have any questions, contact us at {{ \App\Models\Setting::get('contact_email', 'support@example.com') }}</p>
-        </div>
-    </div>
-</body>
-</html>
+        </td>
+    </tr>
+</table>
+
+<!-- Main Heading -->
+<h1 style="margin: 0 0 8px 0; color: #0b1220; font-size: 24px; font-weight: 800; text-align: center; letter-spacing: -0.5px;">
+    Withdrawal Approved & Sent!
+</h1>
+
+<p style="margin: 0 0 24px 0; color: #64748b; font-size: 15px; line-height: 1.6; text-align: center;">
+    Your funds have been dispatched from our vault to your external wallet address.
+</p>
+
+<!-- Greeting -->
+<p style="margin: 0 0 16px 0; color: #1e293b; font-size: 15px; line-height: 1.6;">
+    Dear <strong>{{ $withdrawal->user->name ?? 'Valued Investor' }}</strong>,
+</p>
+
+<p style="margin: 0 0 20px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+    We are pleased to inform you that your withdrawal request has been approved and processed. The requested cryptocurrency funds have been sent to your designated wallet address.
+</p>
+
+<!-- Transaction Details Table -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin: 24px 0; overflow: hidden;">
+    <tr>
+        <td colspan="2" style="padding: 14px 20px; background-color: #0b1220; color: #ffffff; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td style="color: #ffffff; font-size: 13px; font-weight: 700;">Disbursement Details</td>
+                    <td align="right">
+                        <span style="display: inline-block; padding: 4px 10px; background-color: #d1fae5; color: #065f46; font-size: 11px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            ● Completed
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Withdrawn Amount:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #059669; font-size: 18px; font-weight: 800; border-bottom: 1px solid #edf2f7;">
+            ${{ number_format($withdrawal->amount, 2) }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Asset / Currency:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 14px; font-weight: 700; border-bottom: 1px solid #edf2f7;">
+            {{ strtoupper($withdrawal->currency) }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Destination Wallet:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #334155; font-size: 12px; font-family: monospace; word-break: break-all; border-bottom: 1px solid #edf2f7;">
+            {{ $withdrawal->wallet_address }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Transaction ID:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 13px; font-weight: 600; font-family: monospace; border-bottom: 1px solid #edf2f7;">
+            {{ $withdrawal->reference }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px;">Processed Timestamp:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #475569; font-size: 13px; font-weight: 500;">
+            {{ $withdrawal->updated_at ? \Carbon\Carbon::parse($withdrawal->updated_at)->format('M d, Y H:i') . ' UTC' : now()->format('M d, Y H:i') . ' UTC' }}
+        </td>
+    </tr>
+</table>
+
+<!-- Blockchain Confirmation Notice -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #10b981; border-radius: 8px; margin: 20px 0;">
+    <tr>
+        <td style="padding: 14px 18px; color: #166534; font-size: 13px; line-height: 1.6;">
+            <strong>Blockchain Broadcasted:</strong> Depending on the network congestion of the selected asset, confirmations usually take between a few minutes to an hour to appear fully settled in your wallet.
+        </td>
+    </tr>
+</table>
+
+<!-- CTA Button -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0 26px 0;">
+    <tr>
+        <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" class="button-wrapper">
+                <tr>
+                    <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #f5df91 0%, #d4af37 100%);">
+                        <a href="{{ route('dashboard.withdrawals.history') }}" target="_blank" class="button-link" style="display: inline-block; padding: 14px 32px; font-size: 14px; font-weight: 700; color: #0b1220; text-decoration: none; border-radius: 8px; letter-spacing: 0.3px; text-transform: uppercase;">
+                            View Transaction History &rarr;
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<p style="margin: 0; color: #1e293b; font-size: 14px; line-height: 1.6;">
+    Thank you for investing with {{ config('app.name') }}.<br />
+    <strong style="color: #0b1220;">The {{ config('app.name') }} Team</strong>
+</p>
+@endsection

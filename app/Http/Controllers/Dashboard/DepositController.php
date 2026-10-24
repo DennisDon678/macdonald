@@ -101,9 +101,8 @@ class DepositController extends Controller
         // Send email to user
         try {
             Mail::to(Auth::user()->email)->send(new \App\Mail\Deposit\Init($transaction));
-        } catch (\Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            Log::error('Deposit init email sending failed: ' . $e->getMessage(), ['exception' => $e]);
         }
 
 

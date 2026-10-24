@@ -1,127 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Deposit Rejected - {{ config('app.name') }}</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .header img {
-            max-height: 50px;
-        }
-        .content {
-            padding: 30px 20px;
-        }
-        h1 {
-            color: #ef4444;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #718096;
-            border-top: 1px solid #eaeaea;
-        }
-        .button {
-            display: inline-block;
-            background-color: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .transaction-details {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .transaction-details p {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 5px;
-        }
-        .transaction-details p:last-child {
-            border-bottom: none;
-        }
-        .reason-box {
-            background-color: #fef2f2;
-            border: 1px solid #fee2e2;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #b91c1c;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name') }} Logo">
-        </div>
-        
-        <div class="content">
-            <h1>Deposit Rejected</h1>
-            
-            <p>Dear {{ $deposit->user->name }},</p>
-            
-            <p>We regret to inform you that your recent deposit request has been rejected.</p>
-            
-            <div class="transaction-details">
-                <p><span>Amount:</span> <strong>${{ number_format($deposit->amount, 2) }}</strong></p>
-                <p><span>Payment Method:</span> <strong>{{ $deposit->cryptoWallet[0]->name }}</strong></p>
-                <p><span>Transaction ID:</span> <strong>{{ $deposit->reference }}</strong></p>
-                <p><span>Date:</span> <strong>{{ $deposit->created_at->format('M d, Y H:i') }}</strong></p>
-                <p><span>Status:</span> <strong style="color: #ef4444;">Rejected</strong></p>
+@extends('email.layouts.master')
+
+@section('title', 'Deposit Update - ' . config('app.name'))
+@section('preview', 'Important update regarding your deposit of $' . number_format($deposit->amount, 2) . '.')
+
+@section('content')
+<!-- Header Badge / Icon -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+    <tr>
+        <td align="center">
+            <div style="display: inline-block; width: 64px; height: 64px; border-radius: 50%; background-color: #fee2e2; border: 2px solid #fecaca; text-align: center; line-height: 60px; font-size: 26px; color: #dc2626;">
+                ✕
             </div>
-            
-            <div class="reason-box">
-                <strong>Reason for rejection:</strong>
-                <p>{{ $deposit->rejected_reason ?? 'The transaction could not be verified. Please ensure you sent the correct amount to the correct address.' }}</p>
+        </td>
+    </tr>
+</table>
+
+<!-- Main Heading -->
+<h1 style="margin: 0 0 8px 0; color: #0b1220; font-size: 24px; font-weight: 800; text-align: center; letter-spacing: -0.5px;">
+    Deposit Request Unsuccessful
+</h1>
+
+<p style="margin: 0 0 24px 0; color: #64748b; font-size: 15px; line-height: 1.6; text-align: center;">
+    Your recent deposit could not be verified by our system.
+</p>
+
+<!-- Greeting -->
+<p style="margin: 0 0 16px 0; color: #1e293b; font-size: 15px; line-height: 1.6;">
+    Dear <strong>{{ $deposit->user->name ?? 'Valued Investor' }}</strong>,
+</p>
+
+<p style="margin: 0 0 20px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+    We regret to inform you that your recent deposit request has been declined during transaction verification.
+</p>
+
+<!-- Transaction Details Table -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin: 24px 0; overflow: hidden;">
+    <tr>
+        <td colspan="2" style="padding: 14px 20px; background-color: #0b1220; color: #ffffff; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td style="color: #ffffff; font-size: 13px; font-weight: 700;">Deposit Details</td>
+                    <td align="right">
+                        <span style="display: inline-block; padding: 4px 10px; background-color: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            ● Rejected
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Requested Amount:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 16px; font-weight: 700; border-bottom: 1px solid #edf2f7;">
+            ${{ number_format($deposit->amount, 2) }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Payment Method:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 14px; font-weight: 600; border-bottom: 1px solid #edf2f7;">
+            {{ $deposit->cryptoWallet->first()?->name ?? $deposit->currency ?? 'Cryptocurrency' }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Transaction Reference:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 13px; font-weight: 600; font-family: monospace; border-bottom: 1px solid #edf2f7;">
+            {{ $deposit->reference }}
+        </td>
+    </tr>
+    <tr class="detail-row">
+        <td style="padding: 13px 20px; color: #64748b; font-size: 14px;">Submission Date:</td>
+        <td class="detail-value" align="right" style="padding: 13px 20px; color: #475569; font-size: 13px; font-weight: 500;">
+            {{ $deposit->created_at ? \Carbon\Carbon::parse($deposit->created_at)->format('M d, Y H:i') . ' UTC' : now()->format('M d, Y H:i') . ' UTC' }}
+        </td>
+    </tr>
+</table>
+
+<!-- Rejection Reason Alert -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fef2f2; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius: 8px; margin: 20px 0;">
+    <tr>
+        <td style="padding: 16px 18px;">
+            <div style="font-size: 13px; font-weight: 700; color: #991b1b; margin-bottom: 4px;">
+                Reason for rejection:
             </div>
-            
-            <p>You can try again by creating a new deposit request from your dashboard. If you have any questions or believe this was an error, please contact our support team.</p>
-            
-            <div style="text-align: center;">
-                <a href="{{ route('dashboard.deposits.create') }}" class="button">Create New Deposit</a>
+            <div style="color: #b91c1c; font-size: 13px; line-height: 1.5;">
+                {{ $deposit->rejected_reason ?? 'The transaction could not be validated on the blockchain network or the proof of payment provided was inconclusive. Please ensure the exact required amount was transferred.' }}
             </div>
-            
-            <p>We apologize for any inconvenience caused.</p>
-            
-            <p>Best regards,<br>The {{ config('app.name') }} Team</p>
-        </div>
-        
-        <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-            <p>If you have any questions, contact us at {{ \App\Models\Setting::get('contact_email', 'support@example.com') }}</p>
-        </div>
-    </div>
-</body>
-</html>
+        </td>
+    </tr>
+</table>
+
+<p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.6;">
+    You are welcome to initiate a new deposit request anytime from your dashboard. If you believe this rejection was made in error or have already sent funds, please reply with your transaction hash to our support team.
+</p>
+
+<!-- CTA Button -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0 26px 0;">
+    <tr>
+        <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" class="button-wrapper">
+                <tr>
+                    <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #f5df91 0%, #d4af37 100%);">
+                        <a href="{{ route('dashboard.deposits.create') }}" target="_blank" class="button-link" style="display: inline-block; padding: 14px 32px; font-size: 14px; font-weight: 700; color: #0b1220; text-decoration: none; border-radius: 8px; letter-spacing: 0.3px; text-transform: uppercase;">
+                            Create New Deposit &rarr;
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<p style="margin: 0; color: #1e293b; font-size: 14px; line-height: 1.6;">
+    Sincerely,<br />
+    <strong style="color: #0b1220;">The {{ config('app.name') }} Team</strong>
+</p>
+@endsection

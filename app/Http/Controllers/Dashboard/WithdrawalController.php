@@ -123,9 +123,8 @@ class WithdrawalController extends Controller
         // Send email to user
         try {
             Mail::to($create->user->email)->send(new \App\Mail\Withdrawal\Init($create));
-        } catch (\Exception $e) {
-            FacadesLog::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            FacadesLog::error('Withdrawal init email sending failed: ' . $e->getMessage(), ['exception' => $e]);
         }
 
         // Redirect to withdrawal history with success message

@@ -76,9 +76,9 @@ class DepositController extends Controller
         // Send email to user
         try {
             Mail::to($deposit->user->email)->send(new \App\Mail\Deposit\Approved($deposit));
-        } catch (\Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            Log::error('Deposit approved email sending failed: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('warning', 'Deposit approved, but email notification could not be delivered.');
         }
         
         return redirect()->back()->with('success', 'Deposit approved successfully.');
@@ -115,9 +115,9 @@ class DepositController extends Controller
         // Send email to user
         try {
             Mail::to($deposit->user->email)->send(new \App\Mail\Deposit\Rejected($deposit));
-        } catch (\Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send email. Please try again.');
+        } catch (\Throwable $e) {
+            Log::error('Deposit rejected email sending failed: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('warning', 'Deposit rejected, but email notification could not be delivered.');
         }
 
         return redirect()->back()->with('success', 'Deposit rejected successfully.');

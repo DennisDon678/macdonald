@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserAuth extends Controller
 {
@@ -80,17 +81,25 @@ class UserAuth extends Controller
         }
 
         // Welcome email preparation
+        $emailFailed = false;
         try {
-            // email details and sending logic
             Mail::to($user->email)->send(new \App\Mail\Welcome($user));
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to send welcome email!');
+        } catch (\Throwable $e) {
+            $emailFailed = true;
+            Log::error("Failed to send welcome email to [{$user->email}]: " . $e->getMessage(), [
+                'user_id' => $user->id,
+                'exception' => $e,
+            ]);
         }
 
         // Login user
         Auth::attempt(['email' => $user->email, 'password' => $request->password]);
 
         // redirect to dashboard
+        if ($emailFailed) {
+            return redirect()->route('dashboard')->with('success', 'User registered successfully! (Welcome email could not be sent at this time).');
+        }
+
         return redirect()->route('dashboard')->with('success', 'User registered successfully!');
     }
 

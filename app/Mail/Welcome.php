@@ -12,20 +12,14 @@ use Illuminate\Queue\SerializesModels;
 
 class Welcome extends Mailable
 {
-    use SerializesModels;
-
-    /**
-     * The user instance.
-     *
-     * @var \App\Models\User
-     */
+    use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      *
      * @param \App\Models\User $user
      */
-    public function __construct(protected $user)
+    public function __construct(public $user)
     {
         $this->user = $user;
     }

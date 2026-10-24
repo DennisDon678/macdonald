@@ -1,113 +1,102 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to {{ config('app.name') }}</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .header img {
-            max-height: 50px;
-        }
-        .content {
-            padding: 30px 20px;
-        }
-        h1 {
-            color: #2563eb;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #718096;
-            border-top: 1px solid #eaeaea;
-        }
-        .button {
-            display: inline-block;
-            background-color: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .social-icons {
-            margin-top: 15px;
-        }
-        .social-icons a {
-            display: inline-block;
-            margin: 0 5px;
-            color: #718096;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name') }} Logo">
-        </div>
-        
-        <div class="content">
-            <h1>Welcome to {{ config('app.name') }}!</h1>
-            
-            <p>Dear {{ $user->name }},</p>
-            
-            <p>Thank you for joining {{ config('app.name') }}! We're excited to have you on board and help you achieve your financial goals through our investment platform.</p>
-            
-            <p>Your account has been created successfully. Here's what you can do next:</p>
-            
-            <ul>
-                <li>Complete your profile information</li>
-                <li>Explore our investment plans</li>
-                <li>Make your first deposit</li>
-                <li>Set up your security preferences</li>
-            </ul>
-            
-            <p>If you have any questions or need assistance, our support team is always available to help.</p>
-            
-            <div style="text-align: center;">
-                <a href="{{ route('dashboard') }}" class="button">Go to My Dashboard</a>
+@extends('email.layouts.master')
+
+@section('title', 'Welcome to ' . config('app.name'))
+@section('preview', 'Welcome to ' . config('app.name') . '! Your account is active and ready for smart investing.')
+
+@section('content')
+<!-- Header Badge / Icon -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+    <tr>
+        <td align="center">
+            <div style="display: inline-block; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #f5df91 0%, #d4af37 100%); text-align: center; line-height: 64px; font-size: 28px; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25);">
+                ✨
             </div>
-            
-            <p>Welcome aboard!</p>
-            
-            <p>Best regards,<br>The {{ config('app.name') }} Team</p>
-        </div>
-        
-        <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-            
-            <div class="social-icons">
-                <a href="{{ \App\Models\Setting::get('facebook_url', '#') }}">Facebook</a> |
-                <a href="{{ \App\Models\Setting::get('twitter_url', '#') }}">Twitter</a> |
-                <a href="{{ \App\Models\Setting::get('instagram_url', '#') }}">Instagram</a>
-            </div>
-            
-            <p>If you have any questions, contact us at {{ \App\Models\Setting::get('contact_email', 'support@example.com') }}</p>
-        </div>
-    </div>
-</body>
-</html>
+        </td>
+    </tr>
+</table>
+
+<!-- Main Heading -->
+<h1 style="margin: 0 0 14px 0; color: #0b1220; font-size: 24px; font-weight: 800; text-align: center; letter-spacing: -0.5px;">
+    Welcome to {{ config('app.name') }}!
+</h1>
+
+<p style="margin: 0 0 20px 0; color: #64748b; font-size: 15px; line-height: 1.6; text-align: center;">
+    Your premier digital wealth & investment journey begins today.
+</p>
+
+<!-- Greeting -->
+<p style="margin: 0 0 16px 0; color: #1e293b; font-size: 15px; line-height: 1.6;">
+    Dear <strong>{{ $user->name }}</strong>,
+</p>
+
+<p style="margin: 0 0 20px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+    Thank you for joining <strong>{{ config('app.name') }}</strong>. We are thrilled to welcome you to our community of investors. Our platform is designed to provide you with secure, automated, and high-yield investment opportunities.
+</p>
+
+<!-- Next Steps Card -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin: 24px 0; overflow: hidden;">
+    <tr>
+        <td style="padding: 16px 20px; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0;">
+            <strong style="color: #0b1220; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+                🚀 Quick Start Checklist
+            </strong>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 16px 20px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td style="padding: 6px 0; vertical-align: top; width: 24px; color: #d4af37; font-size: 16px;">✦</td>
+                    <td style="padding: 6px 0; color: #334155; font-size: 14px; line-height: 1.5;">
+                        <strong>Explore Investment Plans:</strong> Choose a plan tailored to your target returns and duration.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; vertical-align: top; width: 24px; color: #d4af37; font-size: 16px;">✦</td>
+                    <td style="padding: 6px 0; color: #334155; font-size: 14px; line-height: 1.5;">
+                        <strong>Make Your First Deposit:</strong> Fund your balance effortlessly using supported crypto gateways.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; vertical-align: top; width: 24px; color: #d4af37; font-size: 16px;">✦</td>
+                    <td style="padding: 6px 0; color: #334155; font-size: 14px; line-height: 1.5;">
+                        <strong>Track Your Daily Yield:</strong> Watch your profit accumulate and manage your portfolio 24/7.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px 0; vertical-align: top; width: 24px; color: #d4af37; font-size: 16px;">✦</td>
+                    <td style="padding: 6px 0; color: #334155; font-size: 14px; line-height: 1.5;">
+                        <strong>Secure Your Account:</strong> Review your profile credentials and security settings.
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!-- CTA Button -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0 26px 0;">
+    <tr>
+        <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" class="button-wrapper">
+                <tr>
+                    <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #f5df91 0%, #d4af37 100%);">
+                        <a href="{{ route('dashboard') }}" target="_blank" class="button-link" style="display: inline-block; padding: 14px 32px; font-size: 14px; font-weight: 700; color: #0b1220; text-decoration: none; border-radius: 8px; letter-spacing: 0.3px; text-transform: uppercase;">
+                            Access Your Dashboard &rarr;
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<p style="margin: 0 0 16px 0; color: #475569; font-size: 14px; line-height: 1.6;">
+    If you have any questions or require assistance setting up your account, our dedicated support team is available around the clock to assist you.
+</p>
+
+<p style="margin: 0; color: #1e293b; font-size: 14px; line-height: 1.6;">
+    Best regards,<br />
+    <strong style="color: #0b1220;">The {{ config('app.name') }} Team</strong>
+</p>
+@endsection
