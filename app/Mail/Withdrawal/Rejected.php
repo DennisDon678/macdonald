@@ -16,7 +16,7 @@ class Rejected extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $withdrawal)
+    public function __construct(public $withdrawal)
     {
         $this->withdrawal = $withdrawal;
     }

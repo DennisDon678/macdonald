@@ -1,7 +1,7 @@
 @extends('email.layouts.master')
 
 @section('title', 'Withdrawal Processed - ' . config('app.name'))
-@section('preview', 'Your withdrawal of $' . number_format($withdrawal->amount, 2) . ' has been approved and sent to your wallet.')
+@section('preview', 'Your withdrawal of $' . number_format($withdrawal->amount ?? 0, 2) . ' has been approved and sent to your wallet.')
 
 @section('content')
 <!-- Header Badge / Icon -->
@@ -52,31 +52,31 @@
     <tr class="detail-row">
         <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Withdrawn Amount:</td>
         <td class="detail-value" align="right" style="padding: 13px 20px; color: #059669; font-size: 18px; font-weight: 800; border-bottom: 1px solid #edf2f7;">
-            ${{ number_format($withdrawal->amount, 2) }}
+            ${{ number_format($withdrawal->amount ?? 0, 2) }}
         </td>
     </tr>
     <tr class="detail-row">
         <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Asset / Currency:</td>
         <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 14px; font-weight: 700; border-bottom: 1px solid #edf2f7;">
-            {{ strtoupper($withdrawal->currency) }}
+            {{ strtoupper($withdrawal->currency ?? '') }}
         </td>
     </tr>
     <tr class="detail-row">
         <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Destination Wallet:</td>
         <td class="detail-value" align="right" style="padding: 13px 20px; color: #334155; font-size: 12px; font-family: monospace; word-break: break-all; border-bottom: 1px solid #edf2f7;">
-            {{ $withdrawal->wallet_address }}
+            {{ $withdrawal->wallet_address ?? 'N/A' }}
         </td>
     </tr>
     <tr class="detail-row">
         <td style="padding: 13px 20px; color: #64748b; font-size: 14px; border-bottom: 1px solid #edf2f7;">Transaction ID:</td>
         <td class="detail-value" align="right" style="padding: 13px 20px; color: #0b1220; font-size: 13px; font-weight: 600; font-family: monospace; border-bottom: 1px solid #edf2f7;">
-            {{ $withdrawal->reference }}
+            {{ $withdrawal->reference ?? 'N/A' }}
         </td>
     </tr>
     <tr class="detail-row">
         <td style="padding: 13px 20px; color: #64748b; font-size: 14px;">Processed Timestamp:</td>
         <td class="detail-value" align="right" style="padding: 13px 20px; color: #475569; font-size: 13px; font-weight: 500;">
-            {{ $withdrawal->updated_at ? \Carbon\Carbon::parse($withdrawal->updated_at)->format('M d, Y H:i') . ' UTC' : now()->format('M d, Y H:i') . ' UTC' }}
+            {{ $withdrawal->processed_at ? \Carbon\Carbon::parse($withdrawal->processed_at)->format('M d, Y H:i') . ' UTC' : ($withdrawal->updated_at ? \Carbon\Carbon::parse($withdrawal->updated_at)->format('M d, Y H:i') . ' UTC' : now()->format('M d, Y H:i') . ' UTC') }}
         </td>
     </tr>
 </table>

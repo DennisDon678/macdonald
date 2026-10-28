@@ -345,6 +345,33 @@
             <!-- Main content -->
             <main class="flex-1 overflow-y-auto p-4 sm:p-6">
                 <div class="w-full max-w-full overflow-hidden">
+                    @if (session('success'))
+                        <div class="mb-5 p-4 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 flex items-center justify-between" role="alert">
+                            <div class="flex items-center">
+                                <i data-lucide="check-circle" class="w-5 h-5 mr-3 text-green-500 flex-shrink-0"></i>
+                                <span class="text-sm font-medium">{{ session('success') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (session('warning'))
+                        <div class="mb-5 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200 flex items-center justify-between" role="alert">
+                            <div class="flex items-center">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 mr-3 text-yellow-500 flex-shrink-0"></i>
+                                <span class="text-sm font-medium">{{ session('warning') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="mb-5 p-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 flex items-center justify-between" role="alert">
+                            <div class="flex items-center">
+                                <i data-lucide="alert-circle" class="w-5 h-5 mr-3 text-red-500 flex-shrink-0"></i>
+                                <span class="text-sm font-medium">{{ session('error') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
                     @yield('content')
                 </div>
             </main>

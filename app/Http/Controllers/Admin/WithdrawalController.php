@@ -52,22 +52,33 @@ class WithdrawalController extends Controller
      */
     public function approve($id)
     {
-        $withdrawal = Transaction::withdrawals()->pending()->findOrFail($id);
+        $withdrawal = Transaction::withdrawals()->with('user')->pending()->findOrFail($id);
         
-        // Withdrawal was already set to pending when created, so we don't need to decrement the balance again
+        // Update status and processed timestamp
         $withdrawal->update([
             'status' => Transaction::STATUS_COMPLETED,
+            'processed_at' => now(),
         ]);
+
+        $user = $withdrawal->user;
+        if (!$user || empty($user->email)) {
+            Log::warning("Withdrawal #{$withdrawal->id} approved, but user has no email address.");
+            return redirect()->back()->with('warning', 'Withdrawal approved, but user does not have an email address.');
+        }
 
         // Send email notification to user
         try {
-            Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Approved($withdrawal));
+            Mail::to($user->email)->send(new \App\Mail\Withdrawal\Approved($withdrawal));
         } catch (\Throwable $e) {
-            Log::error('Withdrawal approved email sending failed: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('warning', 'Withdrawal approved, but email notification could not be delivered.');
+            Log::error('Withdrawal approved email sending failed: ' . $e->getMessage(), [
+                'withdrawal_id' => $withdrawal->id,
+                'user_email' => $user->email,
+                'exception' => $e
+            ]);
+            return redirect()->back()->with('warning', 'Withdrawal approved, but email notification could not be delivered: ' . $e->getMessage());
         }
         
-        return redirect()->back()->with('success', 'Withdrawal approved successfully.');
+        return redirect()->back()->with('success', 'Withdrawal approved and confirmation email sent.');
     }
     
     /**
@@ -83,7 +94,7 @@ class WithdrawalController extends Controller
             'rejected_reason' => 'nullable|string|max:255',
         ]);
         
-        $withdrawal = Transaction::withdrawals()->pending()->findOrFail($id);
+        $withdrawal = Transaction::withdrawals()->with('user')->pending()->findOrFail($id);
         
         DB::transaction(function() use ($withdrawal, $request) {
             // Update withdrawal status
@@ -94,15 +105,24 @@ class WithdrawalController extends Controller
             ]);
             
             // Return the amount to user's balance since withdrawal is rejected
-            $withdrawal->user->balances->increment('balance', $withdrawal->amount);
+            if ($withdrawal->user && $withdrawal->user->balances) {
+                $withdrawal->user->balances->increment('balance', $withdrawal->amount);
+            }
         });
 
-        // Send email notification to user
-        try {
-            Mail::to($withdrawal->user->email)->send(new \App\Mail\Withdrawal\Rejected($withdrawal));
-        } catch (\Throwable $e) {
-            Log::error('Withdrawal rejected email sending failed: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('warning', 'Withdrawal rejected, but email notification could not be delivered.');
+        $user = $withdrawal->user;
+        if ($user && !empty($user->email)) {
+            // Send email notification to user
+            try {
+                Mail::to($user->email)->send(new \App\Mail\Withdrawal\Rejected($withdrawal));
+            } catch (\Throwable $e) {
+                Log::error('Withdrawal rejected email sending failed: ' . $e->getMessage(), [
+                    'withdrawal_id' => $withdrawal->id,
+                    'user_email' => $user->email,
+                    'exception' => $e
+                ]);
+                return redirect()->back()->with('warning', 'Withdrawal rejected, but email notification could not be delivered: ' . $e->getMessage());
+            }
         }
         
         return redirect()->back()->with('success', 'Withdrawal rejected successfully.');
